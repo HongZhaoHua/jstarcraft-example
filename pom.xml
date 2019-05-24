@@ -23,12 +23,7 @@
     </properties>
 
     <dependencies>
-        <!-- JStarCraft框架依赖 -->
-        <dependency>
-            <groupId>com.jstarcraft</groupId>
-            <artifactId>jstarcraft-core-cache</artifactId>
-            <version>${jstarcraft.version}</version>
-        </dependency>
+        <!-- JStarCraft框架依赖 <dependency> <groupId>com.jstarcraft</groupId> <artifactId>jstarcraft-core-cache</artifactId> <version>${jstarcraft.version}</version> </dependency> -->
 
         <!-- Spring Boot框架依赖 -->
         <dependency>
@@ -50,6 +45,11 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 
@@ -57,13 +57,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
         </dependency>
-        
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
