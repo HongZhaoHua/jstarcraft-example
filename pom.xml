@@ -23,7 +23,12 @@
     </properties>
 
     <dependencies>
-        <!-- JStarCraft框架依赖 <dependency> <groupId>com.jstarcraft</groupId> <artifactId>jstarcraft-core-cache</artifactId> <version>${jstarcraft.version}</version> </dependency> -->
+        <!-- JStarCraft框架依赖 -->
+        <dependency>
+            <groupId>com.jstarcraft</groupId>
+            <artifactId>jstarcraft-core-cache</artifactId>
+            <version>${jstarcraft.version}</version>
+        </dependency>
 
         <!-- Spring Boot框架依赖 -->
         <dependency>
