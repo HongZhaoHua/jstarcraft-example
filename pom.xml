@@ -30,6 +30,18 @@
             <version>${jstarcraft.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jstarcraft</groupId>
+            <artifactId>jstarcraft-ai</artifactId>
+            <version>${jstarcraft.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jstarcraft</groupId>
+            <artifactId>jstarcraft-rns</artifactId>
+            <version>${jstarcraft.version}</version>
+        </dependency>
+
         <!-- Spring Boot框架依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
