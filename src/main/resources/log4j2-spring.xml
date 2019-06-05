@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configuration的2个属性status和monitorInterval,分别是状态日志级别以及重新刷新配置文件间隔 -->
+<Configuration status="FATAL">
+    <Properties>
+        <Property name="PATTERN" value="%d{HH:mm:ss} [%t] %p %C.%M():%L - %m%n" />
+        <Property name="MODULE" value="movie" />
+    </Properties>
+
+    <Appenders>
+        <!-- 控制台日志 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}" />
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+        </Console>
+
+        <!-- 调试日志 -->
+        <RollingFile name="DebugFile" fileName="logs/${MODULE_NAME}-debug.log" filePattern="logs/${MODULE_NAME}-debug-%d{yyyy-MM-dd-HH}.log">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <!-- 信息日志 -->
+        <RollingFile name="InfoFile" fileName="logs/${MODULE_NAME}-info.log" filePattern="logs/${MODULE_NAME}-info-%d{yyyy-MM-dd-HH}.log">
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <!-- 警告日志 -->
+        <RollingFile name="WarnFile" fileName="logs/${MODULE_NAME}-warn.log" filePattern="logs/${MODULE_NAME}-warn-%d{yyyy-MM-dd-HH}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <!-- 错误日志 -->
+        <RollingFile name="ErrorFile" fileName="logs/${MODULE_NAME}-error.log" filePattern="logs/${MODULE_NAME}-error-%d{yyyy-MM-dd-HH}.log">
+            <Filters>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL" />
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console" />
+        </Root>
+
+        <Logger name="log4j.logger.com.jstarcraft" level="ERROR">
+            <AppenderRef ref="DebugFile" />
+            <AppenderRef ref="InfoFile" />
+            <AppenderRef ref="WarnFile" />
+            <AppenderRef ref="ErrorFile" />
+        </Logger>
+    </Loggers>
+</Configuration>
