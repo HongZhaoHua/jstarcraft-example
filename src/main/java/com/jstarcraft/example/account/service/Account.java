@@ -51,9 +51,6 @@ public class Account implements IdentityObject<Long> {
     /** 登出时间 */
     private Instant logoutInstant;
 
-    /** Token时间 */
-    private transient Long tokenInstant;
-
     protected Account() {
     }
 
@@ -73,7 +70,6 @@ public class Account implements IdentityObject<Long> {
     @CacheChange
     void login(Instant now) {
         loginInstant = now;
-        tokenInstant = now.toEpochMilli();
     }
 
     /**
@@ -83,25 +79,7 @@ public class Account implements IdentityObject<Long> {
      */
     @CacheChange
     void logout(Instant now) {
-        this.logoutInstant = now;
-        tokenInstant = null;
-    }
-
-    /**
-     * 刷新Token时间
-     * 
-     * @param tokenInstant
-     * @return
-     */
-    boolean refreshTokenInstant(long oldInstant, long newInstant) {
-        if (tokenInstant == null) {
-            return false;
-        }
-        if (tokenInstant == oldInstant) {
-            tokenInstant = newInstant;
-            return true;
-        }
-        return false;
+        logoutInstant = now;
     }
 
     @Override
@@ -131,10 +109,6 @@ public class Account implements IdentityObject<Long> {
 
     public Instant getLogoutInstant() {
         return logoutInstant;
-    }
-
-    public Long getTokenInstant() {
-        return tokenInstant;
     }
 
     @Override
