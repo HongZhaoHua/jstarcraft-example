@@ -32,6 +32,12 @@
 
         <dependency>
             <groupId>com.jstarcraft</groupId>
+            <artifactId>jstarcraft-core-storage</artifactId>
+            <version>${jstarcraft.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jstarcraft</groupId>
             <artifactId>jstarcraft-rns</artifactId>
             <version>${jstarcraft.version}</version>
         </dependency>
@@ -79,6 +85,22 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
+        </dependency>
+
+        <!-- 演示框架依赖 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <!-- 测试框架依赖 -->
