@@ -55,9 +55,7 @@ public class AccountController {
     @PostMapping("/loginAccount")
     public NormalOutput<Long> loginAccount(@RequestParam String accountName) {
         Account account = accountService.getAccount(accountName);
-        if (account == null) {
-            throw AccountException.ACCOUNT_NONEXISTENT;
-        }
+        accountService.loginAccount(account);
         return new NormalOutput<>(account.getId());
     }
 

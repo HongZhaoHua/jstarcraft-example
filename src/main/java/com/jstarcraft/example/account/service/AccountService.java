@@ -88,12 +88,18 @@ public class AccountService {
 
     @LockableMethod(strategy = HashLockableStrategy.class)
     public void loginAccount(@LockableParameter Account account) {
+        if (account == null) {
+            throw AccountException.ACCOUNT_NONEXISTENT;
+        }
         Instant now = Instant.now();
         account.login(now);
     }
 
     @LockableMethod(strategy = HashLockableStrategy.class)
     public void logoutAccount(@LockableParameter Account account) {
+        if (account == null) {
+            throw AccountException.ACCOUNT_NONEXISTENT;
+        }
         Instant now = Instant.now();
         account.logout(now);
     }
