@@ -39,10 +39,10 @@ public class AccountController {
      */
     @ApiOperation(value = "注册账号", notes = "注册账号")
     @PostMapping("/registerAccount")
-    public NormalOutput<Long> registerAccount(HttpServletRequest request, @RequestParam String accountName) {
+    public NormalOutput<String> registerAccount(HttpServletRequest request, @RequestParam String accountName) {
         int sectionIndex = accountService.getSection(accountName);
         Account account = accountService.registerAccount(accountName, sectionIndex, Instant.now(), HttpUtility.getIp(request));
-        return new NormalOutput<>(account.getId());
+        return new NormalOutput<>(String.valueOf(account.getId()));
     }
 
     /**
@@ -53,10 +53,10 @@ public class AccountController {
      */
     @ApiOperation(value = "登入帐号", notes = "登入帐号")
     @PostMapping("/loginAccount")
-    public NormalOutput<Long> loginAccount(@RequestParam String accountName) {
+    public NormalOutput<String> loginAccount(@RequestParam String accountName) {
         Account account = accountService.getAccount(accountName);
         accountService.loginAccount(account);
-        return new NormalOutput<>(account.getId());
+        return new NormalOutput<>(String.valueOf(account.getId()));
     }
 
     /**
@@ -67,10 +67,10 @@ public class AccountController {
      */
     @ApiOperation(value = "登出账号", notes = "登出账号")
     @PostMapping("/logoutAccount")
-    public NormalOutput<Long> logoutAccount(@RequestHeader long accountId) {
+    public NormalOutput<String> logoutAccount(@RequestHeader long accountId) {
         Account account = accountService.getAccount(accountId);
         accountService.logoutAccount(account);
-        return new NormalOutput<>(account.getId());
+        return new NormalOutput<>(String.valueOf(account.getId()));
     }
 
 }
