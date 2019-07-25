@@ -1,110 +1,107 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/index.css">
-    <title>搜索推荐</title>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+        <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/index.css" />
+        <title>搜索推荐</title>
+    </head>
+    <body>
+        <div class="container" id="container" :class="{ show: isInit }">
+            <!--顶部 -->
+            <div class="row mt-4">
+                <div class="col">
+                </div>
+                <div class="col">
 
-<div class="container" id="container" :class="{ show: isInit }">
-    <!--顶部-->
-    <div class="row mt-4">
-        <div class="col">
-        </div>
-        <div class="col">
-
-        </div>
-        <div class="col text-right">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" @click="search">搜索</button>
+                </div>
+                <div class="col text-right">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @ keyup.enter="search">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" @ click="search">搜索</button>
+                            </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!--内容-->
-    <div class="row mt-1">
-        <!--左侧栏-->
-        <div class="col-4">
-            <div class="recommend">
-                <div class="title-wrap">
-                    <div class="title-text">电影推荐</div>
-                </div>
-                <div class="content">
-                    <!--有内容-->
-                    <div class="list-wrap" v-if="recommend.status==='success'&&recommend.data.length>0">
-                        <ul class="list clearfix">
-                            <li v-for="item in recommend.data">
-                                <img class="img" :src="item.image" alt="">
-                                <div class="title single-line">{{item.title}}</div>
-                                <div class="date single-line">上演日期:{{item.date}}</div>
-                                <div class="star single-line">主演:{{item.star}}</div>
-                            </li>
-                        </ul>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-outline-primary" @click="getRecommend">换一批</button>
+            <!--内容 -->
+            <div class="row mt-1">
+                <!-- 推荐内容 -->
+                <div class="col-4">
+                    <div class="recommend">
+                        <div class="title-wrap">
+                            <div class="title-text">推荐内容</div>
+                        </div>
+                        <div class="content">
+                            <!--有内容 -->
+                            <div class="list-wrap" v-if="recommend.status==='success'&&recommend.data.length>0">
+                                <ul class="list clearfix">
+                                    <li v-for="item in recommend.data">
+                                        <img class="img" :src="item.image" alt="">
+                                            <div class="title single-line">{{item.title}}</div>
+                                            <div class="date single-line">上演日期:{{item.date}}</div>
+                                            <div class="star single-line">主演:{{item.star}}</div>
+                                    </li>
+                                </ul>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-outline-primary" @ click="getRecommend">换一批</button>
+                                </div>
+                            </div>
+                            <!--内容为空 -->
+                            <div class="empty-wrap" v-if="recommend.status==='success'&&recommend.data.length===0">
+                                没有推荐的电影....
+                            </div>
+                            <!--获取数据出错 -->
+                            <div class="empty-wrap text-danger" v-if="recommend.status==='error'">
+                                获取电影数据出错,请检查网络连接
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-outline-primary mt-3" @ click="getRecommend">重新获取</button>
+                                </div>
+                            </div>
+                            <!--加载中 -->
+                            <div class="loading-wrap" v-if="recommend.status==='loading'">
+                                <img src="images/loading.gif" alt="">
+                            </div>
                         </div>
                     </div>
-                    <!--内容为空-->
-                    <div class="empty-wrap" v-if="recommend.status==='success'&&recommend.data.length===0">
-                        没有推荐的电影....
-                    </div>
-                    <!--获取数据出错-->
-                    <div class="empty-wrap text-danger" v-if="recommend.status==='error'">
-                        获取电影数据出错,请检查网络连接
-                        <div class="text-center">
-                            <button type="button" class="btn btn-outline-primary mt-3" @click="getRecommend">重新获取</button>
+                </div>
+                <!--搜索内容 -->
+                <div class="col-8">
+                    <div class="result-wrap">
+                        <div class="title-wrap">搜索内容</div>
+                        <div class="content">
+                            <!--有内容 -->
+                            <div class="list-wrap" v-if="result.status==='success'&&result.data.length>0">
+                                <ul class="list clearfix">
+                                    <li v-for="item in result.data">
+                                        <img class="img" :src="item.image" alt="">
+                                            <div class="title single-line">{{item.title}}</div>
+                                            <div class="date single-line">上演日期:{{item.date}}</div>
+                                            <div class="star single-line">主演:{{item.star}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--内容为空 -->
+                            <div class="empty-wrap" v-if="result.status==='success'&&result.data.length===0">
+                                没有电影....
+                            </div>
+                            <!--获取数据出错 -->
+                            <div class="empty-wrap text-danger" v-if="result.status==='error'">
+                                获取电影数据出错,请检查网络连接
+                            </div>
+                            <!--加载中 -->
+                            <div class="loading-wrap" v-if="result.status==='loading'">
+                                <img src="images/loading.gif" alt="">
+                            </div>
                         </div>
                     </div>
-                    <!--加载中-->
-                    <div class="loading-wrap" v-if="recommend.status==='loading'">
-                        <img src="images/loading.gif" alt="">
-                    </div>
                 </div>
             </div>
         </div>
-        <!--搜索结果-->
-        <div class="col-8">
-            <div class="result-wrap">
-                <div class="title-wrap">
-                    搜索结果
-                </div>
-                <div class="content">
-                    <!--有内容-->
-                    <div class="list-wrap" v-if="result.status==='success'&&result.data.length>0">
-                        <ul class="list clearfix">
-                            <li v-for="item in result.data">
-                                <img class="img" :src="item.image" alt="">
-                                <div class="title single-line">{{item.title}}</div>
-                                <div class="date single-line">上演日期:{{item.date}}</div>
-                                <div class="star single-line">主演:{{item.star}}</div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--内容为空-->
-                    <div class="empty-wrap" v-if="result.status==='success'&&result.data.length===0">
-                        没有电影....
-                    </div>
-                    <!--获取数据出错-->
-                    <div class="empty-wrap text-danger" v-if="result.status==='error'">
-                        获取电影数据出错,请检查网络连接
-                    </div>
-                    <!--加载中-->
-                    <div class="loading-wrap" v-if="result.status==='loading'">
-                        <img src="images/loading.gif" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script src="lib/jquery/jquery-3.3.1.min.js"></script>
-<script src="lib/vue/vue-2.6.10.min.js"></script>
-<script src="js/index.js"></script>
-</body>
+        <script src="lib/jquery/jquery-3.3.1.min.js"></script>
+        <script src="lib/vue/vue-2.6.10.min.js"></script>
+        <script src="js/index.js"></script>
+    </body>
 </html>
