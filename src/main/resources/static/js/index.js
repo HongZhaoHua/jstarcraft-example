@@ -1,5 +1,5 @@
 // 配置
-var apiDomain = 'http://localhost:8081'; // api域名
+var apiDomain = 'http://localhost:8080'; // api域名
 var apiUrl = {
   recommend: apiDomain + '/recommend', // 推荐api地址
   search: apiDomain + '/search', // 搜索api地址
