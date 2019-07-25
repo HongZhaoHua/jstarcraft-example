@@ -16,57 +16,57 @@ var Status = {
 new Vue({
   el: '#container',
   data: {
-    isInit:false, // 是否已初始化,防止一进来看到页面乱码
+    isInit: false, // 是否已初始化,防止一进来看到页面乱码
     // 推荐
     recommend: {
       data: [],
       status: Status.loading
     },
-    keyword:'', // 搜索关键字
+    keyword: '', // 搜索关键字
     // 搜索结果
     result: {
       data: [],
       status: Status.loading
     }
   },
-  mounted:function () {
-    this.isInit=true;
+  mounted: function () {
+    this.isInit = true;
     this.getRecommend();
     this.search();
   },
   methods: {
     // 获取推荐
     getRecommend: function () {
-      this.recommend.status=Status.loading;
-      var me=this;
+      this.recommend.status = Status.loading;
+      var me = this;
       $.ajax({
         method: "POST",
         url: apiUrl.recommend,
-        dataType:"json",
+        dataType: "json",
         data: {}
       }).done(function (res) {
-        me.recommend.data=res.data;
-        me.recommend.status=Status.success;
-      }).fail(function() {
-        me.recommend.status=Status.error;
+        me.recommend.data = res.data;
+        me.recommend.status = Status.success;
+      }).fail(function () {
+        me.recommend.status = Status.error;
       });
     },
     // 开始搜索
     search: function () {
-      this.result.status=Status.loading;
-      var me=this;
+      this.result.status = Status.loading;
+      var me = this;
       $.ajax({
         method: "POST",
         url: apiUrl.search,
-        dataType:"json",
+        dataType: "json",
         data: {
-          keyword:this.keyword
+          keyword: this.keyword
         }
       }).done(function (res) {
-        me.result.data=res.data;
-        me.result.status=Status.success;
-      }).fail(function() {
-        me.result.status=Status.error;
+        me.result.data = res.data;
+        me.result.status = Status.success;
+      }).fail(function () {
+        me.result.status = Status.error;
       });
     }
   }
