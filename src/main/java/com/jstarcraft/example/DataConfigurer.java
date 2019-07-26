@@ -6,15 +6,19 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.lucene.document.Document;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,6 +38,8 @@ import com.jstarcraft.example.movie.service.Movie;
 @Configuration
 public class DataConfigurer {
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.US);
+
     @Bean("userFile")
     File getUserFile() {
         File file = new File("data/movielens/ml-100k/user.txt");
@@ -52,7 +58,7 @@ public class DataConfigurer {
      * @return
      */
     @Bean
-    DataSpace getDataSpace(File userFile, File itemFile) throws Exception {
+    DataSpace getDataSpace(File userFile) throws Exception {
         Map<String, Class<?>> qualityDifinitions = new HashMap<>();
         qualityDifinitions.put("user", int.class);
         qualityDifinitions.put("item", int.class);
@@ -60,7 +66,7 @@ public class DataConfigurer {
         DataSpace dataSpace = new DataSpace(qualityDifinitions, quantityDifinitions);
 
         QualityAttribute<Integer> userAttribute = dataSpace.getQualityAttribute("user");
-        // TODO 初始化用户
+        // TODO 匿名用户设置为0
         userAttribute.convertData(0);
         try (InputStream stream = new FileInputStream(userFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
@@ -74,6 +80,13 @@ public class DataConfigurer {
             }
         }
 
+        return dataSpace;
+    }
+
+    @Bean("movies")
+    List<Movie> getMovies(DataSpace dataSpace, File itemFile) throws Exception {
+        List<Movie> movies = new LinkedList<>();
+
         QualityAttribute<Integer> itemAttribute = dataSpace.getQualityAttribute("item");
         try (InputStream stream = new FileInputStream(itemFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
@@ -82,12 +95,20 @@ public class DataConfigurer {
                     CSVRecord datas = iterator.next();
                     // 物品标识
                     int id = Integer.parseInt(datas.get(0));
-                    itemAttribute.convertData(id);
+                    // 物品索引
+                    int index = itemAttribute.convertData(id);
+                    // 物品标题
+                    String title = datas.get(1);
+                    // 物品日期
+                    LocalDate date = LocalDate.parse(datas.get(2), formatter);
+                    Movie movie = new Movie(index, title, date);
+                    movies.add(movie);
                 }
             }
         }
 
-        return dataSpace;
+        movies = new ArrayList<>(movies);
+        return movies;
     }
 
     /**
@@ -97,7 +118,7 @@ public class DataConfigurer {
      * @return
      */
     @Bean
-    DataModule getDataModule(DataSpace dataSpace) throws Exception {
+    DataModule getDataModule(DataSpace dataSpace, List<Movie> movies) throws Exception {
         TreeMap<Integer, String> configuration = new TreeMap<>();
         configuration.put(1, "user");
         configuration.put(2, "item");

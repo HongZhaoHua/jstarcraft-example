@@ -30,7 +30,7 @@ public class MovieService {
     @Autowired
     private DataModule dataModule;
 
-    /** 推荐器(定时重新构建) */
+    /** 推荐器 */
     @Autowired
     private HashMap<String, Recommender> recommenders;
 
@@ -38,9 +38,8 @@ public class MovieService {
     @Autowired
     private Searcher searcher;
 
-
-
-    /** 电影索引-标识 */
+    /** 电影 */
+    @Autowired
     private List<Movie> movies;
 
     public void clickMovie(int accountIndex, int movieIndex) {
