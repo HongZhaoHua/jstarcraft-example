@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +40,8 @@ public class MovieService {
     /** 电影 */
     @Autowired
     private List<Movie> movies;
+
+    private StandardQueryParser queryParser = new StandardQueryParser();
 
     public void clickMovie(int accountIndex, int movieIndex) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
@@ -83,12 +84,13 @@ public class MovieService {
      * @param account
      * @param key
      * @return
+     * @throws Exception
      */
-    public Object2FloatMap<Movie> getSearchMovies(int accountIndex, String key) {
+    public Object2FloatMap<Movie> getSearchMovies(int accountIndex, String key) throws Exception {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Query query = new TermQuery(new Term(Movie.TITLE, key));
+        Query query = queryParser.parse(key, Movie.TITLE);
         KeyValue<List<Document>, FloatList> search = searcher.retrieveDocuments(query, null, 1000);
         List<Document> documents = search.getKey();
         FloatList scores = search.getValue();
