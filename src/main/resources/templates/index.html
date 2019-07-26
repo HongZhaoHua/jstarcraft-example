@@ -18,14 +18,15 @@
                         <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.data" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
                     </div>
                 </div>
-                <div v-if="type==='recommend'" class="dropdown" :class="{ open: algorithm.open }">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
-                    </div>
-                </div>
-                <button v-if="type==='recommend'" type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
                 <div class="search-wrap">
+                    <div v-if="type==='recommend'" class="dropdown" :class="{ open: algorithm.open }">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
+                        </div>
+                    </div>
+                    <button v-if="type==='recommend'" type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
+
                     <div class="input-group mb-3" v-if="type!=='recommend'">
                         <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
                         <div class="input-group-append">
