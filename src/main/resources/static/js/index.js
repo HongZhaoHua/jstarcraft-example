@@ -95,7 +95,7 @@ new Vue({
     getUsers: function () {
       var me = this;
       // 请求参数
-      var data={};
+      var data = {};
       var query = {
         method: "POST",
         url: apiUrl.getUsers,
@@ -140,8 +140,8 @@ new Vue({
           keyword: this.keyword
         };
       }
-      if(this.users.index!==-1){
-        data.userId=this.users.data[this.users.index].value;
+      if (this.users.index !== -1) {
+        data.userId = this.users.data[this.users.index].value;
       }
       var query = {
         method: "POST",
@@ -192,7 +192,7 @@ new Vue({
     // 显示对应的页数
     showPage: function (page) {
       // 取第几页显示
-      var {length} = this.result.data;
+      var { length } = this.result.data;
       if (length < page) {
         var arr = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         // this.result.data=this.result.data.concat(arr);
