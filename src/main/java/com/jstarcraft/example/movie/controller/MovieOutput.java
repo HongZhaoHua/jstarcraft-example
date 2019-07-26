@@ -24,11 +24,12 @@ public class MovieOutput {
     /** 得分 */
     private float score;
 
-    public MovieOutput(Movie movie) {
+    public MovieOutput(Movie movie, float score) {
         synchronized (movie) {
             this.id = movie.getId();
             this.title = movie.getTitle();
             this.date = movie.getDate();
+            this.score = score;
         }
     }
 

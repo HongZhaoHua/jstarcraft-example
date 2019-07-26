@@ -16,14 +16,20 @@ import com.jstarcraft.rns.search.annotation.SearchStore;
  * @author Birdy
  *
  */
-public class Movie implements IdentityObject<Long> {
+public class Movie implements IdentityObject<Integer> {
+
+    public static final String INDEX = "index";
+
+    public static final String TITLE = "title";
+
+    public static final String DATE = "date";
 
     /** 电影标识 */
     @Id
     @SearchIndex
     @SearchSort
     @SearchStore
-    private long id;
+    private int index;
 
     /** 电影标题 */
     @SearchIndex(analyze = true)
@@ -39,16 +45,20 @@ public class Movie implements IdentityObject<Long> {
     protected Movie() {
     }
 
-    public Movie(long id, String title, LocalDate date, BitSet genres) {
-        this.id = id;
+    public Movie(int index, String title, LocalDate date, BitSet genres) {
+        this.index = index;
         this.title = title;
         this.date = date;
         this.genres = genres;
     }
 
     @Override
-    public Long getId() {
-        return id;
+    public Integer getId() {
+        return index;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public String getTitle() {
