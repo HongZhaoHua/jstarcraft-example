@@ -36,7 +36,6 @@ import com.jstarcraft.ai.data.converter.CsvConverter;
 import com.jstarcraft.ai.data.converter.DataConverter;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.utility.KeyValue;
-import com.jstarcraft.example.account.service.Account;
 import com.jstarcraft.rns.configure.Configuration;
 import com.jstarcraft.rns.recommend.Recommender;
 import com.jstarcraft.rns.recommend.benchmark.ranking.MostPopularRecommender;
@@ -168,12 +167,11 @@ public class MovieService {
             recommender.prepare(configuration, dataModule, dataSpace);
             recommenders.put("UserKNN", recommender);
         }
-//        
     }
 
-    public void clickMovie(Account account, int movieIndex) {
+    public void clickMovie(int accountIndex, int movieIndex) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
-        qualityFeatures.put(0, 0);
+        qualityFeatures.put(0, accountIndex);
         qualityFeatures.put(1, movieIndex);
         Int2FloatSortedMap quantityFeatures = new Int2FloatRBTreeMap();
         DataModule module = dataSpace.getModule("score");
@@ -187,11 +185,10 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Movie> getRecommender(Account account, String key) {
+    public Object2FloatMap<Movie> getRecommender(long accountId, String key) {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        long accountId = account.getId();
         Recommender recommender = recommenders.get(key);
         ArrayInstance instance = new ArrayInstance(2, 0);
         int accountIndex = accountId2Indexes.get(accountId);
@@ -216,7 +213,7 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Movie> getSearchMovies(Account account, String key) {
+    public Object2FloatMap<Movie> getSearchMovies(long accountId, String key) {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 
