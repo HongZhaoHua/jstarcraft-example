@@ -6,8 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import com.jstarcraft.core.orm.identification.IdentityDefinition;
 import com.jstarcraft.example.common.event.EventBus;
 
+/**
+ * 搜索配置器
+ * 
+ * @author Birdy
+ *
+ */
 @Configuration
-public class ExampleConfigurer {
+public class SearchConfigurer {
 
     @Bean
     IdentityDefinition getIdentityDefinition() {

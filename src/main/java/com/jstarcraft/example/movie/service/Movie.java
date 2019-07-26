@@ -1,9 +1,6 @@
 package com.jstarcraft.example.movie.service;
 
 import java.time.LocalDate;
-import java.util.BitSet;
-
-import javax.persistence.Id;
 
 import com.jstarcraft.core.common.identification.IdentityObject;
 import com.jstarcraft.rns.search.annotation.SearchIndex;
@@ -25,7 +22,6 @@ public class Movie implements IdentityObject<Integer> {
     public static final String DATE = "date";
 
     /** 电影标识 */
-    @Id
     @SearchIndex
     @SearchSort
     @SearchStore
