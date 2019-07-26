@@ -39,17 +39,13 @@ public class Movie implements IdentityObject<Integer> {
     @SearchSort
     private LocalDate date;
 
-    /** 电影题材 */
-    private BitSet genres;
-
     protected Movie() {
     }
 
-    public Movie(int index, String title, LocalDate date, BitSet genres) {
+    public Movie(int index, String title, LocalDate date) {
         this.index = index;
         this.title = title;
         this.date = date;
-        this.genres = genres;
     }
 
     @Override
@@ -67,10 +63,6 @@ public class Movie implements IdentityObject<Integer> {
 
     public LocalDate getDate() {
         return date;
-    }
-
-    public BitSet getGenres() {
-        return genres;
     }
 
 }
