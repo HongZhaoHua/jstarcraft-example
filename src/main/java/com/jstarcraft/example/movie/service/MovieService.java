@@ -21,7 +21,6 @@ import it.unimi.dsi.fastutil.ints.Int2FloatRBTreeMap;
 import it.unimi.dsi.fastutil.ints.Int2FloatSortedMap;
 import it.unimi.dsi.fastutil.ints.Int2IntRBTreeMap;
 import it.unimi.dsi.fastutil.ints.Int2IntSortedMap;
-import it.unimi.dsi.fastutil.longs.Long2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 
@@ -39,8 +38,7 @@ public class MovieService {
     @Autowired
     private Searcher searcher;
 
-    /** 账户标识-索引 */
-    private Long2IntMap accountId2Indexes;
+
 
     /** 电影索引-标识 */
     private List<Movie> movies;
@@ -60,13 +58,12 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Movie> getRecommender(long accountId, String key) {
+    public Object2FloatMap<Movie> getRecommender(int accountIndex, String key) {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Recommender recommender = recommenders.get(key);
         ArrayInstance instance = new ArrayInstance(2, 0);
-        int accountIndex = accountId2Indexes.get(accountId);
         int movieSize = movies.size();
         for (int movieIndex = 0; movieIndex < movieSize; movieIndex++) {
             // 过滤电影
@@ -88,7 +85,7 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Movie> getSearchMovies(long accountId, String key) {
+    public Object2FloatMap<Movie> getSearchMovies(int accountIndex, String key) {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 

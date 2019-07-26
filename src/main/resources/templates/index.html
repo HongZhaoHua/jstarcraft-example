@@ -1,95 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"/>
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/index.css">
-    <title>搜索推荐</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/index.css" />
+<title>搜索推荐</title>
 </head>
 <body>
-
-<div class="container" id="container" :class="{ show: isInit }">
-    <!--顶部-->
-    <div class="row mt-4">
-        <div class="col text-right">
-            <div class="dropdown dropdown-user" :class="{ open: users.open,isSearch: type!=='recommend' }">
-                <button class="btn btn-secondary dropdown-toggle" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUser">
-                    {{users.index===-1?'请选择用户':users.data[users.index].name}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.data" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
-                </div>
-            </div>
-            <div v-if="type==='recommend'" class="dropdown" :class="{ open: algorithm.open }">
-                <button class="btn btn-secondary dropdown-toggle" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">
-                    {{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
-                </div>
-            </div>
-            <button v-if="type==='recommend'" type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
-            <div class="search-wrap">
-                <div class="input-group mb-3" v-if="type!=='recommend'">
-                    <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword"
-                           @keyup.enter="search">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" @click="search">搜索</button>
+    <div class="container" id="container" :class="{ show: isInit }">
+        <!--顶部-->
+        <div class="row mt-4">
+            <div class="col text-right">
+                <div class="dropdown dropdown-user" :class="{ open: users.open,isSearch: type!=='recommend' }">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUser">{{users.index===-1?'请选择用户':users.data[users.index].name}}</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.data" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!--内容-->
-    <div class="row mt-1">
-        <!--搜索结果-->
-        <div class="col">
-            <div class="result-wrap">
-                <div class="title-wrap">
-                    电影
+                <div v-if="type==='recommend'" class="dropdown" :class="{ open: algorithm.open }">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
+                    </div>
                 </div>
-                <div class="content">
-                    <!--有内容-->
-                    <div class="list-wrap" v-if="result.status==='success'&&result.data.length>0">
-                        <div class="list-content animation" :style="result.style">
-                            <ul class="list clearfix" v-for="list in result.data">
-                                <li v-for="item in list" :style="{width:100/columns+'%'}">
-                                    <div class="img-wrap">
-                                        <img class="img" :src="item.image" alt="">
-                                    </div>
-                                    <div class="title single-line">{{item.title}}</div>
-                                    <div class="date single-line">上演日期:{{item.date}}</div>
-                                    <!--<div class="star single-line">主演:{{item.star}}</div>-->
-                                </li>
-                            </ul>
+                <button v-if="type==='recommend'" type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
+                <div class="search-wrap">
+                    <div class="input-group mb-3" v-if="type!=='recommend'">
+                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" @click="search">搜索</button>
                         </div>
-                        <div class="btn-page prev" @click="prevPage">上一页</div>
-                        <div class="btn-page next" @click="nextPage">下一页</div>
                     </div>
-                    <!--内容为空-->
-                    <div class="empty-wrap" v-if="result.status==='success'&&result.data.length===0">
-                        没有电影....
-                    </div>
-                    <!--获取数据出错-->
-                    <div class="empty-wrap text-danger" v-if="result.status==='error'">
-                        获取电影数据出错,请检查网络连接
-                    </div>
-                    <!--加载中-->
-                    <div class="loading-wrap" v-if="result.status==='loading'">
-                        <img src="images/loading.gif" alt="">
+                </div>
+            </div>
+        </div>
+        <!--内容-->
+        <div class="row mt-1">
+            <!--搜索结果-->
+            <div class="col">
+                <div class="result-wrap">
+                    <div class="title-wrap">电影</div>
+                    <div class="content">
+                        <!--有内容-->
+                        <div class="list-wrap" v-if="result.status==='success'&&result.data.length>0">
+                            <div class="list-content animation" :style="result.style">
+                                <ul class="list clearfix" v-for="list in result.data">
+                                    <li v-for="item in list" :style="{width:100/columns+'%'}">
+                                        <div class="img-wrap">
+                                            <img class="img" :src="item.image" alt="" />
+                                        </div>
+                                        <div class="title single-line">{{item.title}}</div>
+                                        <div class="date single-line">上演日期:{{item.date}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="btn-page prev" @click="prevPage">上一页</div>
+                            <div class="btn-page next" @click="nextPage">下一页</div>
+                        </div>
+                        <!--内容为空-->
+                        <div class="empty-wrap" v-if="result.status==='success'&&result.data.length===0">没有电影....</div>
+                        <!--获取数据出错-->
+                        <div class="empty-wrap text-danger" v-if="result.status==='error'">获取电影数据出错,请检查网络连接</div>
+                        <!--加载中-->
+                        <div class="loading-wrap" v-if="result.status==='loading'">
+                            <img src="images/loading.gif" alt="" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script src="lib/jquery/jquery-3.3.1.min.js"></script>
-<script src="lib/vue/vue.min.js"></script>
-<script src="js/index.js"></script>
+    <script src="lib/jquery/jquery-3.3.1.min.js"></script>
+    <script src="lib/vue/vue.min.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
