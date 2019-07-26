@@ -127,9 +127,8 @@ public class DataConfigurer {
         File file = new File("data/movielens/ml-100k/score.txt");
         DataConverter<InputStream> convertor = new CsvConverter(' ', dataSpace.getQualityAttributes(), dataSpace.getQuantityAttributes());
         try (InputStream stream = new FileInputStream(file)) {
-            convertor.convert(dataModule, stream, 3, null, null);
+            convertor.convert(dataModule, stream, null, 3, null);
         }
-
         return dataModule;
     }
 

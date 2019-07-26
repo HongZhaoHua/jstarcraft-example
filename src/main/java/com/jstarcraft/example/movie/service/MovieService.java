@@ -58,17 +58,17 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Movie> getRecommender(int accountIndex, String key) {
+    public Object2FloatMap<Movie> getRecommendMovies(int userIndex, String recommendKey) {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Recommender recommender = recommenders.get(key);
+        Recommender recommender = recommenders.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(2, 0);
         int movieSize = movies.size();
         for (int movieIndex = 0; movieIndex < movieSize; movieIndex++) {
             // 过滤电影
-            instance.setQualityFeature(0, accountIndex);
-            instance.setQualityFeature(1, movieIndex);
+            instance.setQualityFeature(1, userIndex);
+            instance.setQualityFeature(0, movieIndex);
             recommender.predict(instance);
             Movie movie = movies.get(movieIndex);
             float score = instance.getQuantityMark();
@@ -86,11 +86,11 @@ public class MovieService {
      * @return
      * @throws Exception
      */
-    public Object2FloatMap<Movie> getSearchMovies(int accountIndex, String key) throws Exception {
+    public Object2FloatMap<Movie> getSearchMovies(int userIndex, String searchKey) throws Exception {
         // 标识-得分映射
         Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Query query = queryParser.parse(key, Movie.TITLE);
+        Query query = queryParser.parse(searchKey, Movie.TITLE);
         KeyValue<List<Document>, FloatList> search = searcher.retrieveDocuments(query, null, 1000);
         List<Document> documents = search.getKey();
         FloatList scores = search.getValue();

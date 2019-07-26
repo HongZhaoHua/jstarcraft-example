@@ -1,8 +1,12 @@
 package com.jstarcraft.example.movie.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jstarcraft.example.movie.service.Movie;
+
+import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
 /**
  * 电影输出
@@ -47,6 +51,15 @@ public class MovieOutput {
 
     public float getScore() {
         return score;
+    }
+
+    public static List<MovieOutput> instanceOf(Object2FloatMap<Movie> movies) {
+        List<MovieOutput> instances = new ArrayList<>(movies.size());
+        for (Object2FloatMap.Entry<Movie> term : movies.object2FloatEntrySet()) {
+            MovieOutput instance = new MovieOutput(term.getKey(), term.getFloatValue());
+            instances.add(instance);
+        }
+        return instances;
     }
 
 }

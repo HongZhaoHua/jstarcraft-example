@@ -1,12 +1,15 @@
 package com.jstarcraft.example;
 
 import java.util.HashMap;
+import java.util.concurrent.Future;
 
+import org.nd4j.linalg.factory.Nd4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.DataSpace;
+import com.jstarcraft.ai.environment.EnvironmentContext;
 import com.jstarcraft.rns.configure.Configurator;
 import com.jstarcraft.rns.recommend.Recommender;
 import com.jstarcraft.rns.recommend.benchmark.ranking.MostPopularRecommender;
@@ -25,23 +28,38 @@ public class RecommendConfigurer {
     private Configurator configuration = Configurator.valueOf();
 
     @Bean("mostPopularRecommender")
-    public Recommender getMostPopularRecommender(DataSpace dataSpace, DataModule dataModule) {
+    public Recommender getMostPopularRecommender(DataSpace dataSpace, DataModule dataModule) throws Exception {
         Recommender recommender = new MostPopularRecommender();
-        recommender.prepare(configuration, dataModule, dataSpace);
+        EnvironmentContext context = Nd4j.getAffinityManager().getClass().getSimpleName().equals("CpuAffinityManager") ? EnvironmentContext.CPU : EnvironmentContext.GPU;
+        Future<?> task = context.doTask(() -> {
+            recommender.prepare(configuration, dataModule, dataSpace);
+            recommender.practice();
+        });
+        task.get();
         return recommender;
     }
 
     @Bean("itemKnnRecommender")
-    public Recommender getItemKnnRecommender(DataSpace dataSpace, DataModule dataModule) {
+    public Recommender getItemKnnRecommender(DataSpace dataSpace, DataModule dataModule) throws Exception {
         Recommender recommender = new ItemKNNRankingRecommender();
-        recommender.prepare(configuration, dataModule, dataSpace);
+        EnvironmentContext context = Nd4j.getAffinityManager().getClass().getSimpleName().equals("CpuAffinityManager") ? EnvironmentContext.CPU : EnvironmentContext.GPU;
+        Future<?> task = context.doTask(() -> {
+            recommender.prepare(configuration, dataModule, dataSpace);
+            recommender.practice();
+        });
+        task.get();
         return recommender;
     }
 
     @Bean("userKnnRecommender")
-    public Recommender getUserKnnRecommender(DataSpace dataSpace, DataModule dataModule) {
+    public Recommender getUserKnnRecommender(DataSpace dataSpace, DataModule dataModule) throws Exception {
         Recommender recommender = new UserKNNRankingRecommender();
-        recommender.prepare(configuration, dataModule, dataSpace);
+        EnvironmentContext context = Nd4j.getAffinityManager().getClass().getSimpleName().equals("CpuAffinityManager") ? EnvironmentContext.CPU : EnvironmentContext.GPU;
+        Future<?> task = context.doTask(() -> {
+            recommender.prepare(configuration, dataModule, dataSpace);
+            recommender.practice();
+        });
+        task.get();
         return recommender;
     }
 
