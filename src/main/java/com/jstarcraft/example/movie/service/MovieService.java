@@ -60,7 +60,7 @@ public class MovieService {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.US);
 
     private DataSpace dataSpace;
-    
+
     private DataModule dataModule;
 
     /** 账户标识-索引 */
@@ -85,6 +85,8 @@ public class MovieService {
 
     private void handleUsers() throws Exception {
         QualityAttribute<Integer> userAttribute = dataSpace.getQualityAttribute("user");
+        // TODO 初始化用户
+        userAttribute.convertData(0);
         File file = new File("data/movielens/ml-100k/user.txt");
         InputStream stream = new FileInputStream(file);
         try (InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
@@ -148,7 +150,7 @@ public class MovieService {
         handleUsers();
         handleItems();
         handleScores();
-        
+
         recommenders = new HashMap<>();
         Configuration configuration = Configuration.valueOf();
         {
