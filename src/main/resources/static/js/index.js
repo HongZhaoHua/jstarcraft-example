@@ -1,9 +1,33 @@
 // 配置
-var apiDomain = 'http://localhost:8080'; // api域名
+var apiDomain = 'http://localhost:8081'; // api域名
 var apiUrl = {
+  getUsers: apiDomain + '/getUsers', // 获取用户api地址
   recommend: apiDomain + '/recommend', // 推荐api地址
   search: apiDomain + '/search', // 搜索api地址
 };
+
+var pageSize = 9; // 每页显示多少部电影
+var columns = 3; // 一列显示多少部电影
+
+var algorithmList = [
+  {
+    name: '基于内容',
+    value: 1,
+  },
+  {
+    name: '基于协同',
+    value: 2,
+  },
+  {
+    name: '基于关联规则',
+    value: 3,
+  },
+  {
+    name: '基于效用',
+    value: 4
+  }
+];
+
 
 var Status = {
   ready: 'ready', // 初始化
@@ -12,62 +36,189 @@ var Status = {
   error: 'error', // 失败
 };
 
+var cacheData = []; // 缓存数据,用于前端分页
 
 new Vue({
   el: '#container',
   data: {
     isInit: false, // 是否已初始化,防止一进来看到页面乱码
-    // 推荐
-    recommend: {
+    type: 'search', // 类型(search:搜索 recommend:推荐)
+    columns: columns, // 一列显示多少部电影
+    users: {
+      open: false,  // 是否显示用户下拉列表
       data: [],
-      status: Status.loading
+      index: -1
     },
+    algorithm: {
+      open: false,  // 是否显示算法下拉列表
+      data: algorithmList,
+      index: -1
+    },
+    // 推荐
     keyword: '', // 搜索关键字
     // 搜索结果
     result: {
-      data: [],
-      status: Status.loading
+      page: 1, // 当前是第几页
+      pageCount: 1, // 总共有多少页
+      data: [], // 数据
+      style: {},
+      status: Status.ready
     }
   },
   mounted: function () {
-    this.isInit = true;
-    this.getRecommend();
-    this.search();
+    // 获取页面链接
+    this.init();
   },
   methods: {
+    // 初始化
+    init: function () {
+      // 获取链接参数
+      var params = this.getParams(location.search);
+      if (params && params.type) {
+        this.type = params.type;
+      }
+      this.isInit = true;
+      this.getUsers();
+      // this.search();
+      var me = this;
+      document.addEventListener('click', function (e) {
+        var className = e.target.getAttribute('class');
+        if (className && className.indexOf('dropdown-toggle') !== -1) {
+
+        } else {
+          me.algorithm.open = false;
+          me.users.open = false;
+        }
+      });
+    },
+    // 获取用户
+    getUsers: function () {
+      var me = this;
+      // 请求参数
+      var data={};
+      var query = {
+        method: "POST",
+        url: apiUrl.getUsers,
+        dataType: "json",
+        data: data
+      };
+      $.ajax(query).done(function (res) {
+        me.users.data = res.data;
+      }).fail(function () {
+      });
+    },
     // 获取推荐
     getRecommend: function () {
-      this.recommend.status = Status.loading;
-      var me = this;
-      $.ajax({
-        method: "POST",
-        url: apiUrl.recommend,
-        dataType: "json",
-        data: {}
-      }).done(function (res) {
-        me.recommend.data = res.data;
-        me.recommend.status = Status.success;
-      }).fail(function () {
-        me.recommend.status = Status.error;
-      });
+      // 判断是否选择了算法
+      if (this.algorithm.index === -1) {
+        alert('请先选择推荐算法');
+        return;
+      }
+      this.search();
     },
     // 开始搜索
     search: function () {
-      this.result.status = Status.loading;
+      var result = this.result;
+      result.status = Status.loading;
+      result.page = 1;
+      result.data = [];
+      result.style = {};
+
+
       var me = this;
-      $.ajax({
-        method: "POST",
-        url: apiUrl.search,
-        dataType: "json",
-        data: {
+
+      // 请求参数
+      var data;
+      if (this.type === 'recommend') {
+        // 推荐
+        data = {
+          type: this.algorithm.data[this.algorithm.index].value
+        };
+      } else {
+        // 搜索
+        data = {
           keyword: this.keyword
-        }
-      }).done(function (res) {
-        me.result.data = res.data;
+        };
+      }
+      if(this.users.index!==-1){
+        data.userId=this.users.data[this.users.index].value;
+      }
+      var query = {
+        method: "POST",
+        url: this.type === 'search' ? apiUrl.search : apiUrl.recommend,
+        dataType: "json",
+        data: data
+      };
+      $.ajax(query).done(function (res) {
+        cacheData = res.data;
+        me.result.pageCount = Math.ceil(cacheData.length / pageSize);
+        me.showPage(result.page);
         me.result.status = Status.success;
       }).fail(function () {
         me.result.status = Status.error;
       });
+    },
+    // 显示下拉框(算法)
+    showAlgorithm: function () {
+      this.algorithm.open = true;
+    },
+    // 选择(算法)
+    selectAlgorithm: function (index) {
+      this.algorithm.index = index;
+    },
+    // 显示下拉框(用户)
+    showUser: function () {
+      this.users.open = true;
+    },
+    // 选择(用户)
+    selectUser: function (index) {
+      this.users.index = index;
+    },
+    getParams: function (search) {
+      if (search) {
+        var index = 0;
+        if (search.indexOf('?') !== -1) {
+          index = 1;
+        }
+        var params = {};
+        search.substr(index).split('&').forEach(item => {
+          var pair = item.split('=');
+          params[pair[0]] = pair[1];
+        });
+        return params;
+      }
+      return null;
+    },
+    // 显示对应的页数
+    showPage: function (page) {
+      // 取第几页显示
+      var {length} = this.result.data;
+      if (length < page) {
+        var arr = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+        // this.result.data=this.result.data.concat(arr);
+        this.result.data.push(arr);
+      }
+      this.result.page = page;
+      // 计算位移
+      var delta = -(page - 1) * 100;
+      var translate = `translate(${delta}%,0)`;
+      var style = {
+        transform: translate,
+        webkitTransform: translate,
+      };
+      this.result.style = style;
+    },
+    // 上一页
+    prevPage: function () {
+      if (this.result.page > 1) {
+        this.showPage(this.result.page - 1);
+      }
+    },
+    // 下一页
+    nextPage: function () {
+      if (this.result.page < this.result.pageCount) {
+        this.showPage(this.result.page + 1);
+      }
     }
   }
 });

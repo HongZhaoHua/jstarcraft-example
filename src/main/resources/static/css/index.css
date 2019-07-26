@@ -27,6 +27,26 @@ ul{
 .show{
     display: block;
 }
+.dropdown{
+    display: inline-block;
+}
+.dropdown.open .dropdown-menu{
+    display: block;
+    left: auto;
+    right: 0;
+}
+.dropdown-item.selected{
+    background-color: #ddd;
+}
+.dropdown-user{
+    margin-bottom: 10px;
+}
+.isSearch .dropdown-toggle{
+    margin-top: -3px;
+}
+.search-wrap{
+    display: inline-block;
+}
 /*左侧栏*/
 .recommend .title-wrap{
     position: relative;
@@ -76,7 +96,48 @@ ul{
     transform: translate(-50%,-50%);
 }
 .list-wrap{
+    position: relative;
     margin-top: 10px;
+    overflow: hidden;
+}
+.btn-page{
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%);
+    background-color: #686868;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 300ms all;
+}
+.btn-page:hover{
+    background-color: #555;
+}
+.btn-page:active{
+    background-color: #333;
+}
+.btn-page.prev{
+    left: 0;
+}
+.btn-page.next{
+    right: 0;
+    margin-right: 10px;
+}
+.list-content{
+    white-space: nowrap;
+}
+.animation{
+    transition: 300ms all ease-in-out;
+}
+.list{
+    width: 100%;
+    display: inline-block;
+    /*margin-right: -10px;*/
 }
 .list li{
     width: 50%;
@@ -90,9 +151,18 @@ ul{
 .list li .title{
     margin-top: 10px;
 }
+.img-wrap{
+    position: relative;
+    padding-top: 147%;
+}
 .list .img{
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    height: 220px;
+    height: 100%;
+    /*height: 220px;*/
+    /*height: auto;*/
 }
 /*搜索结果*/
 .result-wrap .list li{
