@@ -29,7 +29,7 @@ public class Account implements IdentityObject<Long> {
 
     /** 账号标识 */
     @Id
-    private Long id;
+    private long id;
 
     /** 账号名称 */
     @Column(unique = true, nullable = false)
@@ -54,7 +54,7 @@ public class Account implements IdentityObject<Long> {
     protected Account() {
     }
 
-    public Account(Long id, String name, int section, Instant now, String ip) {
+    public Account(long id, String name, int section, Instant now, String ip) {
         this.id = id;
         this.name = name;
         this.sectionIndex = section;
