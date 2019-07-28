@@ -17,7 +17,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 public class ItemOutput {
 
     /** 电影标识 */
-    private long id;
+    private int id;
 
     /** 电影标题 */
     private String title;
@@ -29,15 +29,13 @@ public class ItemOutput {
     private float score;
 
     public ItemOutput(Item movie, float score) {
-        synchronized (movie) {
-            this.id = movie.getId();
-            this.title = movie.getTitle();
-            this.date = movie.getDate();
-            this.score = score;
-        }
+        this.id = movie.getIndex();
+        this.title = movie.getTitle();
+        this.date = movie.getDate();
+        this.score = score;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

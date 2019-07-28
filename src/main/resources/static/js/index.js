@@ -137,7 +137,7 @@ new Vue({
         };
       }
       if (this.users.index !== -1) {
-        data.userIndex = this.users.data[this.users.index].value;
+        data.userIndex = this.users.data[this.users.index].id;
       }
       var query = {
         method: "GET",
