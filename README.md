@@ -26,7 +26,7 @@ JStarCraft Example Movie是一个基于JStarCraft RNS框架与Spring Boot框架�
 
 系统会根据用户的行为记录,调整用户的推荐内容和搜索内容.
 
-数据集使用的是[MovieLens 100K](#https://grouplens.org/datasets/movielens/100k/)
+数据集使用的是[MovieLens 100K](https://grouplens.org/datasets/movielens/100k/)
 
 ****
 
@@ -54,7 +54,7 @@ JStarCraft Examlpe Movie要求使用者具备以下环境:
 
 ## 使用
 
-由于项目基于Spring Boot,使用者只需要直接执行ExampleApplication,就可以运行项目.
+由于项目基于Spring Boot,使用者只需要直接执行com.jstarcraft.example.ExampleApplication,就可以运行项目.
 
 使用个性化推荐,在浏览器[http://127.0.0.1:8080?type=recommend](http://127.0.0.1:8080?type=recommend)
 
