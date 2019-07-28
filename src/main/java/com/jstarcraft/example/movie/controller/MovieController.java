@@ -1,5 +1,6 @@
 package com.jstarcraft.example.movie.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -37,7 +38,11 @@ public class MovieController {
     @GetMapping("/getRecommendMovies")
     public NormalOutput<List<MovieOutput>> getRecommendMovies(@RequestParam int userIndex, @RequestParam String recommendKey) {
         Object2FloatMap<Movie> movies = movieService.getRecommendMovies(userIndex, recommendKey);
-        return new NormalOutput<>(MovieOutput.instanceOf(movies));
+        List<MovieOutput> instances = MovieOutput.instanceOf(movies);
+        Collections.sort(instances, (left, right) -> {
+            return Float.compare(right.getScore(), left.getScore());
+        });
+        return new NormalOutput<>(instances);
     }
 
     /**
@@ -51,7 +56,11 @@ public class MovieController {
     @GetMapping("/getSearchMovies")
     public NormalOutput<List<MovieOutput>> getSearchMovies(@RequestParam int userIndex, @RequestParam String searchKey) throws Exception {
         Object2FloatMap<Movie> movies = movieService.getSearchMovies(userIndex, searchKey);
-        return new NormalOutput<>(MovieOutput.instanceOf(movies));
+        List<MovieOutput> instances = MovieOutput.instanceOf(movies);
+        Collections.sort(instances, (left, right) -> {
+            return Float.compare(right.getScore(), left.getScore());
+        });
+        return new NormalOutput<>(instances);
     }
 
 }
