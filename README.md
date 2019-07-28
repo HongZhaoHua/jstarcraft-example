@@ -1,4 +1,4 @@
-JStarCraft Example
+# JStarCraft Example
 
 ****
 
