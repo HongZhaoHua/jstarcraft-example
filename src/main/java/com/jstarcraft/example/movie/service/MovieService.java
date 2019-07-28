@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
+import com.jstarcraft.ai.data.DataSpace;
+import com.jstarcraft.ai.data.attribute.QualityAttribute;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.rns.recommend.Recommender;
@@ -25,6 +27,9 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 
 @Component
 public class MovieService {
+    
+    @Autowired
+    private DataSpace dataSpace;
 
     @Autowired
     private DataModule dataModule;
@@ -42,6 +47,11 @@ public class MovieService {
     private List<Movie> movies;
 
     private StandardQueryParser queryParser = new StandardQueryParser();
+    
+    public int getUserSize() {
+        QualityAttribute<Integer> attribute =  dataSpace.getQualityAttribute("user");
+        return attribute.getSize();
+    }
 
     public void clickMovie(int accountIndex, int movieIndex) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();

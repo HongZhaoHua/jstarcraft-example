@@ -1,30 +1,26 @@
 // 配置
-var apiDomain = 'http://localhost:8081'; // api域名
+var apiDomain = 'http://127.0.0.1:8080'; // api域名
 var apiUrl = {
-  getUsers: apiDomain + '/getUsers', // 获取用户api地址
-  recommend: apiDomain + '/recommend', // 推荐api地址
-  search: apiDomain + '/search', // 搜索api地址
+  getUsers: apiDomain + '/movies/getUsers', // 获取用户api地址
+  recommend: apiDomain + '/movies/getRecommendMovies', // 推荐api地址
+  search: apiDomain + '/movies/getSearchMovies', // 搜索api地址
 };
 
-var pageSize = 9; // 每页显示多少部电影
-var columns = 3; // 一列显示多少部电影
+var pageSize = 10; // 每页显示多少部电影
+var columns = 5; // 一列显示多少部电影
 
 var algorithmList = [
   {
-    name: '基于内容',
-    value: 1,
+    name: 'MostPopular',
+    value: 'MostPopular',
   },
   {
-    name: '基于协同',
-    value: 2,
+    name: 'ItemKNN',
+    value: 'ItemKNN',
   },
   {
-    name: '基于关联规则',
-    value: 3,
-  },
-  {
-    name: '基于效用',
-    value: 4
+    name: 'UserKNN',
+    value: 'UserKNN',
   }
 ];
 
@@ -97,13 +93,13 @@ new Vue({
       // 请求参数
       var data = {};
       var query = {
-        method: "POST",
+        method: "GET",
         url: apiUrl.getUsers,
         dataType: "json",
         data: data
       };
       $.ajax(query).done(function (res) {
-        me.users.data = res.data;
+        me.users.data = res.content;
       }).fail(function () {
       });
     },
@@ -132,25 +128,25 @@ new Vue({
       if (this.type === 'recommend') {
         // 推荐
         data = {
-          type: this.algorithm.data[this.algorithm.index].value
+          recommendKey: this.algorithm.data[this.algorithm.index].value
         };
       } else {
         // 搜索
         data = {
-          keyword: this.keyword
+          searchKey: this.keyword
         };
       }
       if (this.users.index !== -1) {
-        data.userId = this.users.data[this.users.index].value;
+        data.userIndex = this.users.data[this.users.index].value;
       }
       var query = {
-        method: "POST",
+        method: "GET",
         url: this.type === 'search' ? apiUrl.search : apiUrl.recommend,
         dataType: "json",
         data: data
       };
       $.ajax(query).done(function (res) {
-        cacheData = res.data;
+        cacheData = res.content;
         me.result.pageCount = Math.ceil(cacheData.length / pageSize);
         me.showPage(result.page);
         me.result.status = Status.success;

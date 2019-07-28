@@ -49,10 +49,10 @@
                                 <ul class="list clearfix" v-for="list in result.data">
                                     <li v-for="item in list" :style="{width:100/columns+'%'}">
                                         <div class="img-wrap">
-                                            <img class="img" :src="item.image" alt="" />
+                                            <img class="img" :src="'./images/movies/'+item.title.replace(',','')+'.jpg'" alt="" />
                                         </div>
-                                        <div class="title single-line">{{item.title}}</div>
-                                        <div class="date single-line">上演日期:{{item.date}}</div>
+                                        <div class="title single-line">标题:{{item.title}}</div>
+                                        <div class="date single-line">日期:{{item.date}}</div>
                                     </li>
                                 </ul>
                             </div>

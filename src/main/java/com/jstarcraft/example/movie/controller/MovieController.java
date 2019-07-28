@@ -28,6 +28,21 @@ public class MovieController {
     private MovieService movieService;
 
     /**
+     * 获取用户
+     * 
+     * @param userIndex
+     * @param recommendKey
+     * @return
+     */
+    @ApiOperation(value = "获取用户", notes = "获取用户")
+    @GetMapping("/getUsers")
+    public NormalOutput<List<UserOutput>> getUsers() {
+        int size = movieService.getUserSize();
+        List<UserOutput> instances = UserOutput.instanceOf(size);
+        return new NormalOutput<>(instances);
+    }
+
+    /**
      * 获取推荐电影
      * 
      * @param userIndex
