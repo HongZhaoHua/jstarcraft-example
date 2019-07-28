@@ -44,15 +44,17 @@ JStarCraft Example Movie是一个基于[JStarCraft RNS引擎](https://github.com
 
 ## 安装
 
-JStarCraft Examlpe Movie要求使用者具备以下环境:
-* JDK 8以上
+项目为了尽可能聚焦于个性化推荐和个性化搜索的演示,不包含任何多余组件的部署(例如MySQL/Redis/Spark/Elasticsearch).
+
+JStarCraft Examlpe Movie只要求使用者具备以下环境:
+* JDK 8或者以上
 * Maven 3
 
 ****
 
 ## 使用
 
-由于项目基于Spring Boot,使用者只需要直接执行com.jstarcraft.example.ExampleApplication,就可以运行项目.
+由于项目基于Spring Boot框架,使用者只需要直接执行com.jstarcraft.example.ExampleApplication,就可以运行项目.
 
 使用个性化推荐,在浏览器[http://127.0.0.1:8080?type=recommend](http://127.0.0.1:8080?type=recommend)
 
