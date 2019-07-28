@@ -13,7 +13,7 @@ import com.jstarcraft.rns.search.annotation.SearchStore;
  * @author Birdy
  *
  */
-public class Movie implements IdentityObject<Integer> {
+public class Item implements IdentityObject<Integer> {
 
     public static final String INDEX = "index";
 
@@ -35,10 +35,10 @@ public class Movie implements IdentityObject<Integer> {
     @SearchSort
     private LocalDate date;
 
-    protected Movie() {
+    protected Item() {
     }
 
-    public Movie(int index, String title, LocalDate date) {
+    public Item(int index, String title, LocalDate date) {
         this.index = index;
         this.title = title;
         this.date = date;

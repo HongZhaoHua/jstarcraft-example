@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.DataSpace;
-import com.jstarcraft.ai.data.attribute.QualityAttribute;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.rns.recommend.Recommender;
@@ -27,7 +26,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 
 @Component
 public class MovieService {
-    
+
     @Autowired
     private DataSpace dataSpace;
 
@@ -42,23 +41,26 @@ public class MovieService {
     @Autowired
     private Searcher searcher;
 
+    /** 用户 */
+    @Autowired
+    private List<User> users;
+
     /** 电影 */
     @Autowired
-    private List<Movie> movies;
+    private List<Item> items;
 
     private StandardQueryParser queryParser = new StandardQueryParser();
-    
-    public int getUserSize() {
-        QualityAttribute<Integer> attribute =  dataSpace.getQualityAttribute("user");
-        return attribute.getSize();
-    }
 
-    public void clickMovie(int accountIndex, int movieIndex) {
+    public void click(int accountIndex, int movieIndex) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
         qualityFeatures.put(0, accountIndex);
         qualityFeatures.put(1, movieIndex);
         Int2FloatSortedMap quantityFeatures = new Int2FloatRBTreeMap();
         dataModule.associateInstance(qualityFeatures, quantityFeatures, 5F);
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 
     /**
@@ -68,24 +70,24 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Movie> getRecommendMovies(int userIndex, String recommendKey) {
+    public Object2FloatMap<Item> getRecommendItems(int userIndex, String recommendKey) {
         // 标识-得分映射
-        Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
+        Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Recommender recommender = recommenders.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(2, 0);
-        int movieSize = movies.size();
-        for (int movieIndex = 0; movieIndex < movieSize; movieIndex++) {
+        int itemSize = items.size();
+        for (int itemIndex = 0; itemIndex < itemSize; itemIndex++) {
             // 过滤电影
             instance.setQualityFeature(1, userIndex);
-            instance.setQualityFeature(0, movieIndex);
+            instance.setQualityFeature(0, itemIndex);
             recommender.predict(instance);
-            Movie movie = movies.get(movieIndex);
+            Item item = items.get(itemIndex);
             float score = instance.getQuantityMark();
-            movie2ScoreMap.put(movie, score);
+            item2ScoreMap.put(item, score);
         }
 
-        return movie2ScoreMap;
+        return item2ScoreMap;
     }
 
     /**
@@ -96,22 +98,22 @@ public class MovieService {
      * @return
      * @throws Exception
      */
-    public Object2FloatMap<Movie> getSearchMovies(int userIndex, String searchKey) throws Exception {
+    public Object2FloatMap<Item> getSearchItems(int userIndex, String searchKey) throws Exception {
         // 标识-得分映射
-        Object2FloatMap<Movie> movie2ScoreMap = new Object2FloatOpenHashMap<>();
+        Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Query query = queryParser.parse(searchKey, Movie.TITLE);
+        Query query = queryParser.parse(searchKey, Item.TITLE);
         KeyValue<List<Document>, FloatList> search = searcher.retrieveDocuments(query, null, 1000);
         List<Document> documents = search.getKey();
         FloatList scores = search.getValue();
         for (int index = 0, size = documents.size(); index < size; index++) {
             Document document = documents.get(index);
-            Movie movie = movies.get(document.getField(Movie.INDEX).numericValue().intValue());
+            Item item = items.get(document.getField(Item.INDEX).numericValue().intValue());
             float score = scores.getFloat(index);
-            movie2ScoreMap.put(movie, score);
+            item2ScoreMap.put(item, score);
         }
 
-        return movie2ScoreMap;
+        return item2ScoreMap;
     }
 
 }

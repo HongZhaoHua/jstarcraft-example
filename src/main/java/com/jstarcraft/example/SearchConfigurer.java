@@ -11,7 +11,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.jstarcraft.example.movie.service.Movie;
+import com.jstarcraft.example.movie.service.Item;
 import com.jstarcraft.rns.search.Searcher;
 import com.jstarcraft.rns.search.converter.SearchCodec;
 
@@ -25,8 +25,8 @@ import com.jstarcraft.rns.search.converter.SearchCodec;
 public class SearchConfigurer {
 
     @Bean
-    Searcher getSearcher(List<Movie> movies) throws Exception {
-        SearchCodec<Movie, Movie> codec = new SearchCodec<>(Movie.class, Movie.class);
+    Searcher getSearcher(List<Item> movies) throws Exception {
+        SearchCodec<Item, Item> codec = new SearchCodec<>(Item.class, Item.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
         Path path = Paths.get("./lucene");
@@ -34,7 +34,7 @@ public class SearchConfigurer {
         FileUtils.deleteDirectory(file);
         Searcher searcher = new Searcher(config, path);
 
-        for (Movie movie : movies) {
+        for (Item movie : movies) {
             Document document = codec.encode(movie);
             searcher.createDocument(String.valueOf(movie.getId()), document);
         }

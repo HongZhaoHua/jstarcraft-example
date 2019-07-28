@@ -2,8 +2,8 @@
 var apiDomain = 'http://127.0.0.1:8080'; // api域名
 var apiUrl = {
   getUsers: apiDomain + '/movies/getUsers', // 获取用户api地址
-  recommend: apiDomain + '/movies/getRecommendMovies', // 推荐api地址
-  search: apiDomain + '/movies/getSearchMovies', // 搜索api地址
+  recommend: apiDomain + '/movies/getRecommendItems', // 推荐api地址
+  search: apiDomain + '/movies/getSearchItems', // 搜索api地址
 };
 
 var pageSize = 10; // 每页显示多少部电影

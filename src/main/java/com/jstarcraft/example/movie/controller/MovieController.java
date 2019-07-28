@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jstarcraft.example.common.output.NormalOutput;
-import com.jstarcraft.example.movie.service.Movie;
+import com.jstarcraft.example.movie.service.Item;
 import com.jstarcraft.example.movie.service.MovieService;
+import com.jstarcraft.example.movie.service.User;
 
 import io.swagger.annotations.ApiOperation;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
@@ -37,8 +38,8 @@ public class MovieController {
     @ApiOperation(value = "获取用户", notes = "获取用户")
     @GetMapping("/getUsers")
     public NormalOutput<List<UserOutput>> getUsers() {
-        int size = movieService.getUserSize();
-        List<UserOutput> instances = UserOutput.instanceOf(size);
+        List<User> users = movieService.getUsers();
+        List<UserOutput> instances = UserOutput.instancesOf(users);
         return new NormalOutput<>(instances);
     }
 
@@ -50,10 +51,10 @@ public class MovieController {
      * @return
      */
     @ApiOperation(value = "获取推荐电影", notes = "获取推荐电影")
-    @GetMapping("/getRecommendMovies")
-    public NormalOutput<List<MovieOutput>> getRecommendMovies(@RequestParam int userIndex, @RequestParam String recommendKey) {
-        Object2FloatMap<Movie> movies = movieService.getRecommendMovies(userIndex, recommendKey);
-        List<MovieOutput> instances = MovieOutput.instanceOf(movies);
+    @GetMapping("/getRecommendItems")
+    public NormalOutput<List<ItemOutput>> getRecommendItems(@RequestParam int userIndex, @RequestParam String recommendKey) {
+        Object2FloatMap<Item> movies = movieService.getRecommendItems(userIndex, recommendKey);
+        List<ItemOutput> instances = ItemOutput.instancesOf(movies);
         Collections.sort(instances, (left, right) -> {
             return Float.compare(right.getScore(), left.getScore());
         });
@@ -68,10 +69,10 @@ public class MovieController {
      * @return
      */
     @ApiOperation(value = "获取搜索电影", notes = "获取搜索电影")
-    @GetMapping("/getSearchMovies")
-    public NormalOutput<List<MovieOutput>> getSearchMovies(@RequestParam int userIndex, @RequestParam String searchKey) throws Exception {
-        Object2FloatMap<Movie> movies = movieService.getSearchMovies(userIndex, searchKey);
-        List<MovieOutput> instances = MovieOutput.instanceOf(movies);
+    @GetMapping("/getSearchItems")
+    public NormalOutput<List<ItemOutput>> getSearchItems(@RequestParam int userIndex, @RequestParam String searchKey) throws Exception {
+        Object2FloatMap<Item> movies = movieService.getSearchItems(userIndex, searchKey);
+        List<ItemOutput> instances = ItemOutput.instancesOf(movies);
         Collections.sort(instances, (left, right) -> {
             return Float.compare(right.getScore(), left.getScore());
         });

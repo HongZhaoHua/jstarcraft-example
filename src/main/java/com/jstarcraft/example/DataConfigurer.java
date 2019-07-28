@@ -27,7 +27,8 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.attribute.QualityAttribute;
 import com.jstarcraft.ai.data.converter.CsvConverter;
 import com.jstarcraft.ai.data.converter.DataConverter;
-import com.jstarcraft.example.movie.service.Movie;
+import com.jstarcraft.example.movie.service.Item;
+import com.jstarcraft.example.movie.service.User;
 
 /**
  * 数据配置器
@@ -58,16 +59,27 @@ public class DataConfigurer {
      * @return
      */
     @Bean
-    DataSpace getDataSpace(File userFile) throws Exception {
+    DataSpace getDataSpace() throws Exception {
         Map<String, Class<?>> qualityDifinitions = new HashMap<>();
         qualityDifinitions.put("user", int.class);
         qualityDifinitions.put("item", int.class);
         Map<String, Class<?>> quantityDifinitions = new HashMap<>();
         DataSpace dataSpace = new DataSpace(qualityDifinitions, quantityDifinitions);
+        return dataSpace;
+    }
+
+    @Bean("users")
+    List<User> getUsers(DataSpace dataSpace, File userFile) throws Exception {
+        List<User> users = new LinkedList<>();
 
         QualityAttribute<Integer> userAttribute = dataSpace.getQualityAttribute("user");
-        // TODO 匿名用户设置为0
-        userAttribute.convertData(0);
+        {
+            // TODO 匿名用户设置为0
+            // 用户索引
+            int index = userAttribute.convertData(0);
+            User user = new User(index, "User" + index);
+            users.add(user);
+        }
         try (InputStream stream = new FileInputStream(userFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
                 Iterator<CSVRecord> iterator = parser.iterator();
@@ -75,17 +87,21 @@ public class DataConfigurer {
                     CSVRecord datas = iterator.next();
                     // 用户标识
                     int id = Integer.parseInt(datas.get(0));
-                    userAttribute.convertData(id);
+                    // 用户索引
+                    int index = userAttribute.convertData(id);
+                    User user = new User(index, "User" + index);
+                    users.add(user);
                 }
             }
         }
 
-        return dataSpace;
+        users = new ArrayList<>(users);
+        return users;
     }
 
-    @Bean("movies")
-    List<Movie> getMovies(DataSpace dataSpace, File itemFile) throws Exception {
-        List<Movie> movies = new LinkedList<>();
+    @Bean("items")
+    List<Item> getItems(DataSpace dataSpace, File itemFile) throws Exception {
+        List<Item> items = new LinkedList<>();
 
         QualityAttribute<Integer> itemAttribute = dataSpace.getQualityAttribute("item");
         try (InputStream stream = new FileInputStream(itemFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
@@ -101,14 +117,14 @@ public class DataConfigurer {
                     String title = datas.get(1);
                     // 物品日期
                     LocalDate date = LocalDate.parse(datas.get(2), formatter);
-                    Movie movie = new Movie(index, title, date);
-                    movies.add(movie);
+                    Item item = new Item(index, title, date);
+                    items.add(item);
                 }
             }
         }
 
-        movies = new ArrayList<>(movies);
-        return movies;
+        items = new ArrayList<>(items);
+        return items;
     }
 
     /**
@@ -118,7 +134,7 @@ public class DataConfigurer {
      * @return
      */
     @Bean
-    DataModule getDataModule(DataSpace dataSpace, List<Movie> movies) throws Exception {
+    DataModule getDataModule(DataSpace dataSpace, List<User> users, List<Item> items) throws Exception {
         TreeMap<Integer, String> configuration = new TreeMap<>();
         configuration.put(1, "user");
         configuration.put(2, "item");
@@ -129,6 +145,15 @@ public class DataConfigurer {
         try (InputStream stream = new FileInputStream(file)) {
             convertor.convert(dataModule, stream, null, 3, null);
         }
+
+        int userDimension = dataModule.getQualityInner("user");
+        int itemDimension = dataModule.getQualityInner("item");
+        dataModule.forEach((instance) -> {
+            int userIndex = instance.getQualityFeature(userDimension);
+            int itemIndex = instance.getQualityFeature(itemDimension);
+            users.get(userIndex).click(itemIndex);
+        });
+
         return dataModule;
     }
 
