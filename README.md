@@ -59,12 +59,12 @@ JStarCraft Examlpe Movie要求使用者具备以下环境:
 使用个性化推荐,在浏览器[http://127.0.0.1:8080?type=recommend](http://127.0.0.1:8080?type=recommend)
 
 推荐效果
-![recommend](https://github.com/HongZhaoHua/jstarcraft-example/recommend.png)
+![recommend](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/recommend.png)
 
 使用个性化搜索,在浏览器[http://127.0.0.1:8080?type=search](http://127.0.0.1:8080?type=search)
 
 搜索效果
-![search](https://github.com/HongZhaoHua/jstarcraft-example/search.png)
+![search](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/search.png)
 
 ****
 
