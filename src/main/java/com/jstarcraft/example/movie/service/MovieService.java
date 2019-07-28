@@ -28,9 +28,6 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 public class MovieService {
 
     @Autowired
-    private DataSpace dataSpace;
-
-    @Autowired
     private DataModule dataModule;
 
     /** 推荐器 */
@@ -76,9 +73,13 @@ public class MovieService {
 
         Recommender recommender = recommenders.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(2, 0);
+        User user = users.get(userIndex);
         int itemSize = items.size();
         for (int itemIndex = 0; itemIndex < itemSize; itemIndex++) {
             // 过滤电影
+            if (user.isClicked(itemIndex)) {
+                continue;
+            }
             instance.setQualityFeature(1, userIndex);
             instance.setQualityFeature(0, itemIndex);
             recommender.predict(instance);
