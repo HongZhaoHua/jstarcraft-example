@@ -22,11 +22,9 @@
 
 ## 介绍
 
-JStarCraft Example Movie是一个基于JStarCraft RNS框架与Spring Boot框架搭建的电影演示项目,包括**个性化推荐**与**个性化搜索**两个部分.
+JStarCraft Example Movie是一个基于[JStarCraft RNS引擎](https://github.com/HongZhaoHua/jstarcraft-rns),Spring Boot框架和[MovieLens 100K数据集](https://grouplens.org/datasets/movielens/100k/)搭建的电影演示项目,包括**个性化推荐**与**个性化搜索**两个部分.
 
-系统会根据用户的行为记录,调整用户的推荐内容和搜索内容.
-
-数据集使用的是[MovieLens 100K](https://grouplens.org/datasets/movielens/100k/)
+系统会根据用户的行为记录,自动调整用户的推荐内容和搜索内容.
 
 ****
 
