@@ -23,10 +23,6 @@ ul {
 	text-overflow: ellipsis;
 }
 
-.none {
-	display: none !important;
-}
-
 .container {
 	display: none;
 }
@@ -60,36 +56,8 @@ ul {
 .search-wrap {
 	display: inline-block;
 }
-/*左侧栏*/
-.recommend .title-wrap {
-	position: relative;
-	overflow: hidden;
-}
 
-.recommend .title-text {
-	display: inline-block;
-	width: 90px;
-	padding: 5px 0;
-	text-align: center;
-	border-top: 2px solid #3195ff;
-	border-left: 1px solid #dedede;
-	border-right: 1px solid #dedede;
-	font-size: 14px;
-	color: #333333;
-}
-
-.recommend .title-text:before {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 1000px;
-	height: 1px;
-	background-color: #dedede;
-	margin-left: 90px;
-}
-
-/*搜索结果*/
+/*结果*/
 .result-wrap .title-wrap {
 	font-size: 14px;
 	color: #333333;
@@ -102,6 +70,7 @@ ul {
 	min-height: 200px;
 	position: relative;
 }
+
 /*加载中*/
 .loading-wrap, .empty-wrap {
 	position: absolute;
@@ -193,6 +162,7 @@ ul {
 	/*height: 220px;*/
 	/*height: auto;*/
 }
+
 /*搜索结果*/
 .result-wrap .list li {
 	width: 33.333333%;

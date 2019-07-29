@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="css/index.css" />
-<title>搜索推荐</title>
+<title>推荐与搜索</title>
 </head>
 <body>
     <div class="container" id="container" :class="{ show: isInit }">
@@ -19,19 +19,18 @@
                     </div>
                 </div>
                 <div class="search-wrap">
-                    <div v-if="type==='recommend'" class="dropdown" :class="{ open: algorithm.open }">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
+                    <div class="input-group mb-3" v-if="type==='recommend'">
+                        <div class="dropdown" :class="{ open: algorithm.open }">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
+                            </div>
                         </div>
+                        <button type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
                     </div>
-                    <button v-if="type==='recommend'" type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
-
                     <div class="input-group mb-3" v-if="type!=='recommend'">
                         <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" @click="search">搜索</button>
-                        </div>
+                        <button class="btn btn-outline-primary" type="button" @click="search">搜索</button>
                     </div>
                 </div>
             </div>
