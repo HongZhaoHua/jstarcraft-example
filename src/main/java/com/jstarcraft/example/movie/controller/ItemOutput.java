@@ -9,20 +9,20 @@ import com.jstarcraft.example.movie.service.Item;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
 /**
- * 电影输出
+ * 物品输出
  * 
  * @author Birdy
  *
  */
 public class ItemOutput {
 
-    /** 电影标识 */
+    /** 物品标识 */
     private int id;
 
-    /** 电影标题 */
+    /** 物品标题 */
     private String title;
 
-    /** 电影日期 */
+    /** 物品日期 */
     private LocalDate date;
 
     /** 得分 */

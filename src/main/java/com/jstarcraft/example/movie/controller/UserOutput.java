@@ -5,10 +5,18 @@ import java.util.List;
 
 import com.jstarcraft.example.movie.service.User;
 
+/**
+ * 用户输出
+ * 
+ * @author Birdy
+ *
+ */
 public class UserOutput {
 
+    /** 用户标识 */
     private int id;
 
+    /** 用户名称 */
     private String name;
 
     public UserOutput(User user) {
