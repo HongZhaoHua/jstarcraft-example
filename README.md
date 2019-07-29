@@ -56,14 +56,14 @@ JStarCraft Examlpe Movie只要求使用者具备以下环境:
 
 由于项目基于Spring Boot框架,使用者只需要直接执行com.jstarcraft.example.ExampleApplication,就可以运行项目.
 
-使用个性化推荐,在浏览器[http://127.0.0.1:8080?type=recommend](http://127.0.0.1:8080?type=recommend)
+使用个性化推荐,复制链接[http://127.0.0.1:8080?type=recommend](http://127.0.0.1:8080?type=recommend)到浏览器.
 
-推荐效果
+个性化推荐效果如图
 ![recommend](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/recommend.png)
 
-使用个性化搜索,在浏览器[http://127.0.0.1:8080?type=search](http://127.0.0.1:8080?type=search)
+使用个性化搜索,复制链接[http://127.0.0.1:8080?type=search](http://127.0.0.1:8080?type=search)到浏览器.
 
-搜索效果
+个性化搜索效果如图
 ![search](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/search.png)
 
 ****
