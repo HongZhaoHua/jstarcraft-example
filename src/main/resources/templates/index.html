@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
-<link rel="stylesheet" href="stylesheets/bootstrap.min.css" />
+<link rel="stylesheet" href="stylesheets/bootstrap-4.3.1.min.css" />
 <link rel="stylesheet" href="stylesheets/index.css" />
 <title>推荐与搜索</title>
 </head>
@@ -28,7 +28,7 @@
                         </div>
                         <button type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
                     </div>
-                    <div class="input-group mb-3" v-if="type!=='recommend'">
+                    <div class="input-group mb-3" v-if="type==='search'">
                         <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
                         <button class="btn btn-outline-primary" type="button" @click="search">搜索</button>
                     </div>
@@ -73,7 +73,7 @@
     </div>
 
     <script src="scripts/jquery-3.3.1.min.js"></script>
-    <script src="scripts/vue.min.js"></script>
+    <script src="scripts/vue-2.6.10.min.js"></script>
     <script src="scripts/index.js"></script>
 </body>
 </html>
