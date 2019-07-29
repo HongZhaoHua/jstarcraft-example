@@ -8,6 +8,14 @@ ul {
 	list-style: none;
 }
 
+.container {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
 .clearfix:before, .clearfix:after {
 	display: table;
 	content: " ";
@@ -21,14 +29,6 @@ ul {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.container {
-	display: none;
-}
-
-.show {
-	display: block;
 }
 
 .dropdown {
@@ -131,7 +131,6 @@ ul {
 .list {
 	width: 100%;
 	display: inline-block;
-	/*margin-right: -10px;*/
 }
 
 .list li {
