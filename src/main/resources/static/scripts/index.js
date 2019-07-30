@@ -1,9 +1,9 @@
 // 配置
 var apiDomain = 'http://127.0.0.1:8080'; // api域名
 var apiUrl = {
-    getUsers: apiDomain + '/movies/getUsers', // 获取用户api地址
-    recommend: apiDomain + '/movies/getRecommendItems', // 推荐api地址
-    search: apiDomain + '/movies/getSearchItems', // 搜索api地址
+    users: apiDomain + '/movies/getUsers', // 获取用户api地址
+    recommendItems: apiDomain + '/movies/getRecommendItems', // 推荐api地址
+    searchItems: apiDomain + '/movies/getSearchItems', // 搜索api地址
     click: apiDomain + '/movies/click', // 点击api地址
 };
 
@@ -107,7 +107,7 @@ new Vue({
             var data = {};
             var query = {
                 method: "GET",
-                url: apiUrl.getUsers,
+                url: apiUrl.users,
                 dataType: "json",
                 data: data
             };
@@ -143,7 +143,7 @@ new Vue({
             }
             var query = {
                 method: "GET",
-                url: this.type === 'search' ? apiUrl.search : apiUrl.recommend,
+                url: this.type === 'search' ? apiUrl.searchItems : apiUrl.recommendItems,
                 dataType: "json",
                 data: request
             };
