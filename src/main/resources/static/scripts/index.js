@@ -172,7 +172,7 @@ new Vue({
             this.recommendKeys.index = index;
         },
         // 显示下拉框(用户)
-        showUser: function () {
+        showUsers: function () {
             this.users.isShow = true;
         },
         // 选择(用户)

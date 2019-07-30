@@ -14,7 +14,7 @@
             <div class="col text-right">
                 <!--选择用户-->
                 <div class="dropdown user-dropdown" :class="{ isShow: users.isShow,'fix-margin': type==='search' }">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUser">{{users.index===-1?'请选择用户':users.content[users.index].name}}</button>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUsers">{{users.index===-1?'请选择用户':users.content[users.index].name}}</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.content" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
                     </div>
