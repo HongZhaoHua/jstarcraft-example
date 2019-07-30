@@ -42,12 +42,12 @@ new Vue({
         type: 'search', // 类型(search:搜索 recommend:推荐)
         columns: columns, // 一列显示多少部电影
         users: {
-            open: false,  // 是否显示用户下拉列表
+            isShow: false,  // 是否显示用户下拉列表
             data: [],
             index: -1
         },
         algorithm: {
-            open: false,  // 是否显示算法下拉列表
+            isShow: false,  // 是否显示算法下拉列表
             data: algorithmList,
             index: -1
         },
@@ -69,6 +69,7 @@ new Vue({
     methods: {
         // 初始化
         initialize: function () {
+        	var element = this;
             // 获取链接参数
             var params = this.getParams(location.search);
             if (params && params.type) {
@@ -76,21 +77,18 @@ new Vue({
             }
             this.isShow = true;
             this.getUsers();
-            // this.search();
-            var me = this;
-            document.addEventListener('click', function (e) {
-                var className = e.target.getAttribute('class');
+            document.addEventListener('click', function (event) {
+                var className = event.target.getAttribute('class');
                 if (className && className.indexOf('dropdown-toggle') !== -1) {
-
-                } else {
-                    me.algorithm.open = false;
-                    me.users.open = false;
+                	return;
                 }
+                element.algorithm.isShow = false;
+            	element.users.isShow = false;
             });
         },
         // 获取用户
         getUsers: function () {
-            var me = this;
+            var element = this;
             // 请求参数
             var data = {};
             var query = {
@@ -100,7 +98,7 @@ new Vue({
                 data: data
             };
             $.ajax(query).done(function (res) {
-                me.users.data = res.content;
+            	element.users.data = res.content;
             }).fail(function () {
             });
         },
@@ -127,7 +125,7 @@ new Vue({
             result.data = [];
             result.style = {};
 
-            var me = this;
+            var element = this;
 
             // 请求参数
             var data;
@@ -158,16 +156,16 @@ new Vue({
             };
             $.ajax(query).done(function (res) {
                 cacheData = res.content;
-                me.result.pageCount = Math.ceil(cacheData.length / pageSize);
-                me.showPage(result.page);
-                me.result.status = Status.success;
+                element.result.pageCount = Math.ceil(cacheData.length / pageSize);
+                element.showPage(result.page);
+                element.result.status = Status.success;
             }).fail(function () {
-                me.result.status = Status.error;
+            	element.result.status = Status.error;
             });
         },
         // 显示下拉框(算法)
         showAlgorithm: function () {
-            this.algorithm.open = true;
+            this.algorithm.isShow = true;
         },
         // 选择(算法)
         selectAlgorithm: function (index) {
@@ -175,7 +173,7 @@ new Vue({
         },
         // 显示下拉框(用户)
         showUser: function () {
-            this.users.open = true;
+            this.users.isShow = true;
         },
         // 选择(用户)
         selectUser: function (index) {

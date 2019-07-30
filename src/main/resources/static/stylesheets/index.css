@@ -42,7 +42,7 @@ ul {
 }
 
 /*展开下拉框时,覆盖bootstrap的默认样式*/
-.dropdown.open .dropdown-menu {
+.dropdown.isShow .dropdown-menu {
 	display: block;
 	left: auto;
 	right: 0;

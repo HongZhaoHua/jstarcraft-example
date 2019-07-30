@@ -13,7 +13,7 @@
         <div class="row mt-4">
             <div class="col text-right">
                 <!--选择用户-->
-                <div class="dropdown user-dropdown" :class="{ open: users.open,'fix-margin': type==='search' }">
+                <div class="dropdown user-dropdown" :class="{ isShow: users.isShow,'fix-margin': type==='search' }">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUser">{{users.index===-1?'请选择用户':users.data[users.index].name}}</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.data" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
@@ -22,7 +22,7 @@
                 <div class="inline-block">
                     <!--推荐算法-->
                     <div class="input-group mb-3" v-if="type==='recommend'">
-                        <div class="dropdown" :class="{ open: algorithm.open }">
+                        <div class="dropdown" :class="{ isShow: algorithm.isShow }">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
