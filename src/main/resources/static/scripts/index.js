@@ -52,7 +52,7 @@ new Vue({
             index: -1
         },
         // 推荐
-        keyword: '', // 搜索关键字
+        searchKey: '', // 搜索关键字
         // 搜索结果
         data: {
             pageIndex: 1, // 当前是第几页
@@ -136,7 +136,7 @@ new Vue({
             } else {
                 // 搜索
             	request = {
-                    searchKey: this.keyword
+                    searchKey: this.searchKey
                 };
             }
             if (this.users.index !== -1) {

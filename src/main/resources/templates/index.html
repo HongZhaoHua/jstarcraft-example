@@ -32,7 +32,7 @@
                     </div>
                     <!--搜索输入-->
                     <div class="input-group mb-3" v-if="type==='search'">
-                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
+                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="searchKey" @keyup.enter="search">
                         <button class="btn btn-outline-primary" type="button" @click="getItems">搜索</button>
                     </div>
                 </div>
