@@ -71,9 +71,9 @@ new Vue({
         initialize: function () {
         	var element = this;
             // 获取链接参数
-            var params = this.getParams(location.search);
-            if (params && params.type) {
-                this.type = params.type;
+            var parameters = this.getParameters(location.search);
+            if (parameters && parameters.type) {
+                this.type = parameters.type;
             }
             this.isShow = true;
             this.getUsers();
@@ -112,8 +112,8 @@ new Vue({
                 dataType: "json",
                 data: data
             };
-            $.ajax(query).done(function (res) {
-            	element.users.data = res.content;
+            $.ajax(query).done(function (data) {
+            	element.users.data = data.content;
             }).fail(function () {
             });
         },
@@ -154,8 +154,8 @@ new Vue({
                 dataType: "json",
                 data: data
             };
-            $.ajax(query).done(function (res) {
-                cacheData = res.content;
+            $.ajax(query).done(function (data) {
+                cacheData = data.content;
                 element.result.pageCount = Math.ceil(cacheData.length / pageSize);
                 element.showPage(result.page);
                 element.result.status = Status.success;
@@ -179,18 +179,18 @@ new Vue({
         selectUser: function (index) {
             this.users.index = index;
         },
-        getParams: function (search) {
-            if (search) {
+        getParameters: function (query) {
+            if (query) {
                 var index = 0;
-                if (search.indexOf('?') !== -1) {
+                if (query.indexOf('?') !== -1) {
                     index = 1;
                 }
-                var params = {};
-                search.substr(index).split('&').forEach(item => {
-                    var pair = item.split('=');
-                    params[pair[0]] = pair[1];
+                var parameters = {};
+                query.substr(index).split('&').forEach(item => {
+                    var keyValue = item.split('=');
+                    parameters[keyValue[0]] = keyValue[1];
                 });
-                return params;
+                return parameters;
             }
             return null;
         },
