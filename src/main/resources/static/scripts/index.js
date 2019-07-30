@@ -43,12 +43,12 @@ new Vue({
         columns: columns, // 一列显示多少部电影
         users: {
             isShow: false,  // 是否显示用户下拉列表
-            data: [],
+            content: [],
             index: -1
         },
-        algorithm: {
+        algorithms: {
             isShow: false,  // 是否显示算法下拉列表
-            data: algorithmList,
+            content: algorithmList,
             index: -1
         },
         // 推荐
@@ -82,7 +82,7 @@ new Vue({
                 if (className && className.indexOf('dropdown-toggle') !== -1) {
                 	return;
                 }
-                element.algorithm.isShow = false;
+                element.algorithms.isShow = false;
             	element.users.isShow = false;
             });
         },
@@ -90,7 +90,7 @@ new Vue({
         click: function (itemId) {
             var data = {};
             if (this.users.index !== -1) {
-                data.userIndex = this.users.data[this.users.index].id;
+                data.userIndex = this.users.content[this.users.index].id;
             }
             data.itemIndex = itemId;
             var query = {
@@ -113,7 +113,7 @@ new Vue({
                 data: data
             };
             $.ajax(query).done(function (data) {
-            	element.users.data = data.content;
+            	element.users.content = data.content;
             }).fail(function () {
             });
         },
@@ -131,13 +131,13 @@ new Vue({
             var data;
             if (this.type === 'recommend') {
                 // 判断是否选择了算法
-                if (this.algorithm.index === -1) {
+                if (this.algorithms.index === -1) {
                     alert('请先选择推荐算法');
                     return;
                 }
                 // 推荐
                 data = {
-                    recommendKey: this.algorithm.data[this.algorithm.index].value
+                    recommendKey: this.algorithms.content[this.algorithms.index].value
                 };
             } else {
                 // 搜索
@@ -146,7 +146,7 @@ new Vue({
                 };
             }
             if (this.users.index !== -1) {
-                data.userIndex = this.users.data[this.users.index].id;
+                data.userIndex = this.users.content[this.users.index].id;
             }
             var query = {
                 method: "GET",
@@ -164,12 +164,12 @@ new Vue({
             });
         },
         // 显示下拉框(算法)
-        showAlgorithm: function () {
-            this.algorithm.isShow = true;
+        showAlgorithms: function () {
+            this.algorithms.isShow = true;
         },
         // 选择(算法)
-        selectAlgorithm: function (index) {
-            this.algorithm.index = index;
+        selectAlgorithms: function (index) {
+            this.algorithms.index = index;
         },
         // 显示下拉框(用户)
         showUser: function () {

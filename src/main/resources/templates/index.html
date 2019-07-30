@@ -14,18 +14,18 @@
             <div class="col text-right">
                 <!--选择用户-->
                 <div class="dropdown user-dropdown" :class="{ isShow: users.isShow,'fix-margin': type==='search' }">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUser">{{users.index===-1?'请选择用户':users.data[users.index].name}}</button>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUser">{{users.index===-1?'请选择用户':users.content[users.index].name}}</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.data" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
+                        <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.content" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
                     </div>
                 </div>
                 <div class="inline-block">
                     <!--推荐算法-->
                     <div class="input-group mb-3" v-if="type==='recommend'">
-                        <div class="dropdown" :class="{ isShow: algorithm.isShow }">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithm">{{algorithm.index===-1?'请选择算法':algorithm.data[algorithm.index].name}}</button>
+                        <div class="dropdown" :class="{ isShow: algorithms.isShow }">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithms">{{algorithms.index===-1?'请选择算法':algorithms.content[algorithms.index].name}}</button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
+                                <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithms.content" :class="{ selected: algorithms.index=== index}" @click="selectAlgorithms(index)">{{item.name}}</a>
                             </div>
                         </div>
                         <button type="button" class="btn btn-outline-primary" @click="getItems">推荐</button>
