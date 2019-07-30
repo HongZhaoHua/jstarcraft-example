@@ -26,7 +26,7 @@ var recommendKeys = [
 ];
 
 
-var Status = {
+var state = {
     load: 'load', // 加载中
     normal: 'normal', // 成功
     abnormal: 'abnormal', // 失败
@@ -58,7 +58,7 @@ new Vue({
             pageCount: 1, // 总共有多少页
             content: [], // 数据
             style: {},
-            status: Status.load
+            status: state.load
         }
     },
     mounted: function () {
@@ -149,7 +149,7 @@ new Vue({
             };
             
             var response = this.data;
-            response.status = Status.load;
+            response.status = state.load;
             response.pageIndex = 1;
             response.content = [];
             response.style = {};
@@ -157,9 +157,9 @@ new Vue({
                 cache = data.content;
                 element.data.pageCount = Math.ceil(cache.length / pageSize);
                 element.showPage(response.pageIndex);
-                element.data.status = Status.normal;
+                element.data.status = state.normal;
             }).fail(function () {
-            	element.data.status = Status.abnormal;
+            	element.data.status = state.abnormal;
             });
         },
         // 显示下拉框(算法)
