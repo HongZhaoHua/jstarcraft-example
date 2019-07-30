@@ -54,7 +54,7 @@ new Vue({
         // 推荐
         keyword: '', // 搜索关键字
         // 搜索结果
-        result: {
+        data: {
             page: 1, // 当前是第几页
             pageCount: 1, // 总共有多少页
             content: [], // 数据
@@ -119,16 +119,16 @@ new Vue({
         },
         // 获取物品(电影)
         getItems: function () {
-            var result = this.result;
-            result.status = Status.loading;
-            result.page = 1;
-            result.content = [];
-            result.style = {};
+            var response = this.data;
+            response.status = Status.loading;
+            response.page = 1;
+            response.content = [];
+            response.style = {};
 
             var element = this;
 
             // 请求参数
-            var data;
+            var request;
             if (this.type === 'recommend') {
                 // 判断是否选择了算法
                 if (this.algorithms.index === -1) {
@@ -136,31 +136,31 @@ new Vue({
                     return;
                 }
                 // 推荐
-                data = {
+                request = {
                     recommendKey: this.algorithms.content[this.algorithms.index].value
                 };
             } else {
                 // 搜索
-                data = {
+            	request = {
                     searchKey: this.keyword
                 };
             }
             if (this.users.index !== -1) {
-                data.userIndex = this.users.content[this.users.index].id;
+            	request.userIndex = this.users.content[this.users.index].id;
             }
             var query = {
                 method: "GET",
                 url: this.type === 'search' ? apiUrl.search : apiUrl.recommend,
                 dataType: "json",
-                data: data
+                data: request
             };
             $.ajax(query).done(function (data) {
                 cacheData = data.content;
-                element.result.pageCount = Math.ceil(cacheData.length / pageSize);
-                element.showPage(result.page);
-                element.result.status = Status.success;
+                element.data.pageCount = Math.ceil(cacheData.length / pageSize);
+                element.showPage(response.page);
+                element.data.status = Status.success;
             }).fail(function () {
-            	element.result.status = Status.error;
+            	element.data.status = Status.error;
             });
         },
         // 显示下拉框(算法)
@@ -197,12 +197,12 @@ new Vue({
         // 显示对应的页数
         showPage: function (page) {
             // 取第几页显示
-            var length = this.result.content.length;
+            var length = this.data.content.length;
             if (length < page) {
-                var arr = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-                this.result.content.push(arr);
+                var array = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+                this.data.content.push(array);
             }
-            this.result.page = page;
+            this.data.page = page;
             // 计算位移
             var delta = -(page - 1) * 100;
             var translate = `translate(${delta}%,0)`;
@@ -210,18 +210,18 @@ new Vue({
                 transform: translate,
                 webkitTransform: translate,
             };
-            this.result.style = style;
+            this.data.style = style;
         },
         // 上一页
         prevPage: function () {
-            if (this.result.page > 1) {
-                this.showPage(this.result.page - 1);
+            if (this.data.page > 1) {
+                this.showPage(this.data.page - 1);
             }
         },
         // 下一页
         nextPage: function () {
-            if (this.result.page < this.result.pageCount) {
-                this.showPage(this.result.page + 1);
+            if (this.data.page < this.data.pageCount) {
+                this.showPage(this.data.page + 1);
             }
         }
     }
