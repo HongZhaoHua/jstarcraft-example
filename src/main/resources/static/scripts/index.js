@@ -195,16 +195,16 @@ new Vue({
             return null;
         },
         // 显示对应的页数
-        showPage: function (page) {
+        showPage: function (pageIndex) {
             // 取第几页显示
             var length = this.data.content.length;
-            if (length < page) {
-                var array = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+            if (length < pageIndex) {
+                var array = cacheData.slice((pageIndex - 1) * pageSize, (pageIndex - 1) * pageSize + pageSize);
                 this.data.content.push(array);
             }
-            this.data.pageIndex = page;
+            this.data.pageIndex = pageIndex;
             // 计算位移
-            var delta = -(page - 1) * 100;
+            var delta = -(pageIndex - 1) * 100;
             var translate = `translate(${delta}%,0)`;
             var style = {
                 transform: translate,
