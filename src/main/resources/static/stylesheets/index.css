@@ -83,7 +83,7 @@ ul {
 }
 
 /*加载中和内容为空*/
-.loading-wrap, .empty-wrap {
+.load-wrap, .empty-wrap {
 	position: absolute;
 	left: 50%;
 	top: 50%;

@@ -28,9 +28,9 @@ var recommendKeys = [
 
 var Status = {
     ready: 'ready', // 初始化
-    loading: 'loading', // 加载中
-    success: 'success', // 成功
-    error: 'error', // 失败
+    load: 'load', // 加载中
+    norma: 'norma', // 成功
+    abnormal: 'abnormal', // 失败
 };
 
 var cache = []; // 缓存数据,用于前端分页
@@ -150,7 +150,7 @@ new Vue({
             };
             
             var response = this.data;
-            response.status = Status.loading;
+            response.status = Status.load;
             response.pageIndex = 1;
             response.content = [];
             response.style = {};
@@ -158,9 +158,9 @@ new Vue({
                 cache = data.content;
                 element.data.pageCount = Math.ceil(cache.length / pageSize);
                 element.showPage(response.pageIndex);
-                element.data.status = Status.success;
+                element.data.status = Status.norma;
             }).fail(function () {
-            	element.data.status = Status.error;
+            	element.data.status = Status.abnormal;
             });
         },
         // 显示下拉框(算法)
