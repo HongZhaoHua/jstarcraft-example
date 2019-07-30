@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
-import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.rns.recommend.Recommender;
@@ -48,10 +47,10 @@ public class MovieService {
 
     private StandardQueryParser queryParser = new StandardQueryParser();
 
-    public void click(int accountIndex, int movieIndex) {
+    public void click(int userIndex, int itemIndex) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
-        qualityFeatures.put(0, accountIndex);
-        qualityFeatures.put(1, movieIndex);
+        qualityFeatures.put(0, userIndex);
+        qualityFeatures.put(1, itemIndex);
         Int2FloatSortedMap quantityFeatures = new Int2FloatRBTreeMap();
         dataModule.associateInstance(qualityFeatures, quantityFeatures, 5F);
     }

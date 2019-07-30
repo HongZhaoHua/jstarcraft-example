@@ -8,7 +8,7 @@
 <title>推荐与搜索</title>
 </head>
 <body>
-    <div id="container" class="container" :class="{ show: isInit }">
+    <div id="container" class="container" :class="{ show: isShow }">
         <!--顶部-->
         <div class="row mt-4">
             <div class="col text-right">
@@ -49,7 +49,7 @@
                         <div class="list-wrap" v-if="result.status==='success'&&result.data.length>0">
                             <div class="list-content" :style="result.style">
                                 <ul class="list clearfix" v-for="list in result.data">
-                                    <li v-for="item in list" :style="{width:100/columns+'%'}">
+                                    <li v-for="item in list" :style="{width:100/columns+'%'}" @click="click(item.id)">
                                         <div class="img-wrap">
                                             <img class="img" :src="'./images/movies/'+item.title.replace(',','')+'.jpg'" alt="" />
                                         </div>

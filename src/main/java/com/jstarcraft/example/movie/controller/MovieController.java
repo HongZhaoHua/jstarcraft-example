@@ -62,6 +62,18 @@ public class MovieController {
     }
 
     /**
+     * 点击
+     * 
+     * @param userIndex
+     * @param itemIndex
+     */
+    @ApiOperation(value = "点击", notes = "点击")
+    @GetMapping("/click")
+    public void click(@RequestParam int userIndex, @RequestParam int itemIndex) {
+        movieService.click(userIndex, itemIndex);
+    }
+
+    /**
      * 获取搜索电影
      * 
      * @param userIndex

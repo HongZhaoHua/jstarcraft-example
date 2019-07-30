@@ -4,6 +4,7 @@ var apiUrl = {
     getUsers: apiDomain + '/movies/getUsers', // 获取用户api地址
     recommend: apiDomain + '/movies/getRecommendItems', // 推荐api地址
     search: apiDomain + '/movies/getSearchItems', // 搜索api地址
+    click: apiDomain + '/movies/click', // 点击api地址
 };
 
 var pageSize = 10; // 每页显示多少部电影
@@ -37,7 +38,7 @@ var cacheData = []; // 缓存数据,用于前端分页
 new Vue({
     el: '#container',
     data: {
-        isInit: false, // 是否已初始化,防止一进来看到页面乱码
+        isShow: false, // 是否已初始化,防止一进来看到页面乱码
         type: 'search', // 类型(search:搜索 recommend:推荐)
         columns: columns, // 一列显示多少部电影
         users: {
@@ -63,17 +64,17 @@ new Vue({
     },
     mounted: function () {
         // 获取页面链接
-        this.init();
+        this.initialize();
     },
     methods: {
         // 初始化
-        init: function () {
+        initialize: function () {
             // 获取链接参数
             var params = this.getParams(location.search);
             if (params && params.type) {
                 this.type = params.type;
             }
-            this.isInit = true;
+            this.isShow = true;
             this.getUsers();
             // this.search();
             var me = this;
@@ -102,6 +103,21 @@ new Vue({
                 me.users.data = res.content;
             }).fail(function () {
             });
+        },
+        // 点击(电影)
+        click: function (itemId) {
+            var data = {};
+            if (this.users.index !== -1) {
+                data.userIndex = this.users.data[this.users.index].id;
+            }
+            data.itemIndex = itemId;
+            var query = {
+                method: "GET",
+                url: apiUrl.click,
+                dataType: "json",
+                data: data
+            };
+            $.ajax(query);
         },
         // 获取物品(电影)
         getItems: function () {
