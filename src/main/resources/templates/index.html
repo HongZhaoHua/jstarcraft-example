@@ -46,7 +46,7 @@
                     <div class="title-wrap">电影</div>
                     <div class="content">
                         <!--有内容-->
-                        <div class="list-wrap" v-if="data.status==='norma'&&data.content.length>0">
+                        <div class="list-wrap" v-if="data.status==='normal'&&data.content.length>0">
                             <div class="list-content" :style="data.style">
                                 <ul class="list clearfix" v-for="list in data.content">
                                     <li v-for="item in list" :style="{width:100/columns+'%'}" @click="click(item.id)">
@@ -62,7 +62,7 @@
                             <div class="btn-page next" @click="nextPage">下一页</div>
                         </div>
                         <!--内容为空-->
-                        <div class="empty-wrap" v-if="data.status==='norma'&&data.content.length===0">没有电影....</div>
+                        <div class="empty-wrap" v-if="data.status==='normal'&&data.content.length===0">没有电影....</div>
                         <!--获取数据出错-->
                         <div class="empty-wrap text-danger" v-if="data.status==='abnormal'">获取电影数据出错,请检查网络连接</div>
                         <!--加载中-->

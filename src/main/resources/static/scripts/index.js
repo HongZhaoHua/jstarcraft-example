@@ -28,7 +28,7 @@ var recommendKeys = [
 
 var Status = {
     load: 'load', // 加载中
-    norma: 'norma', // 成功
+    normal: 'normal', // 成功
     abnormal: 'abnormal', // 失败
 };
 
@@ -157,7 +157,7 @@ new Vue({
                 cache = data.content;
                 element.data.pageCount = Math.ceil(cache.length / pageSize);
                 element.showPage(response.pageIndex);
-                element.data.status = Status.norma;
+                element.data.status = Status.normal;
             }).fail(function () {
             	element.data.status = Status.abnormal;
             });
