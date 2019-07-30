@@ -33,7 +33,7 @@ var Status = {
     error: 'error', // 失败
 };
 
-var cacheData = []; // 缓存数据,用于前端分页
+var cache = []; // 缓存数据,用于前端分页
 
 new Vue({
     el: '#container',
@@ -155,8 +155,8 @@ new Vue({
             response.content = [];
             response.style = {};
             $.ajax(query).done(function (data) {
-                cacheData = data.content;
-                element.data.pageCount = Math.ceil(cacheData.length / pageSize);
+                cache = data.content;
+                element.data.pageCount = Math.ceil(cache.length / pageSize);
                 element.showPage(response.pageIndex);
                 element.data.status = Status.success;
             }).fail(function () {
@@ -199,7 +199,7 @@ new Vue({
             // 取第几页显示
             var length = this.data.content.length;
             if (length < pageIndex) {
-                var array = cacheData.slice((pageIndex - 1) * pageSize, (pageIndex - 1) * pageSize + pageSize);
+                var array = cache.slice((pageIndex - 1) * pageSize, (pageIndex - 1) * pageSize + pageSize);
                 this.data.content.push(array);
             }
             this.data.pageIndex = pageIndex;
