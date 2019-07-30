@@ -186,8 +186,8 @@ new Vue({
                     index = 1;
                 }
                 var parameters = {};
-                query.substr(index).split('&').forEach(item => {
-                    var keyValue = item.split('=');
+                query.substr(index).split('&').forEach(parameter => {
+                    var keyValue = parameter.split('=');
                     parameters[keyValue[0]] = keyValue[1];
                 });
                 return parameters;
@@ -213,7 +213,7 @@ new Vue({
             this.data.style = style;
         },
         // 上一页
-        prevPage: function () {
+        previousPage: function () {
             if (this.data.pageIndex > 1) {
                 this.showPage(this.data.pageIndex - 1);
             }
