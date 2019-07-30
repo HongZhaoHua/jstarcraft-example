@@ -119,12 +119,6 @@ new Vue({
         },
         // 获取物品(电影)
         getItems: function () {
-            var response = this.data;
-            response.status = Status.loading;
-            response.page = 1;
-            response.content = [];
-            response.style = {};
-
             var element = this;
 
             // 请求参数
@@ -154,6 +148,12 @@ new Vue({
                 dataType: "json",
                 data: request
             };
+            
+            var response = this.data;
+            response.status = Status.loading;
+            response.page = 1;
+            response.content = [];
+            response.style = {};
             $.ajax(query).done(function (data) {
                 cacheData = data.content;
                 element.data.pageCount = Math.ceil(cacheData.length / pageSize);
