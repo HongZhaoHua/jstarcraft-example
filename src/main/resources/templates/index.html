@@ -28,12 +28,12 @@
                                 <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithm.data" :class="{ selected: algorithm.index=== index}" @click="selectAlgorithm(index)">{{item.name}}</a>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-outline-primary" @click="getRecommend">推荐</button>
+                        <button type="button" class="btn btn-outline-primary" @click="getItems">推荐</button>
                     </div>
                     <!--搜索输入-->
                     <div class="input-group mb-3" v-if="type==='search'">
                         <input type="text" class="form-control" placeholder="请输入电影标题" v-model="keyword" @keyup.enter="search">
-                        <button class="btn btn-outline-primary" type="button" @click="search">搜索</button>
+                        <button class="btn btn-outline-primary" type="button" @click="getItems">搜索</button>
                     </div>
                 </div>
             </div>
