@@ -55,7 +55,7 @@ new Vue({
         keyword: '', // 搜索关键字
         // 搜索结果
         data: {
-            page: 1, // 当前是第几页
+            pageIndex: 1, // 当前是第几页
             pageCount: 1, // 总共有多少页
             content: [], // 数据
             style: {},
@@ -151,13 +151,13 @@ new Vue({
             
             var response = this.data;
             response.status = Status.loading;
-            response.page = 1;
+            response.pageIndex = 1;
             response.content = [];
             response.style = {};
             $.ajax(query).done(function (data) {
                 cacheData = data.content;
                 element.data.pageCount = Math.ceil(cacheData.length / pageSize);
-                element.showPage(response.page);
+                element.showPage(response.pageIndex);
                 element.data.status = Status.success;
             }).fail(function () {
             	element.data.status = Status.error;
@@ -202,7 +202,7 @@ new Vue({
                 var array = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
                 this.data.content.push(array);
             }
-            this.data.page = page;
+            this.data.pageIndex = page;
             // 计算位移
             var delta = -(page - 1) * 100;
             var translate = `translate(${delta}%,0)`;
@@ -214,14 +214,14 @@ new Vue({
         },
         // 上一页
         prevPage: function () {
-            if (this.data.page > 1) {
-                this.showPage(this.data.page - 1);
+            if (this.data.pageIndex > 1) {
+                this.showPage(this.data.pageIndex - 1);
             }
         },
         // 下一页
         nextPage: function () {
-            if (this.data.page < this.data.pageCount) {
-                this.showPage(this.data.page + 1);
+            if (this.data.pageIndex < this.data.pageCount) {
+                this.showPage(this.data.pageIndex + 1);
             }
         }
     }
