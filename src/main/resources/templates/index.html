@@ -22,17 +22,17 @@
                 <div class="inline-block">
                     <!--推荐算法-->
                     <div class="input-group mb-3" v-if="type==='recommend'">
-                        <div class="dropdown" :class="{ isShow: algorithms.isShow }">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showAlgorithms">{{algorithms.index===-1?'请选择算法':algorithms.content[algorithms.index].name}}</button>
+                        <div class="dropdown" :class="{ isShow: recommendKeys.isShow }">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showRecommendKeys">{{recommendKeys.index===-1?'请选择算法':recommendKeys.content[recommendKeys.index].name}}</button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in algorithms.content" :class="{ selected: algorithms.index=== index}" @click="selectAlgorithms(index)">{{item.name}}</a>
+                                <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in recommendKeys.content" :class="{ selected: recommendKeys.index=== index}" @click="selectRecommendKey(index)">{{item.name}}</a>
                             </div>
                         </div>
                         <button type="button" class="btn btn-outline-primary" @click="getItems">推荐</button>
                     </div>
                     <!--搜索输入-->
                     <div class="input-group mb-3" v-if="type==='search'">
-                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="searchKey" @keyup.enter="search">
+                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="searchKey">
                         <button class="btn btn-outline-primary" type="button" @click="getItems">搜索</button>
                     </div>
                 </div>

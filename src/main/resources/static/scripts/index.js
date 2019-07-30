@@ -10,7 +10,7 @@ var apiUrl = {
 var pageSize = 10; // 每页显示多少部电影
 var columns = 5; // 一列显示多少部电影
 
-var algorithms = [
+var recommendKeys = [
     {
         name: 'MostPopular',
         value: 'MostPopular',
@@ -46,9 +46,9 @@ new Vue({
             content: [],
             index: -1
         },
-        algorithms: {
+        recommendKeys: {
             isShow: false,  // 是否显示算法下拉列表
-            content: algorithms,
+            content: recommendKeys,
             index: -1
         },
         // 推荐
@@ -82,7 +82,7 @@ new Vue({
                 if (className && className.indexOf('dropdown-toggle') !== -1) {
                 	return;
                 }
-                element.algorithms.isShow = false;
+                element.recommendKeys.isShow = false;
             	element.users.isShow = false;
             });
         },
@@ -125,13 +125,13 @@ new Vue({
             var request;
             if (this.type === 'recommend') {
                 // 判断是否选择了算法
-                if (this.algorithms.index === -1) {
+                if (this.recommendKeys.index === -1) {
                     alert('请先选择推荐算法');
                     return;
                 }
                 // 推荐
                 request = {
-                    recommendKey: this.algorithms.content[this.algorithms.index].value
+                    recommendKey: this.recommendKeys.content[this.recommendKeys.index].value
                 };
             } else {
                 // 搜索
@@ -164,12 +164,12 @@ new Vue({
             });
         },
         // 显示下拉框(算法)
-        showAlgorithms: function () {
-            this.algorithms.isShow = true;
+        showRecommendKeys: function () {
+            this.recommendKeys.isShow = true;
         },
         // 选择(算法)
-        selectAlgorithms: function (index) {
-            this.algorithms.index = index;
+        selectRecommendKey: function (index) {
+            this.recommendKeys.index = index;
         },
         // 显示下拉框(用户)
         showUser: function () {
