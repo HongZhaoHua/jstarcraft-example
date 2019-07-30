@@ -10,7 +10,7 @@ var apiUrl = {
 var pageSize = 10; // 每页显示多少部电影
 var columns = 5; // 一列显示多少部电影
 
-var algorithmList = [
+var algorithms = [
     {
         name: 'MostPopular',
         value: 'MostPopular',
@@ -48,7 +48,7 @@ new Vue({
         },
         algorithms: {
             isShow: false,  // 是否显示算法下拉列表
-            content: algorithmList,
+            content: algorithms,
             index: -1
         },
         // 推荐
