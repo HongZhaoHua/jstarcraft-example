@@ -86,6 +86,21 @@ new Vue({
             	element.users.isShow = false;
             });
         },
+        // 点击(电影)
+        click: function (itemId) {
+            var data = {};
+            if (this.users.index !== -1) {
+                data.userIndex = this.users.data[this.users.index].id;
+            }
+            data.itemIndex = itemId;
+            var query = {
+                method: "GET",
+                url: apiUrl.click,
+                dataType: "json",
+                data: data
+            };
+            $.ajax(query);
+        },
         // 获取用户
         getUsers: function () {
             var element = this;
@@ -101,21 +116,6 @@ new Vue({
             	element.users.data = res.content;
             }).fail(function () {
             });
-        },
-        // 点击(电影)
-        click: function (itemId) {
-            var data = {};
-            if (this.users.index !== -1) {
-                data.userIndex = this.users.data[this.users.index].id;
-            }
-            data.itemIndex = itemId;
-            var query = {
-                method: "GET",
-                url: apiUrl.click,
-                dataType: "json",
-                data: data
-            };
-            $.ajax(query);
         },
         // 获取物品(电影)
         getItems: function () {
