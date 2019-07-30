@@ -27,7 +27,6 @@ var recommendKeys = [
 
 
 var Status = {
-    ready: 'ready', // 初始化
     load: 'load', // 加载中
     norma: 'norma', // 成功
     abnormal: 'abnormal', // 失败
@@ -59,7 +58,7 @@ new Vue({
             pageCount: 1, // 总共有多少页
             content: [], // 数据
             style: {},
-            status: Status.ready
+            status: Status.load
         }
     },
     mounted: function () {
