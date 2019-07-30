@@ -57,7 +57,7 @@ new Vue({
         result: {
             page: 1, // 当前是第几页
             pageCount: 1, // 总共有多少页
-            data: [], // 数据
+            content: [], // 数据
             style: {},
             status: Status.ready
         }
@@ -122,7 +122,7 @@ new Vue({
             var result = this.result;
             result.status = Status.loading;
             result.page = 1;
-            result.data = [];
+            result.content = [];
             result.style = {};
 
             var element = this;
@@ -197,11 +197,10 @@ new Vue({
         // 显示对应的页数
         showPage: function (page) {
             // 取第几页显示
-            var { length } = this.result.data;
+            var length = this.result.content.length;
             if (length < page) {
                 var arr = cacheData.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-                // this.result.data=this.result.data.concat(arr);
-                this.result.data.push(arr);
+                this.result.content.push(arr);
             }
             this.result.page = page;
             // 计算位移

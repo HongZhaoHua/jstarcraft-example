@@ -46,9 +46,9 @@
                     <div class="title-wrap">电影</div>
                     <div class="content">
                         <!--有内容-->
-                        <div class="list-wrap" v-if="result.status==='success'&&result.data.length>0">
+                        <div class="list-wrap" v-if="result.status==='success'&&result.content.length>0">
                             <div class="list-content" :style="result.style">
-                                <ul class="list clearfix" v-for="list in result.data">
+                                <ul class="list clearfix" v-for="list in result.content">
                                     <li v-for="item in list" :style="{width:100/columns+'%'}" @click="click(item.id)">
                                         <div class="img-wrap">
                                             <img class="img" :src="'./images/movies/'+item.title.replace(',','')+'.jpg'" alt="" />
@@ -62,7 +62,7 @@
                             <div class="btn-page next" @click="nextPage">下一页</div>
                         </div>
                         <!--内容为空-->
-                        <div class="empty-wrap" v-if="result.status==='success'&&result.data.length===0">没有电影....</div>
+                        <div class="empty-wrap" v-if="result.status==='success'&&result.content.length===0">没有电影....</div>
                         <!--获取数据出错-->
                         <div class="empty-wrap text-danger" v-if="result.status==='error'">获取电影数据出错,请检查网络连接</div>
                         <!--加载中-->
