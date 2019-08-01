@@ -9,12 +9,12 @@
     * [个性化推荐](#个性化推荐)
     * [个性化搜索](#个性化搜索)
 * [安装](#安装)
-    * [安装JStarCraft Core框架](#安装JStarCraft Core框架)
-    * [安装JStarCraft AI框架](#安装JStarCraft AI框架)
-    * [安装JStarCraft RNS引擎](#安装JStarCraft RNS引擎)
-    * [打包JStarCraft Example项目](#打包JStarCraft Example项目)
+    * [安装JStarCraft Core框架](#安装JStarCraft-Core框架)
+    * [安装JStarCraft AI框架](#安装JStarCraft-AI框架)
+    * [安装JStarCraft RNS引擎](#安装JStarCraft-RNS引擎)
+    * [打包JStarCraft Example项目](#打包JStarCraft-Example项目)
 * [使用](#使用)
-    * [运行JStarCraft Example项目](#运行JStarCraft Example项目)
+    * [运行JStarCraft Example项目](#运行JStarCraft-Example项目)
     * [使用个性化推荐](#使用个性化推荐)
     * [使用个性化搜索](#使用个性化搜索)
 * [架构](#架构)
@@ -72,7 +72,7 @@ JStarCraft Examlpe要求使用者具备以下环境:
 * JDK 8或者以上
 * Maven 3
 
-#### 安装JStarCraft Core框架
+#### 安装JStarCraft-Core框架
 
 ```shell
 git clone https://github.com/HongZhaoHua/jstarcraft-core.git
@@ -80,7 +80,7 @@ git clone https://github.com/HongZhaoHua/jstarcraft-core.git
 mvn install -Dmaven.test.skip=true
 ```
 
-#### 安装JStarCraft AI框架
+#### 安装JStarCraft-AI框架
 
 ```shell
 git clone https://github.com/HongZhaoHua/jstarcraft-ai.git
@@ -88,7 +88,7 @@ git clone https://github.com/HongZhaoHua/jstarcraft-ai.git
 mvn install -Dmaven.test.skip=true
 ```
 
-####  安装JStarCraft RNS引擎
+####  安装JStarCraft-RNS引擎
 
 ```shell
 git clone https://github.com/HongZhaoHua/jstarcraft-rns.git
@@ -96,7 +96,7 @@ git clone https://github.com/HongZhaoHua/jstarcraft-rns.git
 mvn install -Dmaven.test.skip=true
 ```
 
-#### 打包JStarCraft Example项目
+#### 打包JStarCraft-Example项目
 
 ```shell
 git clone https://github.com/HongZhaoHua/jstarcraft-example.git
@@ -108,7 +108,7 @@ mvn package -Dmaven.test.skip=true
 
 ## 使用
 
-#### 运行JStarCraft Example项目
+#### 运行JStarCraft-Example项目
 
 ```shell
 java -jar jstarcraf-example-1.0.jar
