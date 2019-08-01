@@ -182,6 +182,7 @@ java -jar jstarcraf-example-1.0.jar
 ## 致谢
 
 特别感谢[LibRec团队](https://github.com/guoguibing/librec)在推荐方面提供的支持与帮助.
+
 特别感谢[陆徐刚](https://github.com/luxugang/Lucene-7.5.0)在搜索方面提供的支持与帮助.
 
 ****
