@@ -46,11 +46,16 @@ JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZ
 本演示项目使用的推荐算法涵盖**基准算法**,**协同算法**与**内容算法**3个方面:
 
 基准算法
+* AssociationRule
 * MostPopular
+* Random
 
 协同算法
+* BPR
 * ItemKNN
+* LDA
 * UserKNN
+* WRMF
 
 内容算法
 

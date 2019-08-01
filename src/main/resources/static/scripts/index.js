@@ -12,16 +12,29 @@ var columns = 5; // 一列显示多少部电影
 
 var recommendKeys = [
     {
-        name: 'MostPopular',
-        value: 'MostPopular',
-    },
-    {
+        name: 'AssociationRule',
+        value: 'AssociationRule',
+    }, {
+        name: 'BPR',
+        value: 'BPR',
+    }, {
         name: 'ItemKNN',
         value: 'ItemKNN',
-    },
-    {
+    }, {
+        name: 'LDA',
+        value: 'LDA',
+    }, {
+        name: 'MostPopular',
+        value: 'MostPopular',
+    }, {
+        name: 'Random',
+        value: 'Random',
+    }, {
         name: 'UserKNN',
         value: 'UserKNN',
+    }, {
+        name: 'WRMF',
+        value: 'WRMF',
     }
 ];
 
@@ -68,7 +81,7 @@ new Vue({
     methods: {
         // 初始化
         initialize: function () {
-        	var element = this;
+            var element = this;
             // 获取链接参数
             var parameters = this.getParameters(location.search);
             if (parameters && parameters.type) {
@@ -79,10 +92,10 @@ new Vue({
             document.addEventListener('click', function (event) {
                 var className = event.target.getAttribute('class');
                 if (className && className.indexOf('dropdown-toggle') !== -1) {
-                	return;
+                    return;
                 }
                 element.recommendKeys.isShow = false;
-            	element.users.isShow = false;
+                element.users.isShow = false;
             });
         },
         // 点击(电影)
@@ -112,7 +125,7 @@ new Vue({
                 data: data
             };
             $.ajax(query).done(function (data) {
-            	element.users.content = data.content;
+                element.users.content = data.content;
             }).fail(function () {
             });
         },
@@ -134,12 +147,12 @@ new Vue({
                 };
             } else {
                 // 搜索
-            	request = {
+                request = {
                     searchKey: this.searchKey
                 };
             }
             if (this.users.index !== -1) {
-            	request.userIndex = this.users.content[this.users.index].id;
+                request.userIndex = this.users.content[this.users.index].id;
             }
             var query = {
                 method: "GET",
@@ -147,7 +160,7 @@ new Vue({
                 dataType: "json",
                 data: request
             };
-            
+
             var response = this.data;
             response.status = state.load;
             response.pageIndex = 1;
@@ -159,7 +172,7 @@ new Vue({
                 element.showPage(response.pageIndex);
                 element.data.status = state.normal;
             }).fail(function () {
-            	element.data.status = state.abnormal;
+                element.data.status = state.abnormal;
             });
         },
         // 显示下拉框(算法)
