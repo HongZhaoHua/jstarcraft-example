@@ -22,6 +22,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.jstarcraft.ai.data.DataInstance;
 import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.attribute.QualityAttribute;
@@ -138,21 +139,25 @@ public class DataConfigurer {
         TreeMap<Integer, String> configuration = new TreeMap<>();
         configuration.put(1, "user");
         configuration.put(2, "item");
+        configuration.put(3, "instant");
+        configuration.put(4, "score");
         DataModule dataModule = dataSpace.makeDenseModule("score", configuration, 1000000);
 
         File file = new File("data/movielens/ml-100k/score.txt");
         DataConverter<InputStream> convertor = new CsvConverter(' ', dataSpace.getQualityAttributes(), dataSpace.getQuantityAttributes());
         try (InputStream stream = new FileInputStream(file)) {
-            convertor.convert(dataModule, stream, null, 3, null);
+            convertor.convert(dataModule, stream);
         }
 
         int userDimension = dataModule.getQualityInner("user");
         int itemDimension = dataModule.getQualityInner("item");
-        dataModule.forEach((instance) -> {
+        int scoreDimension = dataModule.getQuantityInner("score");
+        for (DataInstance instance : dataModule) {
             int userIndex = instance.getQualityFeature(userDimension);
             int itemIndex = instance.getQualityFeature(itemDimension);
+            instance.setQuantityMark(instance.getQuantityFeature(scoreDimension));
             users.get(userIndex).click(itemIndex);
-        });
+        }
 
         return dataModule;
     }
