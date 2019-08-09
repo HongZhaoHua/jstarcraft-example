@@ -64,7 +64,9 @@ public class DataConfigurer {
         Map<String, Class<?>> qualityDifinitions = new HashMap<>();
         qualityDifinitions.put("user", int.class);
         qualityDifinitions.put("item", int.class);
+        qualityDifinitions.put("instant", int.class);
         Map<String, Class<?>> quantityDifinitions = new HashMap<>();
+        quantityDifinitions.put("score", float.class);
         DataSpace dataSpace = new DataSpace(qualityDifinitions, quantityDifinitions);
         return dataSpace;
     }

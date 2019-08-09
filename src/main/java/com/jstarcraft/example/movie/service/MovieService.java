@@ -71,7 +71,7 @@ public class MovieService {
         Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Recommender recommender = recommenders.get(recommendKey);
-        ArrayInstance instance = new ArrayInstance(2, 0);
+        ArrayInstance instance = new ArrayInstance(3, 1);
         User user = users.get(userIndex);
         int itemSize = items.size();
         for (int itemIndex = 0; itemIndex < itemSize; itemIndex++) {
@@ -79,8 +79,8 @@ public class MovieService {
             if (user.isClicked(itemIndex)) {
                 continue;
             }
-            instance.setQualityFeature(1, userIndex);
-            instance.setQualityFeature(0, itemIndex);
+            instance.setQualityFeature(2, userIndex);
+            instance.setQualityFeature(1, itemIndex);
             recommender.predict(instance);
             Item item = items.get(itemIndex);
             float score = instance.getQuantityMark();

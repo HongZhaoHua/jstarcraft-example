@@ -1,6 +1,7 @@
 package com.jstarcraft.example;
 
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.concurrent.Future;
 
 import org.springframework.context.annotation.Bean;
@@ -11,7 +12,7 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.environment.EnvironmentContext;
 import com.jstarcraft.ai.environment.EnvironmentFactory;
 import com.jstarcraft.core.common.reflection.ReflectionUtility;
-import com.jstarcraft.rns.configure.Configurator;
+import com.jstarcraft.core.utility.Configurator;
 import com.jstarcraft.rns.recommend.Recommender;
 import com.jstarcraft.rns.recommend.benchmark.RandomGuessRecommender;
 import com.jstarcraft.rns.recommend.benchmark.ranking.MostPopularRecommender;
@@ -31,7 +32,17 @@ import com.jstarcraft.rns.recommend.extend.ranking.AssociationRuleRecommender;
 @Configuration
 public class RecommendConfigurer {
 
-    private Configurator configuration = Configurator.valueOf();
+    private Configurator configuration;
+
+    {
+        try {
+            Properties keyValues = new Properties();
+            keyValues.load(this.getClass().getResourceAsStream("/data.properties"));
+            configuration = new Configurator(keyValues);
+        } catch (Exception exception) {
+            throw new RuntimeException();
+        }
+    }
 
     private Recommender getRecommender(Class<? extends Recommender> clazz, DataSpace dataSpace, DataModule dataModule) throws Exception {
         Recommender recommender = ReflectionUtility.getInstance(clazz);
