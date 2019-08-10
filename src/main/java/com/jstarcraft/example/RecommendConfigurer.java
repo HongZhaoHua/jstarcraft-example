@@ -13,15 +13,15 @@ import com.jstarcraft.ai.environment.EnvironmentContext;
 import com.jstarcraft.ai.environment.EnvironmentFactory;
 import com.jstarcraft.core.common.reflection.ReflectionUtility;
 import com.jstarcraft.core.utility.Configurator;
-import com.jstarcraft.rns.recommend.Recommender;
-import com.jstarcraft.rns.recommend.benchmark.RandomGuessRecommender;
-import com.jstarcraft.rns.recommend.benchmark.ranking.MostPopularRecommender;
-import com.jstarcraft.rns.recommend.collaborative.ranking.BPRRecommender;
-import com.jstarcraft.rns.recommend.collaborative.ranking.ItemKNNRankingRecommender;
-import com.jstarcraft.rns.recommend.collaborative.ranking.LDARecommender;
-import com.jstarcraft.rns.recommend.collaborative.ranking.UserKNNRankingRecommender;
-import com.jstarcraft.rns.recommend.collaborative.ranking.WRMFRecommender;
-import com.jstarcraft.rns.recommend.extend.ranking.AssociationRuleRecommender;
+import com.jstarcraft.rns.model.Recommender;
+import com.jstarcraft.rns.model.benchmark.RandomGuessRecommender;
+import com.jstarcraft.rns.model.benchmark.ranking.MostPopularRecommender;
+import com.jstarcraft.rns.model.collaborative.ranking.BPRRecommender;
+import com.jstarcraft.rns.model.collaborative.ranking.ItemKNNRankingRecommender;
+import com.jstarcraft.rns.model.collaborative.ranking.LDARecommender;
+import com.jstarcraft.rns.model.collaborative.ranking.UserKNNRankingRecommender;
+import com.jstarcraft.rns.model.collaborative.ranking.WRMFRecommender;
+import com.jstarcraft.rns.model.extend.ranking.AssociationRuleRecommender;
 
 /**
  * 推荐配置器

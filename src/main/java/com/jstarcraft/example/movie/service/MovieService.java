@@ -15,7 +15,7 @@ import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.orm.lucene.Searcher;
 import com.jstarcraft.core.utility.KeyValue;
-import com.jstarcraft.rns.recommend.Recommender;
+import com.jstarcraft.rns.model.Recommender;
 
 import it.unimi.dsi.fastutil.floats.FloatList;
 import it.unimi.dsi.fastutil.ints.Int2FloatRBTreeMap;
