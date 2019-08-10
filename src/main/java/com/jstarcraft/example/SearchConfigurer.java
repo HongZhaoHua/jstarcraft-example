@@ -11,9 +11,9 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.jstarcraft.core.orm.lucene.Searcher;
+import com.jstarcraft.core.orm.lucene.converter.SearchCodec;
 import com.jstarcraft.example.movie.service.Item;
-import com.jstarcraft.rns.search.Searcher;
-import com.jstarcraft.rns.search.converter.SearchCodec;
 
 /**
  * 搜索配置器

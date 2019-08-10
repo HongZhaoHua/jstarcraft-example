@@ -3,9 +3,9 @@ package com.jstarcraft.example.movie.service;
 import java.time.LocalDate;
 
 import com.jstarcraft.core.common.identification.IdentityObject;
-import com.jstarcraft.rns.search.annotation.SearchIndex;
-import com.jstarcraft.rns.search.annotation.SearchSort;
-import com.jstarcraft.rns.search.annotation.SearchStore;
+import com.jstarcraft.core.orm.lucene.annotation.SearchIndex;
+import com.jstarcraft.core.orm.lucene.annotation.SearchSort;
+import com.jstarcraft.core.orm.lucene.annotation.SearchStore;
 
 /**
  * 电影

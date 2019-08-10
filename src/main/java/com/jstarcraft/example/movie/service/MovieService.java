@@ -3,6 +3,8 @@ package com.jstarcraft.example.movie.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.Query;
@@ -11,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.module.ArrayInstance;
+import com.jstarcraft.core.orm.lucene.Searcher;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.rns.recommend.Recommender;
-import com.jstarcraft.rns.search.Searcher;
 
 import it.unimi.dsi.fastutil.floats.FloatList;
 import it.unimi.dsi.fastutil.ints.Int2FloatRBTreeMap;
@@ -47,10 +49,26 @@ public class MovieService {
 
     private StandardQueryParser queryParser = new StandardQueryParser();
 
+    private int userDimension;
+
+    private int itemDimension;
+
+    private int qualityOrder;
+
+    private int quantityOrder;
+
+    @PostConstruct
+    void postConstruct() {
+        userDimension = dataModule.getQualityInner("user");
+        itemDimension = dataModule.getQualityInner("item");
+        qualityOrder = dataModule.getQualityOrder();
+        quantityOrder = dataModule.getQuantityOrder();
+    }
+
     public void click(int userIndex, int itemIndex) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
-        qualityFeatures.put(0, userIndex);
-        qualityFeatures.put(1, itemIndex);
+        qualityFeatures.put(userDimension, userIndex);
+        qualityFeatures.put(itemDimension, itemIndex);
         Int2FloatSortedMap quantityFeatures = new Int2FloatRBTreeMap();
         dataModule.associateInstance(qualityFeatures, quantityFeatures, 5F);
     }
@@ -71,7 +89,7 @@ public class MovieService {
         Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Recommender recommender = recommenders.get(recommendKey);
-        ArrayInstance instance = new ArrayInstance(3, 1);
+        ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         User user = users.get(userIndex);
         int itemSize = items.size();
         for (int itemIndex = 0; itemIndex < itemSize; itemIndex++) {
@@ -79,8 +97,8 @@ public class MovieService {
             if (user.isClicked(itemIndex)) {
                 continue;
             }
-            instance.setQualityFeature(2, userIndex);
-            instance.setQualityFeature(1, itemIndex);
+            instance.setQualityFeature(userDimension, userIndex);
+            instance.setQualityFeature(itemDimension, itemIndex);
             recommender.predict(instance);
             Item item = items.get(itemIndex);
             float score = instance.getQuantityMark();
