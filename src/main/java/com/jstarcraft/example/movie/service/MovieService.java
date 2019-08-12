@@ -15,7 +15,7 @@ import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.orm.lucene.Searcher;
 import com.jstarcraft.core.utility.KeyValue;
-import com.jstarcraft.rns.model.Recommender;
+import com.jstarcraft.rns.model.Model;
 
 import it.unimi.dsi.fastutil.floats.FloatList;
 import it.unimi.dsi.fastutil.ints.Int2FloatRBTreeMap;
@@ -33,7 +33,7 @@ public class MovieService {
 
     /** 推荐器 */
     @Autowired
-    private HashMap<String, Recommender> recommenders;
+    private HashMap<String, Model> recommenders;
 
     /** 搜索器 */
     @Autowired
@@ -88,7 +88,7 @@ public class MovieService {
         // 标识-得分映射
         Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Recommender recommender = recommenders.get(recommendKey);
+        Model recommender = recommenders.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         User user = users.get(userIndex);
         int itemSize = items.size();

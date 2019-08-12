@@ -13,15 +13,15 @@ import com.jstarcraft.ai.environment.EnvironmentContext;
 import com.jstarcraft.ai.environment.EnvironmentFactory;
 import com.jstarcraft.core.common.reflection.ReflectionUtility;
 import com.jstarcraft.core.utility.Configurator;
-import com.jstarcraft.rns.model.Recommender;
-import com.jstarcraft.rns.model.benchmark.RandomGuessRecommender;
-import com.jstarcraft.rns.model.benchmark.ranking.MostPopularRecommender;
-import com.jstarcraft.rns.model.collaborative.ranking.BPRRecommender;
-import com.jstarcraft.rns.model.collaborative.ranking.ItemKNNRankingRecommender;
-import com.jstarcraft.rns.model.collaborative.ranking.LDARecommender;
-import com.jstarcraft.rns.model.collaborative.ranking.UserKNNRankingRecommender;
-import com.jstarcraft.rns.model.collaborative.ranking.WRMFRecommender;
-import com.jstarcraft.rns.model.extend.ranking.AssociationRuleRecommender;
+import com.jstarcraft.rns.model.Model;
+import com.jstarcraft.rns.model.benchmark.RandomGuessModel;
+import com.jstarcraft.rns.model.benchmark.ranking.MostPopularModel;
+import com.jstarcraft.rns.model.collaborative.ranking.BPRModel;
+import com.jstarcraft.rns.model.collaborative.ranking.ItemKNNRankingModel;
+import com.jstarcraft.rns.model.collaborative.ranking.LDAModel;
+import com.jstarcraft.rns.model.collaborative.ranking.UserKNNRankingModel;
+import com.jstarcraft.rns.model.collaborative.ranking.WRMFModel;
+import com.jstarcraft.rns.model.extend.ranking.AssociationRuleModel;
 
 /**
  * 推荐配置器
@@ -44,8 +44,8 @@ public class RecommendConfigurer {
         }
     }
 
-    private Recommender getRecommender(Class<? extends Recommender> clazz, DataSpace dataSpace, DataModule dataModule) throws Exception {
-        Recommender recommender = ReflectionUtility.getInstance(clazz);
+    private Model getRecommender(Class<? extends Model> clazz, DataSpace dataSpace, DataModule dataModule) throws Exception {
+        Model recommender = ReflectionUtility.getInstance(clazz);
         EnvironmentContext context = EnvironmentFactory.getContext();
         Future<?> task = context.doTask(() -> {
             recommender.prepare(configuration, dataModule, dataSpace);
@@ -56,16 +56,16 @@ public class RecommendConfigurer {
     }
 
     @Bean
-    public HashMap<String, Recommender> getRecommenders(DataSpace dataSpace, DataModule dataModule) throws Exception {
-        HashMap<String, Recommender> recommenders = new HashMap<>();
-        recommenders.put("AssociationRule", getRecommender(AssociationRuleRecommender.class, dataSpace, dataModule));
-        recommenders.put("BPR", getRecommender(BPRRecommender.class, dataSpace, dataModule));
-        recommenders.put("ItemKNN", getRecommender(ItemKNNRankingRecommender.class, dataSpace, dataModule));
-        recommenders.put("LDA", getRecommender(LDARecommender.class, dataSpace, dataModule));
-        recommenders.put("MostPopular", getRecommender(MostPopularRecommender.class, dataSpace, dataModule));
-        recommenders.put("Random", getRecommender(RandomGuessRecommender.class, dataSpace, dataModule));
-        recommenders.put("UserKNN", getRecommender(UserKNNRankingRecommender.class, dataSpace, dataModule));
-        recommenders.put("WRMF", getRecommender(WRMFRecommender.class, dataSpace, dataModule));
+    public HashMap<String, Model> getRecommenders(DataSpace dataSpace, DataModule dataModule) throws Exception {
+        HashMap<String, Model> recommenders = new HashMap<>();
+        recommenders.put("AssociationRule", getRecommender(AssociationRuleModel.class, dataSpace, dataModule));
+        recommenders.put("BPR", getRecommender(BPRModel.class, dataSpace, dataModule));
+        recommenders.put("ItemKNN", getRecommender(ItemKNNRankingModel.class, dataSpace, dataModule));
+        recommenders.put("LDA", getRecommender(LDAModel.class, dataSpace, dataModule));
+        recommenders.put("MostPopular", getRecommender(MostPopularModel.class, dataSpace, dataModule));
+        recommenders.put("Random", getRecommender(RandomGuessModel.class, dataSpace, dataModule));
+        recommenders.put("UserKNN", getRecommender(UserKNNRankingModel.class, dataSpace, dataModule));
+        recommenders.put("WRMF", getRecommender(WRMFModel.class, dataSpace, dataModule));
 
         return recommenders;
     }
