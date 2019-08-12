@@ -18,6 +18,9 @@ var recommendKeys = [
         name: 'BPR',
         value: 'BPR',
     }, {
+        name: 'DeepFM',
+        value: 'DeepFM',
+    }, {
         name: 'ItemKNN',
         value: 'ItemKNN',
     }, {
