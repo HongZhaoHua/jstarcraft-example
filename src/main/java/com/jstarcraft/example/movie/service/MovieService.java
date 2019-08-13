@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.module.ArrayInstance;
-import com.jstarcraft.core.orm.lucene.Searcher;
+import com.jstarcraft.core.orm.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.rns.model.Model;
 
@@ -37,7 +37,7 @@ public class MovieService {
 
     /** 搜索器 */
     @Autowired
-    private Searcher searcher;
+    private LuceneEngine searcher;
 
     /** 用户 */
     @Autowired

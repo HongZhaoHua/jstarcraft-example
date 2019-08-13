@@ -22,7 +22,6 @@ import com.jstarcraft.rns.model.collaborative.ranking.LDAModel;
 import com.jstarcraft.rns.model.collaborative.ranking.UserKNNRankingModel;
 import com.jstarcraft.rns.model.collaborative.ranking.WRMFModel;
 import com.jstarcraft.rns.model.extend.ranking.AssociationRuleModel;
-import com.jstarcraft.rns.model.neuralnetwork.DeepFMModel;
 
 /**
  * 推荐配置器
@@ -61,7 +60,6 @@ public class RecommendConfigurer {
         HashMap<String, Model> recommenders = new HashMap<>();
         recommenders.put("AssociationRule", getRecommender(AssociationRuleModel.class, dataSpace, dataModule));
         recommenders.put("BPR", getRecommender(BPRModel.class, dataSpace, dataModule));
-        recommenders.put("DeepFM", getRecommender(DeepFMModel.class, dataSpace, dataModule));
         recommenders.put("ItemKNN", getRecommender(ItemKNNRankingModel.class, dataSpace, dataModule));
         recommenders.put("LDA", getRecommender(LDAModel.class, dataSpace, dataModule));
         recommenders.put("MostPopular", getRecommender(MostPopularModel.class, dataSpace, dataModule));
