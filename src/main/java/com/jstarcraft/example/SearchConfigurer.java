@@ -11,8 +11,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.jstarcraft.core.orm.lucene.LuceneCodec;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
-import com.jstarcraft.core.orm.lucene.converter.SearchCodec;
 import com.jstarcraft.example.movie.service.Item;
 
 /**
@@ -26,7 +26,7 @@ public class SearchConfigurer {
 
     @Bean
     LuceneEngine getSearcher(List<Item> movies) throws Exception {
-        SearchCodec<Item, Item> codec = new SearchCodec<>(Item.class, Item.class);
+        LuceneCodec<Item, Item> codec = new LuceneCodec<>(Item.class, Item.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
         Path path = Paths.get("./lucene");
