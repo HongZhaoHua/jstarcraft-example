@@ -22,6 +22,13 @@
 * [架构](#架构)
 * [概念](#概念)
 * [示例](#示例)
+    * [词项查询](#词项查询)
+    * [范围查询](#范围查询)
+    * [前缀查询](#前缀查询)
+    * [通配符查询](#通配符查询)
+    * [正则查询](#正则查询)
+    * [模糊查询](#模糊查询)
+    * [组合查询](#组合查询)
 * [对比](#对比)
 * [版本](#版本)
 * [参考](#参考)
@@ -41,33 +48,19 @@ JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZ
 
 ## 特性
 
-#### 个性化推荐
+#### 个性化算法
 
-本演示项目使用的推荐算法涵盖**基准算法**,**协同算法**与**内容算法**3个方面:
-
-基准算法
+本演示项目使用了以下8中个性化算法:
 * AssociationRule
 * MostPopular
 * Random
-
-协同算法
 * BPR
 * ItemKNN
 * LDA
 * UserKNN
 * WRMF
 
-内容算法
-
-#### 个性化搜索
-
-* 词项查询
-* 范围查询
-* 前缀查询
-* 通配符查询
-* 正则查询
-* 模糊查询
-* 组合查询
+[点击了解更多的个性化算法](https://github.com/HongZhaoHua/jstarcraft-rns#%E4%B8%AA%E6%80%A7%E5%8C%96%E7%AE%97%E6%B3%95)
 
 ****
 
@@ -153,6 +146,20 @@ java -jar jstarcraf-example-1.0.jar
 
 ## 示例
 
+#### 词项查询
+
+#### 范围查询
+
+#### 前缀查询
+
+#### 通配符查询
+
+#### 正则查询
+
+#### 模糊查询
+
+#### 组合查询
+
 ****
 
 ## 对比
@@ -169,13 +176,15 @@ java -jar jstarcraf-example-1.0.jar
 
 ## 协议
 
+JStarCraft Example遵循[Apache 2.0协议](https://www.apache.org/licenses/LICENSE-2.0.html),一切以其为基础的衍生作品均属于衍生作品的作者.
+
 ****
 
 ## 作者
 
-|作者|洪钊桦|
-|---|---
-|E-mail|110399057@qq.com, jstarcraft@gmail.com
+| 作者 | 洪钊桦 |
+| :----: | :----: |
+| E-mail | 110399057@qq.com, jstarcraft@gmail.com |
 
 ****
 
