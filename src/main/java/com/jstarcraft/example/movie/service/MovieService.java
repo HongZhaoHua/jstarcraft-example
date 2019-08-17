@@ -31,13 +31,13 @@ public class MovieService {
     @Autowired
     private DataModule dataModule;
 
-    /** 推荐器 */
+    /** 排序预测与评分预测模型 */
     @Autowired
-    private HashMap<String, Model> recommenders;
+    private HashMap<String, Model> models;
 
-    /** 搜索器 */
+    /** Lucene引擎 */
     @Autowired
-    private LuceneEngine searcher;
+    private LuceneEngine engine;
 
     /** 用户 */
     @Autowired
@@ -88,7 +88,7 @@ public class MovieService {
         // 标识-得分映射
         Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Model recommender = recommenders.get(recommendKey);
+        Model recommender = models.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         User user = users.get(userIndex);
         int itemSize = items.size();
@@ -121,7 +121,7 @@ public class MovieService {
         Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Query query = queryParser.parse(searchKey, Item.TITLE);
-        KeyValue<List<Document>, FloatList> search = searcher.retrieveDocuments(query, null, 1000);
+        KeyValue<List<Document>, FloatList> search = engine.retrieveDocuments(query, null, 1000);
         List<Document> documents = search.getKey();
         FloatList scores = search.getValue();
         for (int index = 0, size = documents.size(); index < size; index++) {

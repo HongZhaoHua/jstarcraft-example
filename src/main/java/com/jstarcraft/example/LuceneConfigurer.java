@@ -22,10 +22,10 @@ import com.jstarcraft.example.movie.service.Item;
  *
  */
 @Configuration
-public class SearchConfigurer {
+public class LuceneConfigurer {
 
     @Bean
-    LuceneEngine getSearcher(List<Item> movies) throws Exception {
+    LuceneEngine getEngine(List<Item> movies) throws Exception {
         LuceneCodec<Item, Item> codec = new LuceneCodec<>(Item.class, Item.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
