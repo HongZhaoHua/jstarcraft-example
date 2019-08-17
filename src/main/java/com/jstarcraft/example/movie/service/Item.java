@@ -3,9 +3,9 @@ package com.jstarcraft.example.movie.service;
 import java.time.LocalDate;
 
 import com.jstarcraft.core.common.identification.IdentityObject;
-import com.jstarcraft.core.orm.lucene.annotation.SearchIndex;
-import com.jstarcraft.core.orm.lucene.annotation.SearchSort;
-import com.jstarcraft.core.orm.lucene.annotation.SearchStore;
+import com.jstarcraft.core.orm.lucene.annotation.LuceneIndex;
+import com.jstarcraft.core.orm.lucene.annotation.LuceneSort;
+import com.jstarcraft.core.orm.lucene.annotation.LuceneStore;
 
 /**
  * 电影
@@ -22,17 +22,17 @@ public class Item implements IdentityObject<Integer> {
     public static final String DATE = "date";
 
     /** 电影标识 */
-    @SearchIndex
-    @SearchSort
-    @SearchStore
+    @LuceneIndex
+    @LuceneSort
+    @LuceneStore
     private int index;
 
     /** 电影标题 */
-    @SearchIndex(analyze = true)
+    @LuceneIndex(analyze = true)
     private String title;
 
     /** 电影日期 */
-    @SearchSort
+    @LuceneSort
     private LocalDate date;
 
     protected Item() {
