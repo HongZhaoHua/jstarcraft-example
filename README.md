@@ -113,7 +113,7 @@ mvn package -Dmaven.test.skip=true
 #### 运行JStarCraft-Example项目
 
 ```shell
-java -jar jstarcraf-example-1.0.jar
+java -jar jstarcraft-example-1.0.jar
 ```
 
 #### 使用个性化推荐
