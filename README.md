@@ -40,9 +40,11 @@
 
 ## 介绍
 
-JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZhaoHua/jstarcraft-rns),Spring Boot框架和[MovieLens 100K数据集](https://grouplens.org/datasets/movielens/100k/)搭建的电影演示项目,包括**个性化推荐**与**个性化搜索**两个部分.
+JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZhaoHua/jstarcraft-rns)引擎,Spring Boot框架和公共数据集搭建的千人千面演示项目.
 
-系统会根据用户的行为记录,自动调整用户的推荐内容和搜索内容.
+系统会根据用户的行为记录,自动调整用户的推荐内容和搜索内容.使用者可以通过该项目了解**推荐系统**与**搜索系统**的运作流程.
+
+涵盖了个性化推荐与个性化搜索2个部分.
 
 ****
 
