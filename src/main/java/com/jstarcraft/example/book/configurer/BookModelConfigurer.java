@@ -1,4 +1,4 @@
-package com.jstarcraft.example;
+package com.jstarcraft.example.book.configurer;
 
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,7 +31,7 @@ import com.jstarcraft.rns.model.extend.ranking.AssociationRuleModel;
  *
  */
 @Configuration
-public class MovieModelConfigurer {
+public class BookModelConfigurer {
 
     private Configurator configuration;
 
@@ -56,17 +56,17 @@ public class MovieModelConfigurer {
         return model;
     }
 
-    @Bean("movieModels")
-    public ConcurrentMap<String, Model> getMovieModels(DataSpace movieDataSpace, DataModule movieDataModule) throws Exception {
+    @Bean("bookModels")
+    public ConcurrentMap<String, Model> getBookModels(DataSpace bookDataSpace, DataModule bookDataModule) throws Exception {
         ConcurrentMap<String, Model> models = new ConcurrentHashMap<>();
-        models.put("AssociationRule", getModel(AssociationRuleModel.class, movieDataSpace, movieDataModule));
-        models.put("BPR", getModel(BPRModel.class, movieDataSpace, movieDataModule));
-        models.put("ItemKNN", getModel(ItemKNNRankingModel.class, movieDataSpace, movieDataModule));
-        models.put("LDA", getModel(LDAModel.class, movieDataSpace, movieDataModule));
-        models.put("MostPopular", getModel(MostPopularModel.class, movieDataSpace, movieDataModule));
-        models.put("Random", getModel(RandomGuessModel.class, movieDataSpace, movieDataModule));
-        models.put("UserKNN", getModel(UserKNNRankingModel.class, movieDataSpace, movieDataModule));
-        models.put("WRMF", getModel(WRMFModel.class, movieDataSpace, movieDataModule));
+        models.put("AssociationRule", getModel(AssociationRuleModel.class, bookDataSpace, bookDataModule));
+        models.put("BPR", getModel(BPRModel.class, bookDataSpace, bookDataModule));
+        models.put("ItemKNN", getModel(ItemKNNRankingModel.class, bookDataSpace, bookDataModule));
+        models.put("LDA", getModel(LDAModel.class, bookDataSpace, bookDataModule));
+        models.put("MostPopular", getModel(MostPopularModel.class, bookDataSpace, bookDataModule));
+        models.put("Random", getModel(RandomGuessModel.class, bookDataSpace, bookDataModule));
+        models.put("UserKNN", getModel(UserKNNRankingModel.class, bookDataSpace, bookDataModule));
+        models.put("WRMF", getModel(WRMFModel.class, bookDataSpace, bookDataModule));
         return models;
     }
 

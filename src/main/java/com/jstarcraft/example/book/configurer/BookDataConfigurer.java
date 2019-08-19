@@ -1,4 +1,4 @@
-package com.jstarcraft.example;
+package com.jstarcraft.example.book.configurer;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -22,7 +22,7 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
-import com.jstarcraft.example.BookModelConfigurer;
+import com.jstarcraft.example.book.configurer.BookModelConfigurer;
 import com.jstarcraft.rns.model.Model;
 
 import it.unimi.dsi.fastutil.floats.FloatList;

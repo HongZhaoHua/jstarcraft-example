@@ -1,4 +1,4 @@
-package com.jstarcraft.example;
+package com.jstarcraft.example.book.configurer;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.jstarcraft.core.orm.lucene.LuceneCodec;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
-import com.jstarcraft.example.movie.service.MovieItem;
+import com.jstarcraft.example.book.service.BookItem;
 
 /**
  * 搜索配置器
@@ -22,21 +22,21 @@ import com.jstarcraft.example.movie.service.MovieItem;
  *
  */
 @Configuration
-public class MovieLuceneConfigurer {
+public class BookLuceneConfigurer {
 
-    @Bean("movieEngine")
-    LuceneEngine getMovieEngine(List<MovieItem> movieItems) throws Exception {
-        LuceneCodec<MovieItem, MovieItem> codec = new LuceneCodec<>(MovieItem.class, MovieItem.class);
+    @Bean("bookEngine")
+    LuceneEngine getBookEngine(List<BookItem> bookItems) throws Exception {
+        LuceneCodec<BookItem, BookItem> codec = new LuceneCodec<>(BookItem.class, BookItem.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
-        Path path = Paths.get("./lucene/movie");
+        Path path = Paths.get("./lucene/book");
         File file = path.toFile();
         FileUtils.deleteDirectory(file);
         LuceneEngine searcher = new LuceneEngine(config, path);
 
-        for (MovieItem movie : movieItems) {
-            Document document = codec.encode(movie);
-            searcher.createDocument(String.valueOf(movie.getId()), document);
+        for (BookItem book : bookItems) {
+            Document document = codec.encode(book);
+            searcher.createDocument(String.valueOf(book.getId()), document);
         }
 
         return searcher;
