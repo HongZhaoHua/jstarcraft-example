@@ -1,5 +1,5 @@
 // 配置
-var apiDomain = 'http://127.0.0.1:8080'; // api域名
+var apiDomain = ''; // api域名
 var apiUrl = {
     users: apiDomain + '/movies/getUsers', // 获取用户api地址
     recommendItems: apiDomain + '/movies/getRecommendItems', // 推荐api地址

@@ -179,7 +179,24 @@
                             <outputDirectory>${project.build.directory}/resources</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/</directory>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    
+                    <execution>
+                        <id>copy-data</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${project.build.directory}/data</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>data</directory>
                                 </resource>
                             </resources>
                         </configuration>
