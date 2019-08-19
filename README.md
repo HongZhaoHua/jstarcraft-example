@@ -21,6 +21,7 @@
     * [运行JStarCraft Example项目](#运行JStarCraft-Example项目)
     * [使用个性化推荐](#使用个性化推荐)
     * [使用个性化搜索](#使用个性化搜索)
+    * [根据行为记录自动调整模型](#根据行为记录自动调整模型)
 * [架构](#架构)
 * [概念](#概念)
 * [示例](#示例)
@@ -135,6 +136,10 @@ java -jar jstarcraft-example-1.0.jar
 
 搜索效果如图所示:
 ![search](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/search.png)
+
+#### 根据行为记录自动调整模型
+
+用户可以通过点击对应的分数给电影打分,系统每隔5分钟会自动刷新模型.
 
 ****
 

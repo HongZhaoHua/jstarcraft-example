@@ -58,7 +58,7 @@ public class MovieService {
     @Autowired
     private List<User> users;
 
-    /** 电影 */
+    /** 条目 */
     @Autowired
     private List<Item> items;
 
