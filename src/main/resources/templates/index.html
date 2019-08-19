@@ -49,12 +49,20 @@
                         <div class="list-wrap" v-if="data.status==='normal'&&data.content.length>0">
                             <div class="list-content" :style="data.style">
                                 <ul class="list clearfix" v-for="list in data.content">
-                                    <li v-for="item in list" :style="{width:100/columns+'%'}" @click="click(item.id)">
+                                    <li v-for="item in list" :style="{width:100/columns+'%'}">
                                         <div class="img-wrap">
                                             <img class="img" :src="'./images/movies/'+item.title.replace(',','')+'.jpg'" alt="" />
                                         </div>
-                                        <div class="title single-line">标题:{{item.title}}</div>
-                                        <div class="date single-line">日期:{{item.date}}</div>
+                                        <div class="title">标题:{{item.title}}</div>
+                                        <div class="date">日期:{{item.date}}</div>
+                                        <div class="score">
+                                            评价:
+                                            <div @click="click(item.id, 1)">1</div>
+                                            <div @click="click(item.id, 2)">2</div>
+                                            <div @click="click(item.id, 3)">3</div>
+                                            <div @click="click(item.id, 4)">4</div>
+                                            <div @click="click(item.id, 5)">5</div>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

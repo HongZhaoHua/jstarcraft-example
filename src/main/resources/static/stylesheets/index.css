@@ -30,10 +30,22 @@ ul {
 }
 
 /*单行不换行,超出显示...*/
-.single-line {
+.date {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.score div {
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
 }
 
 /*下拉框按钮在一行内展示*/

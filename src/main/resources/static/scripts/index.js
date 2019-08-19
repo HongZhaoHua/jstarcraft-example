@@ -99,12 +99,13 @@ new Vue({
             });
         },
         // 点击(电影)
-        click: function (itemId) {
+        click: function (itemId, score) {
             var data = {};
             if (this.users.index !== -1) {
                 data.userIndex = this.users.content[this.users.index].id;
             }
             data.itemIndex = itemId;
+            data.score = score;
             var query = {
                 method: "GET",
                 url: apiUrl.click,

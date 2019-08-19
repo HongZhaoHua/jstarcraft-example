@@ -69,8 +69,8 @@ public class MovieController {
      */
     @ApiOperation(value = "点击", notes = "点击")
     @GetMapping("/click")
-    public void click(@RequestParam int userIndex, @RequestParam int itemIndex) {
-        movieService.click(userIndex, itemIndex);
+    public void click(@RequestParam int userIndex, @RequestParam int itemIndex, @RequestParam float score) {
+        movieService.click(userIndex, itemIndex, score);
     }
 
     /**

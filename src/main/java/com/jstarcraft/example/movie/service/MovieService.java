@@ -53,6 +53,8 @@ public class MovieService {
 
     private int itemDimension;
 
+    private int scoreDimension;
+
     private int qualityOrder;
 
     private int quantityOrder;
@@ -61,15 +63,17 @@ public class MovieService {
     void postConstruct() {
         userDimension = dataModule.getQualityInner("user");
         itemDimension = dataModule.getQualityInner("item");
+        scoreDimension = dataModule.getQuantityInner("score");
         qualityOrder = dataModule.getQualityOrder();
         quantityOrder = dataModule.getQuantityOrder();
     }
 
-    public void click(int userIndex, int itemIndex) {
+    public void click(int userIndex, int itemIndex, float score) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
         qualityFeatures.put(userDimension, userIndex);
         qualityFeatures.put(itemDimension, itemIndex);
         Int2FloatSortedMap quantityFeatures = new Int2FloatRBTreeMap();
+        quantityFeatures.put(scoreDimension, score);
         dataModule.associateInstance(qualityFeatures, quantityFeatures, 5F);
     }
 
