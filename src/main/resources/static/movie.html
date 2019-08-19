@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+<link rel="stylesheet" href="stylesheets/bootstrap-4.3.1.min.css" />
+<link rel="stylesheet" href="stylesheets/index.css" />
+<title>推荐与搜索</title>
+</head>
+<body>
+    <div id="container" class="container" :class="{ show: isShow }">
+        <!--顶部-->
+        <div class="row mt-4">
+            <div class="col text-right">
+                <!--选择用户-->
+                <div class="dropdown user-dropdown" :class="{ isShow: users.isShow,'fix-margin': type==='search' }">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showUsers">{{users.index===-1?'请选择用户':users.content[users.index].name}}</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in users.content" :class="{ selected: users.index=== index}" @click="selectUser(index)">{{item.name}}</a>
+                    </div>
+                </div>
+                <div class="inline-block">
+                    <!--推荐算法-->
+                    <div class="input-group mb-3" v-if="type==='recommend'">
+                        <div class="dropdown" :class="{ isShow: recommendKeys.isShow }">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="showRecommendKeys">{{recommendKeys.index===-1?'请选择算法':recommendKeys.content[recommendKeys.index].name}}</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="javascript:void(0);" v-for="(item,index) in recommendKeys.content" :class="{ selected: recommendKeys.index=== index}" @click="selectRecommendKey(index)">{{item.name}}</a>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary" @click="getItems">推荐</button>
+                    </div>
+                    <!--搜索输入-->
+                    <div class="input-group mb-3" v-if="type==='search'">
+                        <input type="text" class="form-control" placeholder="请输入电影标题" v-model="searchKey">
+                        <button class="btn btn-outline-primary" type="button" @click="getItems">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--内容-->
+        <div class="row mt-1">
+            <!--搜索结果-->
+            <div class="col">
+                <div class="item-wrap">
+                    <div class="title-wrap">电影</div>
+                    <div class="content">
+                        <!--有内容-->
+                        <div class="list-wrap" v-if="data.status==='normal'&&data.content.length>0">
+                            <div class="list-content" :style="data.style">
+                                <ul class="list clearfix" v-for="list in data.content">
+                                    <li v-for="item in list" :style="{width:100/columns+'%'}">
+                                        <div class="img-wrap">
+                                            <img class="img" :src="'./images/movies/'+item.title.replace(',','')+'.jpg'" alt="" />
+                                        </div>
+                                        <div class="title">标题:{{item.title}}</div>
+                                        <div class="date">日期:{{item.date}}</div>
+                                        <div class="score">
+                                            评价:
+                                            <div @click="click(item.id, 1)">1</div>
+                                            <div @click="click(item.id, 2)">2</div>
+                                            <div @click="click(item.id, 3)">3</div>
+                                            <div @click="click(item.id, 4)">4</div>
+                                            <div @click="click(item.id, 5)">5</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="btn-page previous" @click="previousPage">上一页</div>
+                            <div class="btn-page next" @click="nextPage">下一页</div>
+                        </div>
+                        <!--内容为空-->
+                        <div class="empty-wrap" v-if="data.status==='normal'&&data.content.length===0">没有电影....</div>
+                        <!--获取数据出错-->
+                        <div class="empty-wrap text-danger" v-if="data.status==='abnormal'">获取电影数据出错,请检查网络连接</div>
+                        <!--加载中-->
+                        <div class="load-wrap" v-if="data.status==='load'">
+                            <img src="images/load.gif" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="scripts/vue-2.6.10.min.js"></script>
+    <script src="scripts/movie.js"></script>
+</body>
+</html>

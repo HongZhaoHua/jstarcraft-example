@@ -1,4 +1,4 @@
-package com.jstarcraft.example.movie.controller;
+package com.jstarcraft.example.book.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jstarcraft.example.book.service.BookItem;
+import com.jstarcraft.example.book.service.BookService;
+import com.jstarcraft.example.book.service.BookUser;
 import com.jstarcraft.example.common.output.NormalOutput;
-import com.jstarcraft.example.movie.service.MovieItem;
-import com.jstarcraft.example.movie.service.MovieService;
-import com.jstarcraft.example.movie.service.MovieUser;
 
 import io.swagger.annotations.ApiOperation;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
 @RestController
-@RequestMapping("/movies")
-public class MovieController {
+@RequestMapping("/books")
+public class BookController {
 
-    private final static Logger logger = LoggerFactory.getLogger(MovieController.class);
+    private final static Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    private MovieService movieService;
+    private BookService bookService;
 
     /**
      * 获取用户
@@ -37,9 +37,27 @@ public class MovieController {
      */
     @ApiOperation(value = "获取用户", notes = "获取用户")
     @GetMapping("/getUsers")
-    public NormalOutput<List<MovieUserOutput>> getUsers() {
-        List<MovieUser> users = movieService.getUsers();
-        List<MovieUserOutput> instances = MovieUserOutput.instancesOf(users);
+    public NormalOutput<List<BookUserOutput>> getUsers() {
+        List<BookUser> users = bookService.getUsers();
+        List<BookUserOutput> instances = BookUserOutput.instancesOf(users);
+        return new NormalOutput<>(instances);
+    }
+
+    /**
+     * 获取推荐条目
+     * 
+     * @param userIndex
+     * @param recommendKey
+     * @return
+     */
+    @ApiOperation(value = "获取推荐条目", notes = "获取推荐条目")
+    @GetMapping("/getRecommendItems")
+    public NormalOutput<List<BookItemOutput>> getRecommendItems(@RequestParam int userIndex, @RequestParam String recommendKey) {
+        Object2FloatMap<BookItem> movies = bookService.getRecommendItems(userIndex, recommendKey);
+        List<BookItemOutput> instances = BookItemOutput.instancesOf(movies);
+        Collections.sort(instances, (left, right) -> {
+            return Float.compare(right.getScore(), left.getScore());
+        });
         return new NormalOutput<>(instances);
     }
 
@@ -52,29 +70,11 @@ public class MovieController {
     @ApiOperation(value = "点击", notes = "点击")
     @GetMapping("/click")
     public void click(@RequestParam int userIndex, @RequestParam int itemIndex, @RequestParam float score) {
-        movieService.click(userIndex, itemIndex, score);
+        bookService.click(userIndex, itemIndex, score);
     }
 
     /**
-     * 获取推荐条目
-     * 
-     * @param userIndex
-     * @param recommendKey
-     * @return
-     */
-    @ApiOperation(value = "获取推荐条目", notes = "获取推荐条目")
-    @GetMapping("/getRecommendItems")
-    public NormalOutput<List<MovieItemOutput>> getRecommendItems(@RequestParam int userIndex, @RequestParam String recommendKey) {
-        Object2FloatMap<MovieItem> movies = movieService.getRecommendItems(userIndex, recommendKey);
-        List<MovieItemOutput> instances = MovieItemOutput.instancesOf(movies);
-        Collections.sort(instances, (left, right) -> {
-            return Float.compare(right.getScore(), left.getScore());
-        });
-        return new NormalOutput<>(instances);
-    }
-
-    /**
-     * 获取搜索条目
+     * 获取搜索电影
      * 
      * @param userIndex
      * @param searchKey
@@ -82,9 +82,9 @@ public class MovieController {
      */
     @ApiOperation(value = "获取搜索条目", notes = "获取搜索条目")
     @GetMapping("/getSearchItems")
-    public NormalOutput<List<MovieItemOutput>> getSearchItems(@RequestParam int userIndex, @RequestParam String searchKey) throws Exception {
-        Object2FloatMap<MovieItem> movies = movieService.getSearchItems(userIndex, searchKey);
-        List<MovieItemOutput> instances = MovieItemOutput.instancesOf(movies);
+    public NormalOutput<List<BookItemOutput>> getSearchItems(@RequestParam int userIndex, @RequestParam String searchKey) throws Exception {
+        Object2FloatMap<BookItem> movies = bookService.getSearchItems(userIndex, searchKey);
+        List<BookItemOutput> instances = BookItemOutput.instancesOf(movies);
         Collections.sort(instances, (left, right) -> {
             return Float.compare(right.getScore(), left.getScore());
         });

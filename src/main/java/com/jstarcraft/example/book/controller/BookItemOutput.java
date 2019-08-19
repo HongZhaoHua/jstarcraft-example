@@ -1,10 +1,10 @@
-package com.jstarcraft.example.movie.controller;
+package com.jstarcraft.example.book.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jstarcraft.example.movie.service.MovieItem;
+import com.jstarcraft.example.book.service.BookItem;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
@@ -14,7 +14,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
  * @author Birdy
  *
  */
-public class MovieItemOutput {
+public class BookItemOutput {
 
     /** 物品标识 */
     private int id;
@@ -28,7 +28,7 @@ public class MovieItemOutput {
     /** 得分 */
     private float score;
 
-    public MovieItemOutput(MovieItem item, float score) {
+    public BookItemOutput(BookItem item, float score) {
         this.id = item.getIndex();
         this.title = item.getTitle();
         this.date = item.getDate();
@@ -51,10 +51,10 @@ public class MovieItemOutput {
         return score;
     }
 
-    public static List<MovieItemOutput> instancesOf(Object2FloatMap<MovieItem> items) {
-        List<MovieItemOutput> instances = new ArrayList<>(items.size());
-        for (Object2FloatMap.Entry<MovieItem> term : items.object2FloatEntrySet()) {
-            MovieItemOutput instance = new MovieItemOutput(term.getKey(), term.getFloatValue());
+    public static List<BookItemOutput> instancesOf(Object2FloatMap<BookItem> items) {
+        List<BookItemOutput> instances = new ArrayList<>(items.size());
+        for (Object2FloatMap.Entry<BookItem> term : items.object2FloatEntrySet()) {
+            BookItemOutput instance = new BookItemOutput(term.getKey(), term.getFloatValue());
             instances.add(instance);
         }
         return instances;
