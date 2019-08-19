@@ -29,7 +29,7 @@ public class MovieLuceneConfigurer {
         LuceneCodec<MovieItem, MovieItem> codec = new LuceneCodec<>(MovieItem.class, MovieItem.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
-        Path path = Paths.get("./movie/lucene");
+        Path path = Paths.get("./lucene/movie");
         File file = path.toFile();
         FileUtils.deleteDirectory(file);
         LuceneEngine searcher = new LuceneEngine(config, path);
