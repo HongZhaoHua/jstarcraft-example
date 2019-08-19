@@ -124,8 +124,9 @@ java -jar jstarcraft-example-1.0.jar
 1. 复制链接[http://127.0.0.1:8080/movie.html](http://127.0.0.1:8080/movie.html)到浏览器.
 2. 选择用户
 3. 选择模型
-3. 填写查询条件
-4. 点击个性化
+4. 填写查询条件
+5. 是否过滤(已评价的条目)
+6. 点击个性化
 
 个性化效果如图所示:
 ![movie](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/movie.png)
