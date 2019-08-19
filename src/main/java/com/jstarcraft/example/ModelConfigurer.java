@@ -1,7 +1,8 @@
 package com.jstarcraft.example;
 
-import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Future;
 
 import org.springframework.context.annotation.Bean;
@@ -56,8 +57,8 @@ public class ModelConfigurer {
     }
 
     @Bean
-    public HashMap<String, Model> getModels(DataSpace dataSpace, DataModule dataModule) throws Exception {
-        HashMap<String, Model> models = new HashMap<>();
+    public ConcurrentMap<String, Model> getModels(DataSpace dataSpace, DataModule dataModule) throws Exception {
+        ConcurrentMap<String, Model> models = new ConcurrentHashMap<>();
         models.put("AssociationRule", getModel(AssociationRuleModel.class, dataSpace, dataModule));
         models.put("BPR", getModel(BPRModel.class, dataSpace, dataModule));
         models.put("ItemKNN", getModel(ItemKNNRankingModel.class, dataSpace, dataModule));
@@ -66,7 +67,6 @@ public class ModelConfigurer {
         models.put("Random", getModel(RandomGuessModel.class, dataSpace, dataModule));
         models.put("UserKNN", getModel(UserKNNRankingModel.class, dataSpace, dataModule));
         models.put("WRMF", getModel(WRMFModel.class, dataSpace, dataModule));
-
         return models;
     }
 

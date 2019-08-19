@@ -1,20 +1,27 @@
 package com.jstarcraft.example.movie.service;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
+import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
+import com.jstarcraft.example.ModelConfigurer;
 import com.jstarcraft.rns.model.Model;
 
 import it.unimi.dsi.fastutil.floats.FloatList;
@@ -28,12 +35,20 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 @Component
 public class MovieService {
 
+    private final static Logger logger = LoggerFactory.getLogger(MovieService.class);
+
+    @Autowired
+    private ModelConfigurer modelConfigurer;
+
+    @Autowired
+    private DataSpace dataSpace;
+
     @Autowired
     private DataModule dataModule;
 
     /** 排序预测与评分预测模型 */
     @Autowired
-    private HashMap<String, Model> models;
+    private ConcurrentMap<String, Model> models;
 
     /** Lucene引擎 */
     @Autowired
@@ -59,6 +74,20 @@ public class MovieService {
 
     private int quantityOrder;
 
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
+    /**
+     * 刷新模型
+     */
+    private void refreshModel() {
+        try {
+            modelConfigurer.getModels(dataSpace, dataModule);
+            logger.info("刷新模型成功");
+        } catch (Exception exception) {
+            logger.error("刷新模型失败", exception);
+        }
+    }
+
     @PostConstruct
     void postConstruct() {
         userDimension = dataModule.getQualityInner("user");
@@ -66,6 +95,9 @@ public class MovieService {
         scoreDimension = dataModule.getQuantityInner("score");
         qualityOrder = dataModule.getQualityOrder();
         quantityOrder = dataModule.getQuantityOrder();
+
+        // 启动之后每间隔5分钟执行一次
+        executor.scheduleAtFixedRate(this::refreshModel, 5, 5, TimeUnit.MINUTES);
     }
 
     public void click(int userIndex, int itemIndex, float score) {
@@ -92,7 +124,7 @@ public class MovieService {
         // 标识-得分映射
         Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Model recommender = models.get(recommendKey);
+        Model model = models.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         User user = users.get(userIndex);
         int itemSize = items.size();
@@ -103,7 +135,7 @@ public class MovieService {
             }
             instance.setQualityFeature(userDimension, userIndex);
             instance.setQualityFeature(itemDimension, itemIndex);
-            recommender.predict(instance);
+            model.predict(instance);
             Item item = items.get(itemIndex);
             float score = instance.getQuantityMark();
             item2ScoreMap.put(item, score);
