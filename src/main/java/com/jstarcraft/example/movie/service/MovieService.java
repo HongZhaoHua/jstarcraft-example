@@ -21,7 +21,7 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
-import com.jstarcraft.example.ModelConfigurer;
+import com.jstarcraft.example.MovieModelConfigurer;
 import com.jstarcraft.rns.model.Model;
 
 import it.unimi.dsi.fastutil.floats.FloatList;
@@ -38,7 +38,7 @@ public class MovieService {
     private final static Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     @Autowired
-    private ModelConfigurer modelConfigurer;
+    private MovieModelConfigurer modelConfigurer;
 
     @Autowired
     private DataSpace dataSpace;
@@ -56,11 +56,11 @@ public class MovieService {
 
     /** 用户 */
     @Autowired
-    private List<User> users;
+    private List<MovieUser> users;
 
     /** 条目 */
     @Autowired
-    private List<Item> items;
+    private List<MovieItem> items;
 
     private StandardQueryParser queryParser = new StandardQueryParser();
 
@@ -109,7 +109,7 @@ public class MovieService {
         dataModule.associateInstance(qualityFeatures, quantityFeatures, 5F);
     }
 
-    public List<User> getUsers() {
+    public List<MovieUser> getUsers() {
         return users;
     }
 
@@ -120,13 +120,13 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<Item> getRecommendItems(int userIndex, String recommendKey) {
+    public Object2FloatMap<MovieItem> getRecommendItems(int userIndex, String recommendKey) {
         // 标识-得分映射
-        Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
+        Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Model model = models.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
-        User user = users.get(userIndex);
+        MovieUser user = users.get(userIndex);
         int itemSize = items.size();
         for (int itemIndex = 0; itemIndex < itemSize; itemIndex++) {
             // 过滤电影
@@ -136,7 +136,7 @@ public class MovieService {
             instance.setQualityFeature(userDimension, userIndex);
             instance.setQualityFeature(itemDimension, itemIndex);
             model.predict(instance);
-            Item item = items.get(itemIndex);
+            MovieItem item = items.get(itemIndex);
             float score = instance.getQuantityMark();
             item2ScoreMap.put(item, score);
         }
@@ -152,17 +152,17 @@ public class MovieService {
      * @return
      * @throws Exception
      */
-    public Object2FloatMap<Item> getSearchItems(int userIndex, String searchKey) throws Exception {
+    public Object2FloatMap<MovieItem> getSearchItems(int userIndex, String searchKey) throws Exception {
         // 标识-得分映射
-        Object2FloatMap<Item> item2ScoreMap = new Object2FloatOpenHashMap<>();
+        Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
-        Query query = queryParser.parse(searchKey, Item.TITLE);
+        Query query = queryParser.parse(searchKey, MovieItem.TITLE);
         KeyValue<List<Document>, FloatList> search = engine.retrieveDocuments(query, null, 1000);
         List<Document> documents = search.getKey();
         FloatList scores = search.getValue();
         for (int index = 0, size = documents.size(); index < size; index++) {
             Document document = documents.get(index);
-            Item item = items.get(document.getField(Item.INDEX).numericValue().intValue());
+            MovieItem item = items.get(document.getField(MovieItem.INDEX).numericValue().intValue());
             float score = scores.getFloat(index);
             item2ScoreMap.put(item, score);
         }

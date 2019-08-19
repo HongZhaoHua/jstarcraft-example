@@ -13,7 +13,7 @@ import com.jstarcraft.core.orm.lucene.annotation.LuceneStore;
  * @author Birdy
  *
  */
-public class Item implements IdentityObject<Integer> {
+public class MovieItem implements IdentityObject<Integer> {
 
     public static final String INDEX = "index";
 
@@ -35,10 +35,10 @@ public class Item implements IdentityObject<Integer> {
     @LuceneSort
     private LocalDate date;
 
-    protected Item() {
+    protected MovieItem() {
     }
 
-    public Item(int index, String title, LocalDate date) {
+    public MovieItem(int index, String title, LocalDate date) {
         this.index = index;
         this.title = title;
         this.date = date;

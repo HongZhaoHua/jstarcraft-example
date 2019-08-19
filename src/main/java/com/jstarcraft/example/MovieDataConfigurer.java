@@ -29,8 +29,8 @@ import com.jstarcraft.ai.data.attribute.QualityAttribute;
 import com.jstarcraft.ai.data.converter.CsvConverter;
 import com.jstarcraft.ai.data.converter.DataConverter;
 import com.jstarcraft.core.utility.StringUtility;
-import com.jstarcraft.example.movie.service.Item;
-import com.jstarcraft.example.movie.service.User;
+import com.jstarcraft.example.movie.service.MovieItem;
+import com.jstarcraft.example.movie.service.MovieUser;
 
 /**
  * 数据配置器
@@ -39,7 +39,7 @@ import com.jstarcraft.example.movie.service.User;
  *
  */
 @Configuration
-public class DataConfigurer {
+public class MovieDataConfigurer {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy", Locale.US);
 
@@ -73,15 +73,15 @@ public class DataConfigurer {
     }
 
     @Bean("users")
-    List<User> getUsers(DataSpace dataSpace, File userFile) throws Exception {
-        List<User> users = new LinkedList<>();
+    List<MovieUser> getUsers(DataSpace dataSpace, File userFile) throws Exception {
+        List<MovieUser> users = new LinkedList<>();
 
         QualityAttribute<Integer> userAttribute = dataSpace.getQualityAttribute("user");
         {
             // TODO 匿名用户设置为0
             // 用户索引
             int index = userAttribute.convertData(0);
-            User user = new User(index, "User" + index);
+            MovieUser user = new MovieUser(index, "User" + index);
             users.add(user);
         }
         try (InputStream stream = new FileInputStream(userFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
@@ -93,7 +93,7 @@ public class DataConfigurer {
                     int id = Integer.parseInt(datas.get(0));
                     // 用户索引
                     int index = userAttribute.convertData(id);
-                    User user = new User(index, "User" + index);
+                    MovieUser user = new MovieUser(index, "User" + index);
                     users.add(user);
                 }
             }
@@ -104,8 +104,8 @@ public class DataConfigurer {
     }
 
     @Bean("items")
-    List<Item> getItems(DataSpace dataSpace, File itemFile) throws Exception {
-        List<Item> items = new LinkedList<>();
+    List<MovieItem> getItems(DataSpace dataSpace, File itemFile) throws Exception {
+        List<MovieItem> items = new LinkedList<>();
 
         QualityAttribute<Integer> itemAttribute = dataSpace.getQualityAttribute("item");
         try (InputStream stream = new FileInputStream(itemFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
@@ -121,7 +121,7 @@ public class DataConfigurer {
                     String title = datas.get(1);
                     // 物品日期
                     LocalDate date = StringUtility.isEmpty(datas.get(2)) ? LocalDate.of(1970, 1, 1) : LocalDate.parse(datas.get(2), formatter);
-                    Item item = new Item(index, title, date);
+                    MovieItem item = new MovieItem(index, title, date);
                     items.add(item);
                 }
             }
@@ -138,7 +138,7 @@ public class DataConfigurer {
      * @return
      */
     @Bean
-    DataModule getDataModule(DataSpace dataSpace, List<User> users, List<Item> items) throws Exception {
+    DataModule getDataModule(DataSpace dataSpace, List<MovieUser> users, List<MovieItem> items) throws Exception {
         TreeMap<Integer, String> configuration = new TreeMap<>();
         configuration.put(1, "user");
         configuration.put(2, "item");

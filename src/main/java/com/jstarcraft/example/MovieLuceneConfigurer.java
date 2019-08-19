@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.jstarcraft.core.orm.lucene.LuceneCodec;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
-import com.jstarcraft.example.movie.service.Item;
+import com.jstarcraft.example.movie.service.MovieItem;
 
 /**
  * 搜索配置器
@@ -22,11 +22,11 @@ import com.jstarcraft.example.movie.service.Item;
  *
  */
 @Configuration
-public class LuceneConfigurer {
+public class MovieLuceneConfigurer {
 
     @Bean
-    LuceneEngine getEngine(List<Item> movies) throws Exception {
-        LuceneCodec<Item, Item> codec = new LuceneCodec<>(Item.class, Item.class);
+    LuceneEngine getEngine(List<MovieItem> movies) throws Exception {
+        LuceneCodec<MovieItem, MovieItem> codec = new LuceneCodec<>(MovieItem.class, MovieItem.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
         Path path = Paths.get("./lucene");
@@ -34,7 +34,7 @@ public class LuceneConfigurer {
         FileUtils.deleteDirectory(file);
         LuceneEngine searcher = new LuceneEngine(config, path);
 
-        for (Item movie : movies) {
+        for (MovieItem movie : movies) {
             Document document = codec.encode(movie);
             searcher.createDocument(String.valueOf(movie.getId()), document);
         }

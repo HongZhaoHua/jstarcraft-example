@@ -31,7 +31,7 @@ import com.jstarcraft.rns.model.extend.ranking.AssociationRuleModel;
  *
  */
 @Configuration
-public class ModelConfigurer {
+public class MovieModelConfigurer {
 
     private Configurator configuration;
 

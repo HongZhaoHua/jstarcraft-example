@@ -9,7 +9,7 @@ import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
  * @author Birdy
  *
  */
-public class User {
+public class MovieUser {
 
     /** 用户标识 */
     private int index;
@@ -20,7 +20,7 @@ public class User {
     /** 用户点击次数 */
     private Int2IntMap clickeds;
 
-    public User(int index, String name) {
+    public MovieUser(int index, String name) {
         this.index = index;
         this.name = name;
         this.clickeds = new Int2IntOpenHashMap();

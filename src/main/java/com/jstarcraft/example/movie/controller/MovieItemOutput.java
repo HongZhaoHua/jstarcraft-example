@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jstarcraft.example.movie.service.Item;
+import com.jstarcraft.example.movie.service.MovieItem;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
@@ -14,7 +14,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
  * @author Birdy
  *
  */
-public class ItemOutput {
+public class MovieItemOutput {
 
     /** 物品标识 */
     private int id;
@@ -28,7 +28,7 @@ public class ItemOutput {
     /** 得分 */
     private float score;
 
-    public ItemOutput(Item movie, float score) {
+    public MovieItemOutput(MovieItem movie, float score) {
         this.id = movie.getIndex();
         this.title = movie.getTitle();
         this.date = movie.getDate();
@@ -51,10 +51,10 @@ public class ItemOutput {
         return score;
     }
 
-    public static List<ItemOutput> instancesOf(Object2FloatMap<Item> items) {
-        List<ItemOutput> instances = new ArrayList<>(items.size());
-        for (Object2FloatMap.Entry<Item> term : items.object2FloatEntrySet()) {
-            ItemOutput instance = new ItemOutput(term.getKey(), term.getFloatValue());
+    public static List<MovieItemOutput> instancesOf(Object2FloatMap<MovieItem> items) {
+        List<MovieItemOutput> instances = new ArrayList<>(items.size());
+        for (Object2FloatMap.Entry<MovieItem> term : items.object2FloatEntrySet()) {
+            MovieItemOutput instance = new MovieItemOutput(term.getKey(), term.getFloatValue());
             instances.add(instance);
         }
         return instances;
