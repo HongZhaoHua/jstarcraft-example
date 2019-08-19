@@ -28,6 +28,7 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.attribute.QualityAttribute;
 import com.jstarcraft.ai.data.converter.CsvConverter;
 import com.jstarcraft.ai.data.converter.DataConverter;
+import com.jstarcraft.core.utility.StringUtility;
 import com.jstarcraft.example.movie.service.Item;
 import com.jstarcraft.example.movie.service.User;
 
@@ -40,17 +41,17 @@ import com.jstarcraft.example.movie.service.User;
 @Configuration
 public class DataConfigurer {
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.US);
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy", Locale.US);
 
     @Bean("userFile")
     File getUserFile() {
-        File file = new File("data/movielens/ml-100k/user.txt");
+        File file = new File("data/ml-100k/u.user");
         return file;
     }
 
     @Bean("itemFile")
     File getItemFile() {
-        File file = new File("data/movielens/ml-100k/item.txt");
+        File file = new File("data/ml-100k/u.item");
         return file;
     }
 
@@ -119,7 +120,7 @@ public class DataConfigurer {
                     // 物品标题
                     String title = datas.get(1);
                     // 物品日期
-                    LocalDate date = LocalDate.parse(datas.get(2), formatter);
+                    LocalDate date = StringUtility.isEmpty(datas.get(2)) ? LocalDate.of(1970, 1, 1) : LocalDate.parse(datas.get(2), formatter);
                     Item item = new Item(index, title, date);
                     items.add(item);
                 }
@@ -141,12 +142,12 @@ public class DataConfigurer {
         TreeMap<Integer, String> configuration = new TreeMap<>();
         configuration.put(1, "user");
         configuration.put(2, "item");
-        configuration.put(3, "instant");
-        configuration.put(4, "score");
+        configuration.put(3, "score");
+        configuration.put(4, "instant");
         DataModule dataModule = dataSpace.makeDenseModule("score", configuration, 1000000);
 
-        File file = new File("data/movielens/ml-100k/score.txt");
-        DataConverter<InputStream> convertor = new CsvConverter(' ', dataSpace.getQualityAttributes(), dataSpace.getQuantityAttributes());
+        File file = new File("data/ml-100k/u.data");
+        DataConverter<InputStream> convertor = new CsvConverter('\t', dataSpace.getQualityAttributes(), dataSpace.getQuantityAttributes());
         try (InputStream stream = new FileInputStream(file)) {
             convertor.convert(dataModule, stream);
         }
