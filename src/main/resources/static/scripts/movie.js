@@ -2,15 +2,14 @@
 var apiDomain = ''; // api域名
 var apiUrl = {
     users: apiDomain + '/movies/getUsers', // 获取用户api地址
-    recommendItems: apiDomain + '/movies/getRecommendItems', // 推荐api地址
-    searchItems: apiDomain + '/movies/getSearchItems', // 搜索api地址
+    items: apiDomain + '/movies/getItems', // 获取条目api地址
     click: apiDomain + '/movies/click', // 点击api地址
 };
 
-var pageSize = 10; // 每页显示多少部电影
-var columns = 5; // 一列显示多少部电影
+var pageSize = 10; // 每页显示多少条目
+var columns = 5; // 每行显示多少条目
 
-var recommendKeys = [
+var modelKeys = [
     {
         name: 'AssociationRule',
         value: 'AssociationRule',
@@ -38,6 +37,16 @@ var recommendKeys = [
     }
 ];
 
+var filterKeys = [
+    {
+        name: '是',
+        value: true,
+    }, {
+        name: '否',
+        value: false,
+    }
+];
+
 
 var state = {
     load: 'load', // 加载中
@@ -58,14 +67,18 @@ new Vue({
             content: [],
             index: -1
         },
-        recommendKeys: {
+        modelKeys: {
             isShow: false,  // 是否显示算法下拉列表
-            content: recommendKeys,
+            content: modelKeys,
             index: -1
         },
-        // 推荐
-        searchKey: '', // 搜索关键字
-        // 搜索结果
+        // 查询
+        queryKey: '', // 查询关键字
+        filterKeys: {
+            isShow: false,  // 是否显示算法下拉列表
+            content: filterKeys,
+            index: -1
+        },
         data: {
             pageIndex: 1, // 当前是第几页
             pageCount: 1, // 总共有多少页
@@ -94,7 +107,8 @@ new Vue({
                 if (className && className.indexOf('dropdown-toggle') !== -1) {
                     return;
                 }
-                element.recommendKeys.isShow = false;
+                element.modelKeys.isShow = false;
+                element.filterKeys.isShow = false;
                 element.users.isShow = false;
             });
         },
@@ -133,31 +147,19 @@ new Vue({
         // 获取物品
         getItems: function () {
             var element = this;
-
             // 请求参数
-            var request;
-            if (this.type === 'recommend') {
-                // 判断是否选择了算法
-                if (this.recommendKeys.index === -1) {
-                    alert('请先选择推荐算法');
-                    return;
-                }
-                // 推荐
-                request = {
-                    recommendKey: this.recommendKeys.content[this.recommendKeys.index].value
-                };
-            } else {
-                // 搜索
-                request = {
-                    searchKey: this.searchKey
-                };
-            }
+            var request = {};
             if (this.users.index !== -1) {
                 request.userIndex = this.users.content[this.users.index].id;
             }
+            // 推荐
+            request.modelKey = this.modelKeys.content[this.modelKeys.index].value;
+            // 搜索
+            request.queryKey = this.queryKey;
+            request.filterClicked =  this.filterKeys.content[this.filterKeys.index].value
             var query = {
                 method: "GET",
-                url: this.type === 'search' ? apiUrl.searchItems : apiUrl.recommendItems,
+                url: apiUrl.items,
                 dataType: "json",
                 data: request
             };
@@ -177,12 +179,20 @@ new Vue({
             });
         },
         // 显示下拉框(算法)
-        showRecommendKeys: function () {
-            this.recommendKeys.isShow = true;
+        showModelKeys: function () {
+            this.modelKeys.isShow = true;
         },
         // 选择(算法)
         selectRecommendKey: function (index) {
-            this.recommendKeys.index = index;
+            this.modelKeys.index = index;
+        },
+        // 显示下拉框(算法)
+        showFilterKeys: function () {
+            this.filterKeys.isShow = true;
+        },
+        // 选择(算法)
+        selectFilterKey: function (index) {
+            this.filterKeys.index = index;
         },
         // 显示下拉框(用户)
         showUsers: function () {

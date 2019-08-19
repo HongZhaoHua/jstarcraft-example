@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
+import com.jstarcraft.core.utility.StringUtility;
 import com.jstarcraft.example.movie.configurer.MovieModelConfigurer;
 import com.jstarcraft.rns.model.Model;
 
@@ -171,6 +173,43 @@ public class MovieService {
             Document document = documents.get(index);
             MovieItem item = items.get(document.getField(MovieItem.INDEX).numericValue().intValue());
             float score = scores.getFloat(index);
+            item2ScoreMap.put(item, score);
+        }
+
+        return item2ScoreMap;
+    }
+
+    /**
+     * 个性化搜索
+     * 
+     * @param account
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    public Object2FloatMap<MovieItem> getItems(int userIndex, String modelKey, String queryKey, boolean filterClicked) throws Exception {
+        // 标识-得分映射
+        Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
+
+        Model model = models.get(modelKey);
+        ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
+        MovieUser user = users.get(userIndex);
+
+        Query query = StringUtility.isBlank(queryKey) ? new MatchAllDocsQuery() : queryParser.parse(queryKey, MovieItem.TITLE);
+        KeyValue<List<Document>, FloatList> retrieve = engine.retrieveDocuments(query, null, 1000);
+        List<Document> documents = retrieve.getKey();
+        for (int index = 0, size = documents.size(); index < size; index++) {
+            Document document = documents.get(index);
+            MovieItem item = items.get(document.getField(MovieItem.INDEX).numericValue().intValue());
+            int itemIndex = item.getIndex();
+            // 过滤条目
+            if (filterClicked && user.isClicked(itemIndex)) {
+                continue;
+            }
+            instance.setQualityFeature(userDimension, userIndex);
+            instance.setQualityFeature(itemDimension, itemIndex);
+            model.predict(instance);
+            float score = instance.getQuantityMark();
             item2ScoreMap.put(item, score);
         }
 

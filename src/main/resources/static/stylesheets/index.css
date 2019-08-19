@@ -37,9 +37,9 @@ ul {
 }
 
 .title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .score div {
@@ -51,6 +51,10 @@ ul {
 /*下拉框按钮在一行内展示*/
 .dropdown {
 	display: inline-block;
+}
+
+.dropdown .btn {
+	min-width: 150px;
 }
 
 /*展开下拉框时,覆盖bootstrap的默认样式*/

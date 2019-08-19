@@ -91,4 +91,25 @@ public class MovieController {
         return new NormalOutput<>(instances);
     }
 
+    /**
+     * 获取条目
+     * 
+     * @param userIndex
+     * @param recommendKey
+     * @param searchKey
+     * @param filterClicked
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "获取条目", notes = "获取条目")
+    @GetMapping("/getItems")
+    public NormalOutput<List<MovieItemOutput>> getItems(@RequestParam int userIndex, @RequestParam String modelKey, @RequestParam String queryKey, @RequestParam boolean filterClicked) throws Exception {
+        Object2FloatMap<MovieItem> movies = movieService.getItems(userIndex, modelKey, queryKey, filterClicked);
+        List<MovieItemOutput> instances = MovieItemOutput.instancesOf(movies);
+        Collections.sort(instances, (left, right) -> {
+            return Float.compare(right.getScore(), left.getScore());
+        });
+        return new NormalOutput<>(instances);
+    }
+
 }

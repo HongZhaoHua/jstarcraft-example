@@ -11,7 +11,7 @@
 
 * [介绍](#介绍)
 * [特性](#特性)
-    * [个性化算法](#个性化算法)
+    * [个性化模型](#个性化模型)
 * [安装](#安装)
     * [安装JStarCraft Core框架](#安装JStarCraft-Core框架)
     * [安装JStarCraft AI框架](#安装JStarCraft-AI框架)
@@ -19,8 +19,8 @@
     * [打包JStarCraft Example项目](#打包JStarCraft-Example项目)
 * [使用](#使用)
     * [运行JStarCraft Example项目](#运行JStarCraft-Example项目)
-    * [使用个性化推荐](#使用个性化推荐)
-    * [使用个性化搜索](#使用个性化搜索)
+    * [图书的个性化推荐与搜索](#图书的个性化推荐与搜索)
+    * [电影的个性化推荐与搜索](#电影的个性化推荐与搜索)
     * [根据行为记录自动调整模型](#根据行为记录自动调整模型)
 * [架构](#架构)
 * [概念](#概念)
@@ -51,9 +51,9 @@ JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZ
 
 ## 特性
 
-#### 个性化算法
+#### 个性化模型
 
-本演示项目使用了以下8中个性化算法:
+本演示项目使用了以下8中个性化模型:
 * AssociationRule
 * MostPopular
 * Random
@@ -63,7 +63,7 @@ JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZ
 * UserKNN
 * WRMF
 
-[点击了解更多的个性化算法](https://github.com/HongZhaoHua/jstarcraft-rns#%E4%B8%AA%E6%80%A7%E5%8C%96%E7%AE%97%E6%B3%95)
+[点击了解更多的个性化模型](https://github.com/HongZhaoHua/jstarcraft-rns#%E4%B8%AA%E6%80%A7%E5%8C%96%E7%AE%97%E6%B3%95)
 
 ****
 
@@ -117,29 +117,22 @@ mvn package -Dmaven.test.skip=true
 java -jar jstarcraft-example-1.0.jar
 ```
 
-#### 使用个性化推荐
+#### 图书的个性化推荐与搜索
 
-1. 复制链接[http://127.0.0.1:8080?type=recommend](http://127.0.0.1:8080?type=recommend)到浏览器.
+#### 电影的个性化推荐与搜索
+
+1. 复制链接[http://127.0.0.1:8080/movie.html](http://127.0.0.1:8080/movie.html)到浏览器.
 2. 选择用户
-3. 选择推荐算法
-4. 点击推荐
+3. 选择模型
+3. 填写查询条件
+4. 点击个性化
 
-推荐效果如图所示:
-![recommend](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/recommend.png)
-
-#### 使用个性化搜索
-
-1. 复制链接[http://127.0.0.1:8080?type=search](http://127.0.0.1:8080?type=search)到浏览器.
-2. 选择用户
-3. 填写搜索内容
-4. 点击搜索
-
-搜索效果如图所示:
-![search](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/search.png)
+个性化效果如图所示:
+![movie](https://github.com/HongZhaoHua/jstarcraft-example/blob/master/movie.png)
 
 #### 根据行为记录自动调整模型
 
-用户可以通过点击对应的分数给电影打分,系统每隔5分钟会自动刷新模型.
+用户可以通过点击对应的分数给条目打分,系统每隔5分钟会自动刷新模型.
 
 ****
 
@@ -148,6 +141,8 @@ java -jar jstarcraft-example-1.0.jar
 ****
 
 ## 概念
+
+#### 推荐与搜索的本质
 
 ****
 
