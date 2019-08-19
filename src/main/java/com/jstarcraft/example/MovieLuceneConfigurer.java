@@ -24,12 +24,12 @@ import com.jstarcraft.example.movie.service.MovieItem;
 @Configuration
 public class MovieLuceneConfigurer {
 
-    @Bean
-    LuceneEngine getEngine(List<MovieItem> movies) throws Exception {
+    @Bean("movieEngine")
+    LuceneEngine getMovieEngine(List<MovieItem> movies) throws Exception {
         LuceneCodec<MovieItem, MovieItem> codec = new LuceneCodec<>(MovieItem.class, MovieItem.class);
 
         IndexWriterConfig config = new IndexWriterConfig();
-        Path path = Paths.get("./lucene");
+        Path path = Paths.get("./movie/lucene");
         File file = path.toFile();
         FileUtils.deleteDirectory(file);
         LuceneEngine searcher = new LuceneEngine(config, path);

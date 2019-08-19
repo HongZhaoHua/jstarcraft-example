@@ -14,6 +14,7 @@ import org.apache.lucene.search.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.jstarcraft.ai.data.DataModule;
@@ -38,28 +39,34 @@ public class MovieService {
     private final static Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     @Autowired
-    private MovieModelConfigurer modelConfigurer;
-
-    @Autowired
+    @Qualifier("movieDataSpace")
     private DataSpace dataSpace;
 
     @Autowired
+    @Qualifier("movieDataModule")
     private DataModule dataModule;
+
+    @Autowired
+    private MovieModelConfigurer modelConfigurer;
 
     /** 排序预测与评分预测模型 */
     @Autowired
+    @Qualifier("movieModels")
     private ConcurrentMap<String, Model> models;
 
     /** Lucene引擎 */
     @Autowired
+    @Qualifier("movieEngine")
     private LuceneEngine engine;
 
     /** 用户 */
     @Autowired
+    @Qualifier("movieUsers")
     private List<MovieUser> users;
 
     /** 条目 */
     @Autowired
+    @Qualifier("movieItems")
     private List<MovieItem> items;
 
     private StandardQueryParser queryParser = new StandardQueryParser();
@@ -81,7 +88,7 @@ public class MovieService {
      */
     private void refreshModel() {
         try {
-            modelConfigurer.getModels(dataSpace, dataModule);
+            modelConfigurer.getMovieModels(dataSpace, dataModule);
             logger.info("刷新模型成功");
         } catch (Exception exception) {
             logger.error("刷新模型失败", exception);

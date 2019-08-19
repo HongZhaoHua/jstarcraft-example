@@ -56,17 +56,17 @@ public class MovieModelConfigurer {
         return model;
     }
 
-    @Bean
-    public ConcurrentMap<String, Model> getModels(DataSpace dataSpace, DataModule dataModule) throws Exception {
+    @Bean("movieModels")
+    public ConcurrentMap<String, Model> getMovieModels(DataSpace movieDataSpace, DataModule movieDataModule) throws Exception {
         ConcurrentMap<String, Model> models = new ConcurrentHashMap<>();
-        models.put("AssociationRule", getModel(AssociationRuleModel.class, dataSpace, dataModule));
-        models.put("BPR", getModel(BPRModel.class, dataSpace, dataModule));
-        models.put("ItemKNN", getModel(ItemKNNRankingModel.class, dataSpace, dataModule));
-        models.put("LDA", getModel(LDAModel.class, dataSpace, dataModule));
-        models.put("MostPopular", getModel(MostPopularModel.class, dataSpace, dataModule));
-        models.put("Random", getModel(RandomGuessModel.class, dataSpace, dataModule));
-        models.put("UserKNN", getModel(UserKNNRankingModel.class, dataSpace, dataModule));
-        models.put("WRMF", getModel(WRMFModel.class, dataSpace, dataModule));
+        models.put("AssociationRule", getModel(AssociationRuleModel.class, movieDataSpace, movieDataModule));
+        models.put("BPR", getModel(BPRModel.class, movieDataSpace, movieDataModule));
+        models.put("ItemKNN", getModel(ItemKNNRankingModel.class, movieDataSpace, movieDataModule));
+        models.put("LDA", getModel(LDAModel.class, movieDataSpace, movieDataModule));
+        models.put("MostPopular", getModel(MostPopularModel.class, movieDataSpace, movieDataModule));
+        models.put("Random", getModel(RandomGuessModel.class, movieDataSpace, movieDataModule));
+        models.put("UserKNN", getModel(UserKNNRankingModel.class, movieDataSpace, movieDataModule));
+        models.put("WRMF", getModel(WRMFModel.class, movieDataSpace, movieDataModule));
         return models;
     }
 

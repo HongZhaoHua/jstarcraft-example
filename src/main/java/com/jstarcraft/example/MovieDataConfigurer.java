@@ -43,25 +43,13 @@ public class MovieDataConfigurer {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy", Locale.US);
 
-    @Bean("userFile")
-    File getUserFile() {
-        File file = new File("data/ml-100k/u.user");
-        return file;
-    }
-
-    @Bean("itemFile")
-    File getItemFile() {
-        File file = new File("data/ml-100k/u.item");
-        return file;
-    }
-
     /**
      * 装配数据空间
      * 
      * @return
      */
-    @Bean
-    DataSpace getDataSpace() throws Exception {
+    @Bean("movieDataSpace")
+    DataSpace getMovieDataSpace() throws Exception {
         Map<String, Class<?>> qualityDifinitions = new HashMap<>();
         qualityDifinitions.put("user", int.class);
         qualityDifinitions.put("item", int.class);
@@ -72,11 +60,12 @@ public class MovieDataConfigurer {
         return dataSpace;
     }
 
-    @Bean("users")
-    List<MovieUser> getUsers(DataSpace dataSpace, File userFile) throws Exception {
+    @Bean("movieUsers")
+    List<MovieUser> getUsers(DataSpace movieDataSpace) throws Exception {
+        File movieUserFile = new File("data/ml-100k/u.user");
         List<MovieUser> users = new LinkedList<>();
 
-        QualityAttribute<Integer> userAttribute = dataSpace.getQualityAttribute("user");
+        QualityAttribute<Integer> userAttribute = movieDataSpace.getQualityAttribute("user");
         {
             // TODO 匿名用户设置为0
             // 用户索引
@@ -84,7 +73,7 @@ public class MovieDataConfigurer {
             MovieUser user = new MovieUser(index, "User" + index);
             users.add(user);
         }
-        try (InputStream stream = new FileInputStream(userFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
+        try (InputStream stream = new FileInputStream(movieUserFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
                 Iterator<CSVRecord> iterator = parser.iterator();
                 while (iterator.hasNext()) {
@@ -103,12 +92,13 @@ public class MovieDataConfigurer {
         return users;
     }
 
-    @Bean("items")
-    List<MovieItem> getItems(DataSpace dataSpace, File itemFile) throws Exception {
+    @Bean("movieItems")
+    List<MovieItem> getItems(DataSpace movieDataSpace) throws Exception {
+        File movieItemFile = new File("data/ml-100k/u.item");
         List<MovieItem> items = new LinkedList<>();
 
-        QualityAttribute<Integer> itemAttribute = dataSpace.getQualityAttribute("item");
-        try (InputStream stream = new FileInputStream(itemFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
+        QualityAttribute<Integer> itemAttribute = movieDataSpace.getQualityAttribute("item");
+        try (InputStream stream = new FileInputStream(movieItemFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
                 Iterator<CSVRecord> iterator = parser.iterator();
                 while (iterator.hasNext()) {
@@ -134,20 +124,20 @@ public class MovieDataConfigurer {
     /**
      * 装配数据模型
      * 
-     * @param dataSpace
+     * @param movieDataSpace
      * @return
      */
-    @Bean
-    DataModule getDataModule(DataSpace dataSpace, List<MovieUser> users, List<MovieItem> items) throws Exception {
+    @Bean("movieDataModule")
+    DataModule getMovieDataModule(DataSpace movieDataSpace, List<MovieUser> movieUsers, List<MovieItem> movieItems) throws Exception {
         TreeMap<Integer, String> configuration = new TreeMap<>();
         configuration.put(1, "user");
         configuration.put(2, "item");
         configuration.put(3, "score");
         configuration.put(4, "instant");
-        DataModule dataModule = dataSpace.makeDenseModule("score", configuration, 1000000);
+        DataModule dataModule = movieDataSpace.makeDenseModule("score", configuration, 1000000);
 
         File file = new File("data/ml-100k/u.data");
-        DataConverter<InputStream> convertor = new CsvConverter('\t', dataSpace.getQualityAttributes(), dataSpace.getQuantityAttributes());
+        DataConverter<InputStream> convertor = new CsvConverter('\t', movieDataSpace.getQualityAttributes(), movieDataSpace.getQuantityAttributes());
         try (InputStream stream = new FileInputStream(file)) {
             convertor.convert(dataModule, stream);
         }
@@ -159,7 +149,7 @@ public class MovieDataConfigurer {
             int userIndex = instance.getQualityFeature(userDimension);
             int itemIndex = instance.getQualityFeature(itemDimension);
             instance.setQuantityMark(instance.getQuantityFeature(scoreDimension));
-            users.get(userIndex).click(itemIndex);
+            movieUsers.get(userIndex).click(itemIndex);
         }
 
         return dataModule;
