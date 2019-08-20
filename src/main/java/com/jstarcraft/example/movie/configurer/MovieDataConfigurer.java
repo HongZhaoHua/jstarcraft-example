@@ -137,7 +137,8 @@ public class MovieDataConfigurer {
         DataModule dataModule = movieDataSpace.makeDenseModule("score", configuration, 1000000);
 
         File file = new File("data/ml-100k/u.data");
-        DataConverter<InputStream> convertor = new CsvConverter('\t', movieDataSpace.getQualityAttributes(), movieDataSpace.getQuantityAttributes());
+        CSVFormat format = CSVFormat.DEFAULT.withDelimiter('\t');
+        DataConverter<InputStream> convertor = new CsvConverter(format, movieDataSpace.getQualityAttributes(), movieDataSpace.getQuantityAttributes());
         try (InputStream stream = new FileInputStream(file)) {
             convertor.convert(dataModule, stream);
         }
