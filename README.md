@@ -19,7 +19,6 @@
     * [打包JStarCraft Example项目](#打包JStarCraft-Example项目)
 * [使用](#使用)
     * [运行JStarCraft Example项目](#运行JStarCraft-Example项目)
-    * [图书的个性化推荐与搜索](#图书的个性化推荐与搜索)
     * [电影的个性化推荐与搜索](#电影的个性化推荐与搜索)
     * [根据行为记录自动调整模型](#根据行为记录自动调整模型)
 * [架构](#架构)
@@ -116,8 +115,6 @@ mvn package -Dmaven.test.skip=true
 ```shell
 java -jar jstarcraft-example-1.0.jar
 ```
-
-#### 图书的个性化推荐与搜索
 
 #### 电影的个性化推荐与搜索
 
