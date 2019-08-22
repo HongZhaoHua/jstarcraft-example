@@ -62,7 +62,7 @@ JStarCraft Example是一个基于[JStarCraft RNS引擎](https://github.com/HongZ
 * UserKNN
 * WRMF
 
-[点击了解更多的个性化模型](https://github.com/HongZhaoHua/jstarcraft-rns#%E4%B8%AA%E6%80%A7%E5%8C%96%E7%AE%97%E6%B3%95)
+[点击了解更多的个性化模型](https://github.com/HongZhaoHua/jstarcraft-rns#%E4%B8%AA%E6%80%A7%E5%8C%96%E6%A8%A1%E5%9E%8B)
 
 ****
 
