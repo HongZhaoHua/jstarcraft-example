@@ -90,7 +90,7 @@ public class MovieService {
      */
     private void refreshModel() {
         try {
-            modelConfigurer.getMovieModels(dataSpace, dataModule);
+            modelConfigurer.refreshModels(dataSpace, dataModule);
             logger.info("刷新模型成功");
         } catch (Exception exception) {
             logger.error("刷新模型失败", exception);

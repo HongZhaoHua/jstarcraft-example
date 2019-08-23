@@ -56,9 +56,9 @@ public class MovieModelConfigurer {
         return model;
     }
 
-    @Bean("movieModels")
-    public ConcurrentMap<String, Model> getMovieModels(DataSpace movieDataSpace, DataModule movieDataModule) throws Exception {
-        ConcurrentMap<String, Model> models = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, Model> models = new ConcurrentHashMap<>();
+
+    public void refreshModels(DataSpace movieDataSpace, DataModule movieDataModule) throws Exception {
         models.put("AssociationRule", getModel(AssociationRuleModel.class, movieDataSpace, movieDataModule));
         models.put("BPR", getModel(BPRModel.class, movieDataSpace, movieDataModule));
         models.put("ItemKNN", getModel(ItemKNNRankingModel.class, movieDataSpace, movieDataModule));
@@ -67,6 +67,11 @@ public class MovieModelConfigurer {
         models.put("Random", getModel(RandomGuessModel.class, movieDataSpace, movieDataModule));
         models.put("UserKNN", getModel(UserKNNRankingModel.class, movieDataSpace, movieDataModule));
         models.put("WRMF", getModel(WRMFModel.class, movieDataSpace, movieDataModule));
+    }
+
+    @Bean("movieModels")
+    public ConcurrentMap<String, Model> getMovieModels(DataSpace movieDataSpace, DataModule movieDataModule) throws Exception {
+        refreshModels(movieDataSpace, movieDataModule);
         return models;
     }
 
