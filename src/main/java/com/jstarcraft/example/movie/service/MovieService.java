@@ -129,8 +129,8 @@ public class MovieService {
     /**
      * 个性化推荐
      * 
-     * @param account
-     * @param key
+     * @param userIndex
+     * @param recommendKey
      * @return
      */
     @LockableMethod(strategy = HashLockableStrategy.class)
@@ -161,8 +161,8 @@ public class MovieService {
     /**
      * 个性化搜索
      * 
-     * @param account
-     * @param key
+     * @param userIndex
+     * @param searchKey
      * @return
      * @throws Exception
      */
