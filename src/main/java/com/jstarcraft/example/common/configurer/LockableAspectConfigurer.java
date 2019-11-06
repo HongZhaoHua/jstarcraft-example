@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.jstarcraft.core.common.lockable.LockableAspect;
 
 /**
- * 数据配置器
+ * 锁切面配置器
  * 
  * @author Birdy
  *
