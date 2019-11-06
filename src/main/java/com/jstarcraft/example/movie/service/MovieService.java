@@ -21,6 +21,9 @@ import org.springframework.stereotype.Component;
 import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.data.module.ArrayInstance;
+import com.jstarcraft.core.common.lockable.HashLockableStrategy;
+import com.jstarcraft.core.common.lockable.LockableMethod;
+import com.jstarcraft.core.common.lockable.LockableParameter;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.core.utility.StringUtility;
@@ -109,7 +112,8 @@ public class MovieService {
         executor.scheduleAtFixedRate(this::refreshModel, 5, 5, TimeUnit.MINUTES);
     }
 
-    public void click(int userIndex, int itemIndex, float score) {
+    @LockableMethod(strategy = HashLockableStrategy.class)
+    public void click(@LockableParameter int userIndex, int itemIndex, float score) {
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
         qualityFeatures.put(userDimension, userIndex);
         qualityFeatures.put(itemDimension, itemIndex);
@@ -129,7 +133,8 @@ public class MovieService {
      * @param key
      * @return
      */
-    public Object2FloatMap<MovieItem> getRecommendItems(int userIndex, String recommendKey) {
+    @LockableMethod(strategy = HashLockableStrategy.class)
+    public Object2FloatMap<MovieItem> getRecommendItems(@LockableParameter int userIndex, String recommendKey) {
         // 标识-得分映射
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
@@ -161,7 +166,8 @@ public class MovieService {
      * @return
      * @throws Exception
      */
-    public Object2FloatMap<MovieItem> getSearchItems(int userIndex, String searchKey) throws Exception {
+    @LockableMethod(strategy = HashLockableStrategy.class)
+    public Object2FloatMap<MovieItem> getSearchItems(@LockableParameter int userIndex, String searchKey) throws Exception {
         // 标识-得分映射
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
@@ -180,14 +186,16 @@ public class MovieService {
     }
 
     /**
-     * 个性化搜索
      * 
-     * @param account
-     * @param key
+     * @param userIndex
+     * @param modelKey
+     * @param queryKey
+     * @param filterClicked
      * @return
      * @throws Exception
      */
-    public Object2FloatMap<MovieItem> getItems(int userIndex, String modelKey, String queryKey, boolean filterClicked) throws Exception {
+    @LockableMethod(strategy = HashLockableStrategy.class)
+    public Object2FloatMap<MovieItem> getItems(@LockableParameter int userIndex, String modelKey, String queryKey, boolean filterClicked) throws Exception {
         // 标识-得分映射
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
