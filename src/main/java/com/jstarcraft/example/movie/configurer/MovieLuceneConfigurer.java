@@ -11,8 +11,10 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.jstarcraft.core.orm.lucene.LuceneCodec;
+import com.jstarcraft.core.codec.specification.CodecDefinition;
 import com.jstarcraft.core.orm.lucene.LuceneEngine;
+import com.jstarcraft.core.orm.lucene.LuceneMetadata;
+import com.jstarcraft.core.orm.lucene.converter.LuceneContext;
 import com.jstarcraft.example.movie.service.MovieItem;
 
 /**
@@ -26,7 +28,8 @@ public class MovieLuceneConfigurer {
 
     @Bean("movieEngine")
     LuceneEngine getMovieEngine(List<MovieItem> movieItems) throws Exception {
-        LuceneCodec<MovieItem, MovieItem> codec = new LuceneCodec<>(MovieItem.class, MovieItem.class);
+        LuceneContext context = new LuceneContext(CodecDefinition.instanceOf(MovieItem.class));
+        LuceneMetadata codec = new LuceneMetadata(MovieItem.class, context);
 
         IndexWriterConfig config = new IndexWriterConfig();
         Path path = Paths.get("./lucene/movie");
