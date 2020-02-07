@@ -172,7 +172,7 @@ public class MovieService {
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
         Query query = queryParser.parse(searchKey, MovieItem.TITLE);
-        KeyValue<List<Document>, FloatList> search = engine.retrieveDocuments(query, null, 1000);
+        KeyValue<List<Document>, FloatList> search = engine.retrieveDocuments(query, null, 0, 1000);
         List<Document> documents = search.getKey();
         FloatList scores = search.getValue();
         for (int index = 0, size = documents.size(); index < size; index++) {
@@ -204,7 +204,7 @@ public class MovieService {
         MovieUser user = users.get(userIndex);
 
         Query query = StringUtility.isBlank(queryKey) ? new MatchAllDocsQuery() : queryParser.parse(queryKey, MovieItem.TITLE);
-        KeyValue<List<Document>, FloatList> retrieve = engine.retrieveDocuments(query, null, 1000);
+        KeyValue<List<Document>, FloatList> retrieve = engine.retrieveDocuments(query, null, 0, 1000);
         List<Document> documents = retrieve.getKey();
         for (int index = 0, size = documents.size(); index < size; index++) {
             Document document = documents.get(index);

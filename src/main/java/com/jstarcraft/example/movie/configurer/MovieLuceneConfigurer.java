@@ -38,7 +38,7 @@ public class MovieLuceneConfigurer {
         LuceneEngine searcher = new LuceneEngine(config, path);
 
         for (MovieItem movie : movieItems) {
-            Document document = codec.encode(movie);
+            Document document = codec.encodeDocument(movie);
             searcher.createDocument(String.valueOf(movie.getId()), document);
         }
 
