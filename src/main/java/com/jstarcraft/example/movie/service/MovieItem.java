@@ -2,6 +2,8 @@ package com.jstarcraft.example.movie.service;
 
 import java.time.LocalDate;
 
+import javax.persistence.Id;
+
 import com.jstarcraft.core.common.identification.IdentityObject;
 import com.jstarcraft.core.orm.lucene.annotation.LuceneIndex;
 import com.jstarcraft.core.orm.lucene.annotation.LuceneSort;
@@ -22,6 +24,7 @@ public class MovieItem implements IdentityObject<Integer> {
     public static final String DATE = "date";
 
     /** 电影标识 */
+    @Id
     @LuceneIndex
     @LuceneSort
     @LuceneStore
