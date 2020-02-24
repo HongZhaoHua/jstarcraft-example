@@ -5,9 +5,9 @@ import java.time.LocalDate;
 import javax.persistence.Id;
 
 import com.jstarcraft.core.common.identification.IdentityObject;
-import com.jstarcraft.core.orm.lucene.annotation.LuceneIndex;
-import com.jstarcraft.core.orm.lucene.annotation.LuceneSort;
-import com.jstarcraft.core.orm.lucene.annotation.LuceneStore;
+import com.jstarcraft.core.storage.lucene.annotation.LuceneIndex;
+import com.jstarcraft.core.storage.lucene.annotation.LuceneSort;
+import com.jstarcraft.core.storage.lucene.annotation.LuceneStore;
 
 /**
  * 电影

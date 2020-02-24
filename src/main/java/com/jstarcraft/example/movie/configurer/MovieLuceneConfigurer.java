@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.jstarcraft.core.codec.specification.CodecDefinition;
-import com.jstarcraft.core.orm.lucene.LuceneEngine;
-import com.jstarcraft.core.orm.lucene.LuceneMetadata;
-import com.jstarcraft.core.orm.lucene.converter.LuceneContext;
+import com.jstarcraft.core.storage.lucene.LuceneEngine;
+import com.jstarcraft.core.storage.lucene.LuceneMetadata;
+import com.jstarcraft.core.storage.lucene.converter.LuceneContext;
 import com.jstarcraft.example.movie.service.MovieItem;
 
 /**

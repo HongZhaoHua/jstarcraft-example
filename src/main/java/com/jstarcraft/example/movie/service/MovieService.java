@@ -24,7 +24,7 @@ import com.jstarcraft.ai.data.module.ArrayInstance;
 import com.jstarcraft.core.common.lockable.HashLockableStrategy;
 import com.jstarcraft.core.common.lockable.LockableMethod;
 import com.jstarcraft.core.common.lockable.LockableParameter;
-import com.jstarcraft.core.orm.lucene.LuceneEngine;
+import com.jstarcraft.core.storage.lucene.LuceneEngine;
 import com.jstarcraft.core.utility.KeyValue;
 import com.jstarcraft.core.utility.StringUtility;
 import com.jstarcraft.example.movie.configurer.MovieModelConfigurer;
