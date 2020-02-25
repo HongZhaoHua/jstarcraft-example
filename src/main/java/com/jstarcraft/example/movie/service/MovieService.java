@@ -138,6 +138,7 @@ public class MovieService {
         // 标识-得分映射
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
+        long current = System.currentTimeMillis();
         Model model = models.get(recommendKey);
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         MovieUser user = users.get(userIndex);
@@ -154,6 +155,8 @@ public class MovieService {
             float score = instance.getQuantityMark();
             item2ScoreMap.put(item, score);
         }
+        String message = StringUtility.format("推荐数量:{},推荐耗时:{}", itemSize, System.currentTimeMillis() - current);
+        logger.info(message);
 
         return item2ScoreMap;
     }
@@ -171,6 +174,7 @@ public class MovieService {
         // 标识-得分映射
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
+        long current = System.currentTimeMillis();
         Query query = queryParser.parse(searchKey, MovieItem.TITLE);
         KeyValue<List<Document>, FloatList> search = engine.retrieveDocuments(query, null, 0, 1000);
         List<Document> documents = search.getKey();
@@ -181,6 +185,8 @@ public class MovieService {
             float score = scores.getFloat(index);
             item2ScoreMap.put(item, score);
         }
+        String message = StringUtility.format("搜索数量:{},搜索耗时:{}", documents.size(), System.currentTimeMillis() - current);
+        logger.info(message);
 
         return item2ScoreMap;
     }
@@ -199,10 +205,10 @@ public class MovieService {
         // 标识-得分映射
         Object2FloatMap<MovieItem> item2ScoreMap = new Object2FloatOpenHashMap<>();
 
+        long current = System.currentTimeMillis();
         Model model = models.get(modelKey);
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         MovieUser user = users.get(userIndex);
-
         Query query = StringUtility.isBlank(queryKey) ? new MatchAllDocsQuery() : queryParser.parse(queryKey, MovieItem.TITLE);
         KeyValue<List<Document>, FloatList> retrieve = engine.retrieveDocuments(query, null, 0, 1000);
         List<Document> documents = retrieve.getKey();
@@ -220,6 +226,8 @@ public class MovieService {
             float score = instance.getQuantityMark();
             item2ScoreMap.put(item, score);
         }
+        String message = StringUtility.format("预测数量:{},预测耗时:{}", modelKey, documents.size(), System.currentTimeMillis() - current);
+        logger.info(message);
 
         return item2ScoreMap;
     }

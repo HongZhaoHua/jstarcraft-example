@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Id;
 
 import com.jstarcraft.core.common.identification.IdentityObject;
+import com.jstarcraft.core.storage.lucene.annotation.LuceneConfiguration;
 import com.jstarcraft.core.storage.lucene.annotation.LuceneIndex;
 import com.jstarcraft.core.storage.lucene.annotation.LuceneSort;
 import com.jstarcraft.core.storage.lucene.annotation.LuceneStore;
@@ -15,6 +16,7 @@ import com.jstarcraft.core.storage.lucene.annotation.LuceneStore;
  * @author Birdy
  *
  */
+@LuceneConfiguration(id = "index")
 public class MovieItem implements IdentityObject<Integer> {
 
     public static final String INDEX = "index";
