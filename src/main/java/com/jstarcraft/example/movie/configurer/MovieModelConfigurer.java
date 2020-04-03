@@ -13,6 +13,7 @@ import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.environment.EnvironmentContext;
 import com.jstarcraft.ai.environment.EnvironmentFactory;
 import com.jstarcraft.core.common.configuration.Configurator;
+import com.jstarcraft.core.common.configuration.MapConfigurator;
 import com.jstarcraft.core.common.reflection.ReflectionUtility;
 import com.jstarcraft.rns.model.Model;
 import com.jstarcraft.rns.model.benchmark.RandomGuessModel;
@@ -39,7 +40,7 @@ public class MovieModelConfigurer {
         try {
             Properties keyValues = new Properties();
             keyValues.load(this.getClass().getResourceAsStream("/data.properties"));
-            configuration = new Configurator(keyValues);
+            configuration = new MapConfigurator(keyValues);
         } catch (Exception exception) {
             throw new RuntimeException();
         }
