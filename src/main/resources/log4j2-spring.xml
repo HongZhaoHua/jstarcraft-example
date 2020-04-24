@@ -3,7 +3,7 @@
 <Configuration status="FATAL">
     <Properties>
         <Property name="PATTERN" value="%d{HH:mm:ss} [%t] %p %C.%M():%L - %m%n" />
-        <Property name="MODULE" value="movie" />
+        <Property name="MODULE" value="example" />
     </Properties>
 
     <Appenders>
