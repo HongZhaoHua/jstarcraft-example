@@ -73,7 +73,7 @@ public class MovieDataConfigurer {
             MovieUser user = new MovieUser(index, "User" + index);
             users.add(user);
         }
-        try (InputStream stream = new FileInputStream(movieUserFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
+        try (InputStream stream = new FileInputStream(movieUserFile); InputStreamReader reader = new InputStreamReader(stream, StringUtility.CHARSET); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
                 Iterator<CSVRecord> iterator = parser.iterator();
                 while (iterator.hasNext()) {
@@ -98,7 +98,7 @@ public class MovieDataConfigurer {
         List<MovieItem> items = new LinkedList<>();
 
         QualityAttribute<Integer> itemAttribute = movieDataSpace.getQualityAttribute("item");
-        try (InputStream stream = new FileInputStream(movieItemFile); InputStreamReader reader = new InputStreamReader(stream); BufferedReader buffer = new BufferedReader(reader)) {
+        try (InputStream stream = new FileInputStream(movieItemFile); InputStreamReader reader = new InputStreamReader(stream, StringUtility.CHARSET); BufferedReader buffer = new BufferedReader(reader)) {
             try (CSVParser parser = new CSVParser(buffer, CSVFormat.newFormat('|'))) {
                 Iterator<CSVRecord> iterator = parser.iterator();
                 while (iterator.hasNext()) {
