@@ -35,6 +35,12 @@
             <groupId>com.jstarcraft</groupId>
             <artifactId>jstarcraft-core-cache</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.data</groupId>
+                    <artifactId>spring-data-elasticsearch</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
