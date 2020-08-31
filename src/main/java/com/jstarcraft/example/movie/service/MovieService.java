@@ -80,6 +80,8 @@ public class MovieService {
 
     private int itemDimension;
 
+    private int instantDimension;
+
     private int scoreDimension;
 
     private int qualityOrder;
@@ -104,6 +106,7 @@ public class MovieService {
     void postConstruct() {
         userDimension = dataModule.getQualityInner("user");
         itemDimension = dataModule.getQualityInner("item");
+        instantDimension = dataModule.getQualityInner("instant");
         scoreDimension = dataModule.getQuantityInner("score");
         qualityOrder = dataModule.getQualityOrder();
         quantityOrder = dataModule.getQuantityOrder();
@@ -114,12 +117,14 @@ public class MovieService {
 
     @LockableMethod(strategy = HashLockableStrategy.class)
     public void click(@LockableParameter int userIndex, int itemIndex, float score) {
+        int instantIndex = dataSpace.getQualityAttribute("instant").getSize() - 1;
         Int2IntSortedMap qualityFeatures = new Int2IntRBTreeMap();
         qualityFeatures.put(userDimension, userIndex);
         qualityFeatures.put(itemDimension, itemIndex);
+        qualityFeatures.put(instantDimension, instantIndex);
         Int2FloatSortedMap quantityFeatures = new Int2FloatRBTreeMap();
         quantityFeatures.put(scoreDimension, score);
-        dataModule.associateInstance(qualityFeatures, quantityFeatures, 5F);
+        dataModule.associateInstance(qualityFeatures, quantityFeatures, score);
     }
 
     public List<MovieUser> getUsers() {
