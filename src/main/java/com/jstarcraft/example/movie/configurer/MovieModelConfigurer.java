@@ -12,8 +12,8 @@ import com.jstarcraft.ai.data.DataModule;
 import com.jstarcraft.ai.data.DataSpace;
 import com.jstarcraft.ai.environment.EnvironmentContext;
 import com.jstarcraft.ai.environment.EnvironmentFactory;
-import com.jstarcraft.core.common.configuration.Configurator;
-import com.jstarcraft.core.common.configuration.MapConfigurator;
+import com.jstarcraft.core.common.option.MapOption;
+import com.jstarcraft.core.common.option.Option;
 import com.jstarcraft.core.common.reflection.ReflectionUtility;
 import com.jstarcraft.rns.model.Model;
 import com.jstarcraft.rns.model.benchmark.RandomGuessModel;
@@ -34,13 +34,13 @@ import com.jstarcraft.rns.model.extend.ranking.AssociationRuleModel;
 @Configuration
 public class MovieModelConfigurer {
 
-    private Configurator configuration;
+    private Option option;
 
     {
         try {
             Properties keyValues = new Properties();
             keyValues.load(this.getClass().getResourceAsStream("/data.properties"));
-            configuration = new MapConfigurator(keyValues);
+            option = new MapOption(keyValues);
         } catch (Exception exception) {
             throw new RuntimeException();
         }
@@ -50,7 +50,7 @@ public class MovieModelConfigurer {
         Model model = ReflectionUtility.getInstance(clazz);
         EnvironmentContext context = EnvironmentFactory.getContext();
         Future<?> task = context.doTask(() -> {
-            model.prepare(configuration, dataModule, dataSpace);
+            model.prepare(option, dataModule, dataSpace);
             model.practice();
         });
         task.get();
