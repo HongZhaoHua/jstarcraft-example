@@ -3,13 +3,12 @@ package com.jstarcraft.example;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ImportResource({})
+@ImportResource
 // 解决Spring-Boot的JPA与核心框架的冲突
-@EnableAutoConfiguration(exclude = MongoAutoConfiguration.class)
+@EnableAutoConfiguration
 public class ExampleApplication {
 
     public static void main(String[] arguments) {
