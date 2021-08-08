@@ -31,11 +31,13 @@ public class MovieLuceneConfigurer {
         LuceneContext context = new LuceneContext(CodecDefinition.instanceOf(MovieItem.class));
         LuceneMetadata codec = new LuceneMetadata(MovieItem.class, context);
 
-        IndexWriterConfig config = new IndexWriterConfig();
         Path path = Paths.get("./lucene/movie");
         File file = path.toFile();
         FileUtils.deleteDirectory(file);
-        LuceneEngine searcher = new LuceneEngine(config, path);
+        LuceneEngine searcher = new LuceneEngine(() -> {
+            IndexWriterConfig config = new IndexWriterConfig();
+            return config;
+        }, path);
 
         for (MovieItem movie : movieItems) {
             Document document = codec.encodeDocument(movie);
