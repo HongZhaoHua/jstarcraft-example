@@ -30,7 +30,6 @@ import com.jstarcraft.core.utility.StringUtility;
 import com.jstarcraft.example.movie.configurer.MovieModelConfigurer;
 import com.jstarcraft.rns.model.Model;
 
-import it.unimi.dsi.fastutil.floats.FloatList;
 import it.unimi.dsi.fastutil.ints.Int2FloatRBTreeMap;
 import it.unimi.dsi.fastutil.ints.Int2FloatSortedMap;
 import it.unimi.dsi.fastutil.ints.Int2IntRBTreeMap;
@@ -181,16 +180,15 @@ public class MovieService {
 
         long current = System.currentTimeMillis();
         Query query = queryParser.parse(searchKey, MovieItem.TITLE);
-        KeyValue<List<Document>, FloatList> search = engine.retrieveDocuments(query, null, 0, 1000);
-        List<Document> documents = search.getKey();
-        FloatList scores = search.getValue();
-        for (int index = 0, size = documents.size(); index < size; index++) {
-            Document document = documents.get(index);
+        List<KeyValue<Document, Float>> retrieve = engine.retrieveDocuments(query, null, 0, 1000);
+        for (int index = 0, size = retrieve.size(); index < size; index++) {
+            KeyValue<Document, Float> keyValue = retrieve.get(index);
+            Document document = keyValue.getKey();
             MovieItem item = items.get(document.getField(MovieItem.INDEX).numericValue().intValue());
-            float score = scores.getFloat(index);
+            float score = keyValue.getValue();
             item2ScoreMap.put(item, score);
         }
-        String message = StringUtility.format("搜索数量:{},搜索耗时:{}", documents.size(), System.currentTimeMillis() - current);
+        String message = StringUtility.format("搜索数量:{},搜索耗时:{}", retrieve.size(), System.currentTimeMillis() - current);
         logger.info(message);
 
         return item2ScoreMap;
@@ -215,10 +213,10 @@ public class MovieService {
         ArrayInstance instance = new ArrayInstance(qualityOrder, quantityOrder);
         MovieUser user = users.get(userIndex);
         Query query = StringUtility.isBlank(queryKey) ? new MatchAllDocsQuery() : queryParser.parse(queryKey, MovieItem.TITLE);
-        KeyValue<List<Document>, FloatList> retrieve = engine.retrieveDocuments(query, null, 0, 1000);
-        List<Document> documents = retrieve.getKey();
-        for (int index = 0, size = documents.size(); index < size; index++) {
-            Document document = documents.get(index);
+        List<KeyValue<Document, Float>> retrieve = engine.retrieveDocuments(query, null, 0, 1000);
+        for (int index = 0, size = retrieve.size(); index < size; index++) {
+            KeyValue<Document, Float> keyValue = retrieve.get(index);
+            Document document = keyValue.getKey();
             MovieItem item = items.get(document.getField(MovieItem.INDEX).numericValue().intValue());
             int itemIndex = item.getIndex();
             // 过滤条目
@@ -231,7 +229,7 @@ public class MovieService {
             float score = instance.getQuantityMark();
             item2ScoreMap.put(item, score);
         }
-        String message = StringUtility.format("预测数量:{},预测耗时:{}", modelKey, documents.size(), System.currentTimeMillis() - current);
+        String message = StringUtility.format("预测数量:{},预测耗时:{}", modelKey, retrieve.size(), System.currentTimeMillis() - current);
         logger.info(message);
 
         return item2ScoreMap;
