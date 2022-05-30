@@ -33,7 +33,7 @@
         <!-- JStarCraft框架依赖 -->
         <dependency>
             <groupId>com.jstarcraft</groupId>
-            <artifactId>jstarcraft-core-cache</artifactId>
+            <artifactId>jstarcraft-core-storage-lucene</artifactId>
             <version>1.0</version>
         </dependency>
 
